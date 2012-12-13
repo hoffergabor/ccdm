@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+	<DefaultArNevKod>1</DefaultArNevKod>
+	<MegnevezesKod>3</MegnevezesKod>
+	<OrderParameters>
+		<MinimumOrderValue>5000</MinimumOrderValue>
+		<ChargeItemCode>0</ChargeItemCode>
+		<OrderCharge>
+			<FromValue>0</FromValue>
+			<Charge>5000</Charge>
+		</OrderCharge>
+		<OrderCharge>
+			<FromValue>10000</FromValue>
+			<Charge>999</Charge>
+		</OrderCharge>
+		<OrderCharge>
+			<FromValue>50000</FromValue>
+			<Charge>0</Charge>
+		</OrderCharge>
+	</OrderParameters>
+	<MultiLanguages>True</MultiLanguages>
+	<AdaptDiscount>True</AdaptDiscount>
+</Configuration>

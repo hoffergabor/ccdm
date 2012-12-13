@@ -1,0 +1,145 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	template="/pages/template.xhtml">
+
+	<ui:define name="body">
+		<div class="content textcolor1 backgroundcolor3"><h:form
+			id="partnerdataform">
+			<p:panel styleClass="gradpanel" id="panel">
+				<h:panelGroup styleClass="partnerDataUpdate" id="datapanel">
+					<div class="left"><label class="importantData">#{msg.PARTNERDATA_NAME}<h:inputText
+						value="#{partnerdataupdateController.data.partner.nev}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_ZIP}<h:inputText
+						value="#{partnerdataupdateController.data.partner.irsz}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_CITY}<h:inputText
+						value="#{partnerdataupdateController.data.partner.varos}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_ADDR}<h:inputText
+						value="#{partnerdataupdateController.data.partner.cim}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_DELIVERY_ADDR}<h:inputText
+						value="#{partnerdataupdateController.data.partner.szallcim}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_MAILING_ZIP}<h:inputText
+						value="#{partnerdataupdateController.data.partner.levirsz}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_MAILING_CITY}<h:inputText
+						value="#{partnerdataupdateController.data.partner.levvaros}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_MAILING_ADDR}<h:inputText
+						value="#{partnerdataupdateController.data.partner.levcim}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_TEL1}<h:inputText
+						value="#{partnerdataupdateController.data.partner.tel1}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_TEL2}<h:inputText
+						value="#{partnerdataupdateController.data.partner.tel2}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_FAX1}<h:inputText
+						value="#{partnerdataupdateController.data.partner.fax1}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_FAX2}<h:inputText
+						value="#{partnerdataupdateController.data.partner.fax2}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_EMAIL}<h:inputText
+						value="#{partnerdataupdateController.data.partner.email}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_URL}<h:inputText
+						value="#{partnerdataupdateController.data.partner.honlap}"></h:inputText></label>
+					</div>
+					<div class="right"><label>#{msg.PARTNERDATA_CEO}<h:inputText
+						value="#{partnerdataupdateController.data.partner.ugyvezeto}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_CEO_TEL}<h:inputText
+						value="#{partnerdataupdateController.data.partner.ugyvtel}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_CEO_EMAIL}<h:inputText
+						value="#{partnerdataupdateController.data.partner.ugyvemail}"></h:inputText></label>
+					<hr />
+					<label>#{msg.PARTNERDATA_CONTACT_TEL}<h:inputText
+						value="#{partnerdataupdateController.data.partner.kapcstel}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_CONTACT_EMAIL}<h:inputText
+						value="#{partnerdataupdateController.data.partner.kapcsemail}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_COMPANY_NUM}<h:inputText
+						value="#{partnerdataupdateController.data.partner.cegjegyzek}"></h:inputText></label>
+					<hr />
+					<label>#{msg.PARTNERDATA_TAX_NUM}<h:inputText
+						value="#{partnerdataupdateController.data.partner.adoszam}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_BANK_NAME}<h:inputText
+						value="#{partnerdataupdateController.data.partner.banknev}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_ACCOUNT}<h:inputText
+						value="#{partnerdataupdateController.data.partner.szlaszam}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_PAYMENT_TYPE} <h:selectOneMenu
+						styleClass="select" id="payment"
+						value="#{partnerdataupdateController.data.partner.fizmod}">
+						<f:selectItems
+							value="#{partnerdataupdateController.data.paymentItems}" />
+					</h:selectOneMenu></label> <h:panelGroup
+						rendered="#{partnerdataupdateController.managedUser.userType=='DM_PARTNER' || partnerdataupdateController.managedUser.userType=='DM_RENTER'}">
+						<hr />
+						<label>#{msg.PARTNERDATA_PWD1}<h:inputSecret id="pass1"
+							value="#{partnerdataupdateController.data.password1}"></h:inputSecret></label>
+						<label>#{msg.PARTNERDATA_PWD2}<h:inputSecret id="pass2"
+							value="#{partnerdataupdateController.data.password2}"></h:inputSecret></label>
+					</h:panelGroup></div>
+
+					<div class="clear" />
+				</h:panelGroup>
+				<br />
+				<p:commandButton
+					rendered="#{partnerdataupdateController.managedUser.userType=='DM_PARTNER' || partnerdataupdateController.managedUser.userType=='DM_RENTER'}"
+					action="#{partnerdataupdateController.changePasswordAction}"
+					value="#{msg.PARTNERDATA_CHANGE_PWD_BUTTON}" styleClass="commonButton"
+					update="message,pass1,pass2" />
+				<p:commandButton value="#{msg.SAVE}" styleClass="commonButton"
+					actionListener="#{partnerdataupdateController.updatePartnerData}"
+					id="updatedata" update="message,menu:menuform" />
+				<p:commandButton value="#{msg.NEWPARTNER}" styleClass="commonButton"
+					action="#{partnerdataupdateController.addNewPartner}"
+					update="datapanel" process="@this"
+					rendered="#{partnerdataupdateController.managedUser.userType=='DM_SALES' || partnerdataupdateController.managedUser.userType=='DM_ADMIN'}"></p:commandButton>
+				<p:commandButton value="#{msg.PARTNERCHOOSE}" styleClass="commonButton"
+					action="#{partnerdataupdateController.showAllPartner}"
+					update="partnerchoose" oncomplete="partnerchoosewid.show()"
+					process="@this"
+					rendered="#{partnerdataupdateController.managedUser.userType=='DM_SALES'|| partnerdataupdateController.managedUser.userType=='DM_ADMIN'}"></p:commandButton>
+			</p:panel>
+
+			<p:dialog id="partnerchoose" widgetVar="partnerchoosewid"
+				modal="false" closable="true" styleClass="dialog" draggable="true">
+				<div class="choosepartner-sales-form">
+				<div class="search"><h:inputText styleClass="input"
+					value="#{partnerdataupdateController.data.partnerSearchText}"></h:inputText>
+				<p:commandButton value="KERESES" update="partners"
+					styleClass="textcolor1 button"
+					action="#{partnerdataupdateController.searchPartnerAction}" /></div>
+				<h:selectOneListbox id="partners"
+					value="#{partnerdataupdateController.data.selectedPartnerId}"
+					style="width: 280px;height: 425px;background-color: #777;border:solid 1px #555;color: #fff">
+					<f:selectItem itemLabel="" itemValue="" escape="false" />
+					<f:selectItems
+						value="#{partnerdataupdateController.data.partnerItems}" />
+					<p:ajax event="change" />
+				</h:selectOneListbox>
+
+				<div class="submit"><p:commandButton value="OK"
+					oncomplete="partnerchoosewid.hide()" update="datapanel,message"
+					styleClass="submit textcolor1"
+					action="#{partnerdataupdateController.showChoosenPartnerData}" /></div>
+				</div>
+			</p:dialog>
+
+			<p:dialog modal="true" id="savedialog" widgetVar="savedialogwid"
+				showEffect="fade" hideEffect="fade" closable="true"
+				styleClass="smallDialog" draggable="true" header="MENTI AZ ADATOKAT?">
+				<center><h:panelGrid columns="2">
+					
+					<p:commandButton styleClass="commonButton cancelButton"
+						value="#{msg.CANCEL}" update="message" global="false"
+						onclick="savedialogwid.hide();document.getElementById('page:partnerdataform:panel').style.display='none'" />
+					<p:commandButton styleClass="commonButton submitButton" value="OK"
+						update="message,menu:menuform" global="false" process="@this"
+						onclick="savedialogwid.hide();document.getElementById('page:partnerdataform:panel').style.display='none'"
+						actionListener="#{partnerdataupdateController.updatePartnerData}" />
+				</h:panelGrid></center>
+			</p:dialog>
+
+			<p:growl id="message" sticky="false" life="40000" showSummary="false"
+				showDetail="true" />
+
+		</h:form></div>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,40 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:fiji="http://exadel.com/fiji">
+
+
+	<div class="wrapper100 clear header-UserIn">
+
+	<div class="wrapper"><img src="img/scooler_logo.png"
+		alt="Scooler" height="100" class="header-logo" /><a4j:form
+		ajaxSingle="true" ajaxSubmit="true">
+		<div class="menu-container-UserIn"><h:panelGroup
+			rendered="#{userserviceController.managedUser.userType==2}">
+			<a4j:commandLink styleClass="menu-UserIn" action="gamerhome"
+				value="#{msg.home}" />
+			<a4j:commandLink styleClass="menu-UserIn" action="profile"
+				value="#{msg.profile}" />
+		</h:panelGroup> <h:panelGroup
+			rendered="#{userserviceController.managedUser.userType==1}">
+			<a4j:commandLink styleClass="menu-UserIn" action="adminhome"
+				value="#{msg.home}" />
+			<a4j:commandLink styleClass="menu-UserIn" action="profile"
+				value="#{msg.profile}" />
+			<a4j:commandLink styleClass="menu-UserIn" action="manageusers"
+				value="#{msg.users}" />
+		</h:panelGroup> <a4j:commandLink styleClass="menu-UserIn" action="messages"
+			value="#{msg.messages}" /></div>
+	</a4j:form>
+	<div class="login-form-UserIn"><h:form id="logoutform">
+		<h:commandButton value="#{msg.logout}" styleClass="login-form-submit"
+			action="#{userserviceController.logout}"></h:commandButton>
+	</h:form></div>
+	</div>
+
+	</div>
+
+</ui:composition>

@@ -1,0 +1,45 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	template="/pages/template.xhtml">
+
+	<ui:define name="body">
+		<div class="content">
+			<h:form id="chatform" target="mywindow">
+				<p:panel styleClass="gradpanel" id="panel">
+					<div class="manageNotificationOdd">
+                    <div class="manageNotificationStepNumber">1</div>
+                    <div class="manageNotificationRow">
+                    	<div class="manageNotificationRowSubject">Üzenetek</div>
+                        <div class="manageNotificationRowForm">
+						<h:inputTextarea styleClass="chatMessagesArea" id="messages" rows="30" readonly="true" value="#{chatservice.data.messageText}">
+						</h:inputTextarea>
+                        </div>
+                        </div>
+                        </div>
+					<div class="manageNotificationEven">
+                    <div class="manageNotificationStepNumber">2</div>
+                    <div class="manageNotificationRow">
+                    	<div class="manageNotificationRowSubject">Üzenet küldése</div>
+                        <div class="manageNotificationRowForm">
+						<h:inputText styleClass="chatMessageInput" id="message" required="true">
+						</h:inputText>
+					<p:commandButton 
+						styleClass="chatMessageSubmit" immediate="true"
+						update="messages"
+						action="#{chatservice.processMessage}"
+						value="elküld" process="@this"
+						title="#{msg.MANAGENOTIFICATION_REALTIESTOOLTIP}"></p:commandButton>
+                        </div>
+					</div>
+                    </div>
+				</p:panel>			
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,67 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	template="/pages/template.xhtml">
+
+	<ui:define name="body">
+		<div class="content"><h:form
+			id="workerdataform">
+			<p:panel styleClass="gradpanel" id="panel">
+				<h:panelGroup styleClass="workerDataUpdate" id="datapanel">
+					<div class="left"><label class="importantData">#{msg.PARTNERDATA_NAME}<h:inputText
+						value="#{workerdataupdateController.data.worker.dnev}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_ZIP}<h:inputText
+						value="#{workerdataupdateController.data.worker.dirsz}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_CITY}<h:inputText
+						value="#{workerdataupdateController.data.worker.dvaros}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_ADDR}<h:inputText
+						value="#{workerdataupdateController.data.worker.dcim}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_TEL1}<h:inputText
+						value="#{workerdataupdateController.data.worker.dtelefon}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_EMAIL}<h:inputText
+						value="#{workerdataupdateController.data.worker.email}"></h:inputText></label>
+					</div>
+					<div class="clear" />
+				</h:panelGroup>
+				<p:commandButton value="#{msg.SAVE}" styleClass="commonButton"
+					actionListener="#{workerdataupdateController.updateWorkerData}"
+					oncomplete="savedialogwid.show()" update="savepanel" />
+			</p:panel>
+
+			<p:dialog modal="true" id="savedialog" widgetVar="savedialogwid"
+				closable="true" 
+				styleClass="smallDialog" draggable="true" header="MENTI AZ ADATOKAT?">
+				<center><h:panelGrid columns="2" id="savepanel">
+				<p:commandButton styleClass="commonButton cancelButton"
+						value="#{msg.CANCEL}" update="message" global="false"
+						onclick="savedialogwid.hide();" />
+					<p:commandButton styleClass="commonButton submitButton" value="OK"
+						update="message,menu:menuform" global="false" process="@this"
+						onclick="savedialogwid.hide()"
+						actionListener="#{workerdataupdateController.updateWorkerData}" />
+					
+				</h:panelGrid></center>
+			</p:dialog>
+
+			<p:growl id="message" sticky="false" life="4000" showSummary="true"
+				showDetail="true" />
+
+		</h:form></div>
+		
+		<div class="helpContent" onclick="RemoveHelp();"
+			id="help">
+			<div class="headerHelp"></div>
+			<div class="menuHelp">
+				<div class="helpBubble"
+					style="top: 100px; left: 560px; border-top-right-radius: 0; -moz-border-radius-topright: 0; -webkit-border-top-right-radius: 0;">
+					Az <strong>ADATMÓDOSÍTÁS</strong> menüpontban van, itt megtekintheti regisztrált adatait, illetve egyes adatokat módosíthat.
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

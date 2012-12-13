@@ -1,0 +1,473 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	template="/pages/template.xhtml">
+
+
+	<ui:define name="body">
+		<div class="content textcolor1 backgroundcolor3"><h:form
+			id="invoiceform" target="mywindow">
+			<p:panel styleClass="gradpanel" id="panel">
+				<div class="innerPanel"><p:dataTable selectionMode="single"
+					rows="10" paginator="true" paginatorPosition="top"
+					style="text-align:left"
+					value="#{realtyinvoiceserviceController.data.invoice}" var="data"
+					id="invoiceTable" emptyMessage="#{msg.NODATA}" dynamic="true"
+					lazy="false" onselectComplete="callmethod()"
+					paginatorAlwaysVisible="false" update="invoiceitemTable"
+					selection="#{realtyinvoiceserviceController.data.selectedInvoice}">
+					<p:column style="min-width:120px" sortBy="#{data.sorszam}"
+						styleClass="bold">
+						<f:facet name="header">
+							<h:outputText value="#{msg.ORDERS_ORDERVIEW_ORDERNUM}" />
+						</f:facet>
+						<h:outputText value="#{data.sorszam}" />
+					</p:column>
+					<p:column sortBy="#{data.cegnev}" style="min-width:250px">
+						<f:facet name="header">
+							<h:outputText value="#{msg.INVOICELIST_COMPANY}" />
+						</f:facet>
+						<h:outputText value="#{data.cegnev}" />
+					</p:column>
+					<p:column sortBy="#{data[9]}" style="min-width:120px"
+						styleClass="centerpos">
+						<f:facet name="header">
+							<h:outputText value="#{msg.INVOICELIST_FILE}" />
+						</f:facet>
+						<h:outputText value="#{data.kelt}">
+							<f:convertDateTime pattern="#{msg.DATEFORMAT}"
+								timeZone="Europe/Budapest" />
+						</h:outputText>
+					</p:column>
+					<p:column sortBy="#{data.esedkelt}" style="min-width:120px"
+						styleClass="centerpos">
+						<f:facet name="header">
+							<h:outputText value="#{msg.INVOICELIST_DUE}" />
+						</f:facet>
+						<h:outputText value="#{data.esedkelt}">
+							<f:convertDateTime pattern="#{msg.DATEFORMAT}"
+								timeZone="Europe/Budapest" />
+						</h:outputText>
+					</p:column>
+					<p:column sortBy="#{data.telj}" style="min-width:120px"
+						styleClass="centerpos">
+						<f:facet name="header">
+							<h:outputText value="#{msg.INVOICELIST_COMPLETED}" />
+						</f:facet>
+						<h:outputText value="#{data.telj}">
+							<f:convertDateTime pattern="#{msg.DATEFORMAT}"
+								timeZone="Europe/Budapest" />
+						</h:outputText>
+					</p:column>
+					<p:column sortBy="#{data.realesed}" style="min-width:120px"
+						styleClass="centerpos">
+						<f:facet name="header">
+							<h:outputText value="#{msg.INVOICELIST_WARRANT}" />
+						</f:facet>
+						<h:outputText value="#{data.realesed}">
+							<f:convertDateTime pattern="#{msg.DATEFORMAT}"
+								timeZone="Europe/Budapest" />
+						</h:outputText>
+					</p:column>
+					<p:column sortBy="#{data.fizetve}" style="min-width:120px"
+						styleClass="centerpos">
+						<f:facet name="header">
+							<h:outputText value="#{msg.INVOICELIST_PAYMENT}" />
+						</f:facet>
+						<h:outputText value="#{data.fizetve}">
+							<f:convertDateTime pattern="#{msg.DATEFORMAT}"
+								timeZone="Europe/Budapest" />
+						</h:outputText>
+					</p:column>
+					<p:column sortBy="#{data.dnetto}" styleClass="rightpos"
+						style="min-width:80px">
+						<f:facet name="header">
+							<h:outputText value="#{msg.ORDERS_ORDERVIEW_NET}" />
+						</f:facet>
+						<h:outputText value="#{data.dnetto}">
+							<f:convertNumber pattern="#,##0" />
+						</h:outputText>
+					</p:column>
+					<p:column sortBy="#{data.dbrutto}" styleClass="rightpos"
+						style="min-width:80px">
+						<f:facet name="header">
+							<h:outputText value="#{msg.ORDERS_ORDERVIEW_GRO}" />
+						</f:facet>
+						<h:outputText value="#{data.dbrutto}">
+							<f:convertNumber pattern="#,##0" />
+						</h:outputText>
+					</p:column>
+					<p:column sortBy="#{data.devnem}" style="min-width:80px">
+						<f:facet name="header">
+							<h:outputText value="#{msg.ORDERS_ORDERVIEW_FOREX}" />
+						</f:facet>
+						<h:outputText value="#{data.devnem}" />
+					</p:column>
+					<p:column sortBy="#{data.fizmod}" style="min-width:100px">
+						<f:facet name="header">
+							<h:outputText value="#{msg.INVOICELIST_PAYMENTMODE}" />
+						</f:facet>
+						<h:outputText value="#{data.fizmod}" />
+					</p:column>
+					<p:column sortBy="#{data.arrears}" style="min-width:100px">
+						<f:facet name="header">
+							<h:outputText value="#{msg.ARREARS}" />
+						</f:facet>
+						<h:outputText value="#{data.arrears}" />
+					</p:column>
+				</p:dataTable></div>
+
+
+				<p:remoteCommand name="callmethod"
+					oncomplete="invoiceitemwid.show()" process="@this"
+					update="invoiceitemTable"
+					action="#{realtyinvoiceserviceController.invoiceItemsAction}"></p:remoteCommand>
+
+
+				<div class="summaryPanel"><h:panelGroup id="summaryPanel">
+					<table width="100%" border="0" cellspacing="0" cellpadding="0">
+						<tr>
+							<td width="20%"><label>#{msg.ORDERS_ORDERVIEW_SUMMARY}</label>
+							</td>
+							<td width="20%"><label>#{msg.ALL}:</label></td>
+							<td width="20%"><label>#{msg.SIDEBAR_DEBITTEXT_TITLE}</label>
+							</td>
+							<td width="20%"><label>#{msg.PAYED}:</label></td>
+							<td width="20%" class="last"><label>#{msg.EXPIRED}:</label>
+							</td>
+						</tr>
+						<tr>
+							<td width="20%"></td>
+							<td width="20%"><h:outputText
+								value="#{realtyinvoiceserviceController.data.sumSum}">
+								<f:convertNumber pattern="#,##0" />
+							</h:outputText></td>
+							<td width="20%"><h:outputText
+								value="#{realtyinvoiceserviceController.data.sumDebit}">
+								<f:convertNumber pattern="#,##0" />
+							</h:outputText></td>
+							<td width="20%"><h:outputText
+								value="#{realtyinvoiceserviceController.data.sumPayed}">
+								<f:convertNumber pattern="#,##0" />
+							</h:outputText></td>
+							<td width="20%" class="last"><h:outputText
+								value="#{realtyinvoiceserviceController.data.sumExpired}">
+								<f:convertNumber pattern="#,##0" />
+							</h:outputText></td>
+						</tr>
+					</table>
+				</h:panelGroup></div>
+				<div class="bottomFilterBar">
+				<div class="bottomFilterBarFilters"><h:panelGroup id="filters"
+					rendered="#{realtyinvoiceserviceController.managedUser.userType!='DM_RENTER'}">
+					<p:commandButton oncomplete="realtychoosewid.show()"
+						update="realtychoosegp,realtys"
+						rendered="#{realtyinvoiceserviceController.managedUser.userType!='DM_RENTER'}"
+						action="#{realtyinvoiceserviceController.showRealtys}"
+						value="#{msg.NOTIFICATIONLIST_REALTIES}" styleClass="button"
+						process="@this"></p:commandButton>
+					<p:commandButton oncomplete="ownerchoosewid.show()"
+						update="ownerchoosegp,owners"
+						rendered="#{realtyinvoiceserviceController.managedUser.userType=='DM_WORKER'}"
+						actionListener="#{realtyinvoiceserviceController.showOwners}"
+						value="#{msg.NOTIFICATIONLIST_OWNERS}" styleClass="button"
+						process="@this"></p:commandButton>
+					<p:commandButton oncomplete="renterchoosewid.show()"
+						update="renterchoosegp,renters,message"
+						rendered="#{realtyinvoiceserviceController.managedUser.userType!='DM_RENTER'}"
+						actionListener="#{realtyinvoiceserviceController.showRenters}"
+						value="#{msg.NOTIFICATIONLIST_RENTERS}" styleClass="button"
+						process="@this"></p:commandButton>
+					<p class="filterFilteredText"><h:outputText
+						value="#{realtyinvoiceserviceController.data.filteredText}"
+						id="filteredtext" /></p>
+
+				</h:panelGroup></div>
+				<div class="bottomFilterBarDates"><h:panelGroup
+					id="maincalendar">
+
+					<div class="bottomFilterBarDateFilter"><p:calendar
+						value="#{realtyinvoiceserviceController.data.from}"
+						selectListener="#{realtyinvoiceserviceController.invoiceDateFromChange}"
+						onSelectUpdate="invoiceTable,summaryPanel,panel"
+						pattern="#{msg.DATEFORMAT}">
+					</p:calendar></div>
+					<div class="bottomFilterBarDateFilter"><label
+						class="textcolor4"> #{msg.FROM}</label></div>
+
+					<div class="bottomFilterBarDateFilter"><p:calendar
+						value="#{realtyinvoiceserviceController.data.to}"
+						selectListener="#{realtyinvoiceserviceController.invoiceDateToChange}"
+						onSelectUpdate="invoiceTable,summaryPanel,panel"
+						pattern="#{msg.DATEFORMAT}">
+					</p:calendar></div>
+					<div class="bottomFilterBarDateFilter"><label
+						class="textcolor4"> #{msg.TO}</label></div>
+					<p:commandButton process="@this" value="#{msg.FILTER}"
+						onstart="pb.start()" update="panel,message"
+						styleClass="filterSubmitButton" global="false"
+						actionListener="#{realtyinvoiceserviceController.invoiceDateChange}"></p:commandButton>
+					<p:commandButton update="panel" global="false"
+						styleClass="filterResetButton"
+						actionListener="#{realtyinvoiceserviceController.resetAction}"
+						value="reset" process="@this"></p:commandButton>
+				</h:panelGroup></div>
+				</div>
+				<h:commandLink value="#{msg.ORDERS_PRINT_BUTTON1}" immediate="true"
+					styleClass="commonButtonLink"
+					disabled="#{empty realtyinvoiceserviceController.data.invoice}"
+					action="#{realtyinvoiceserviceController.print}" target="_blank">
+				</h:commandLink>
+				<p:commandButton oncomplete="chartwid.show()" value="#{msg.CHART}"
+					styleClass="commonButton" update="chart,chartcalendar,summaryAll"
+					id="chartbutton" process="@this"
+					disabled="#{empty realtyinvoiceserviceController.data.invoice}"
+					action="#{realtyinvoiceserviceController.createDataForChart}"></p:commandButton>
+				<div style="clear: both"></div>
+				<p:progressBar widgetVar="pb" interval="1000"
+					styleClass="filterProgressBar" style="margin-top: 12px;"
+					oncomplete="pb.setValue(0)" 
+					value="#{realtyinvoiceserviceController.data.progress}" />
+			</p:panel>
+
+			<p:dialog id="invoiceItems" modal="false" widgetVar="invoiceitemwid"
+				closable="true" draggable="true" width="960" resizable="false"
+				styleClass="commonDialog" header="#{msg.INVOICE_ITEMSOFINVOICE}"
+				showEffect="fade" hideEffect="fade">
+				<p:dataTable style="text-align:left;" selectionMode="single"
+					lazy="false" dynamic="false"
+					value="#{realtyinvoiceserviceController.data.invoiceItems}"
+					var="item" id="invoiceitemTable" emptyMessage="#{msg.NODATA}">
+					<p:column sortBy="#{item.acikksz}" style="min-width:120px">
+						<f:facet name="header">
+							<h:outputText value="#{msg.INVOICE_ITEMNUMBER}" />
+						</f:facet>
+						<h:outputText value="#{item.acikksz}" styleClass="bold" />
+					</p:column>
+					<p:column sortBy="#{item.amegn}" style="min-width:250px">
+						<f:facet name="header">
+							<h:outputText value="#{msg.INVOICE_NAME}" />
+						</f:facet>
+						<h:outputText value="#{item.amegn}" />
+					</p:column>
+					<p:column sortBy="#{item.amenny}" styleClass="rightpos"
+						style="min-width:80px">
+						<f:facet name="header">
+							<h:outputText value="#{msg.INVOICE_QUANTITY}" />
+						</f:facet>
+						<h:outputText value="#{item.amenny}">
+							<f:convertNumber pattern="#,##0" />
+						</h:outputText>
+					</p:column>
+					<p:column sortBy="#{item.aear}" styleClass="rightpos"
+						style="min-width:80px">
+						<f:facet name="header">
+							<h:outputText value="#{msg.INVOICE_UNITPRICE}" />
+						</f:facet>
+						<h:outputText value="#{item.aear}">
+							<f:convertNumber pattern="#,##0" />
+						</h:outputText>
+					</p:column>
+					<p:column sortBy="#{item.hnertek}" styleClass="rightpos"
+						style="min-width:80px">
+						<f:facet name="header">
+							<h:outputText value="#{msg.ORDERS_ORDERVIEW_NET}" />
+						</f:facet>
+						<h:outputText value="#{item.hnertek}">
+							<f:convertNumber pattern="#,##0" />
+						</h:outputText>
+					</p:column>
+					<p:column sortBy="#{item.aertek}" styleClass="rightpos"
+						style="min-width:80px">
+						<f:facet name="header">
+							<h:outputText value="#{msg.INVOICE_TAX}" />
+						</f:facet>
+						<h:outputText value="#{item.aertek}">
+							<f:convertNumber pattern="#,##0" />
+						</h:outputText>
+					</p:column>
+					<p:column sortBy="#{item.hbertek}" styleClass="rightpos"
+						style="min-width:80px">
+						<f:facet name="header">
+							<h:outputText value="#{msg.ORDERS_ORDERVIEW_GRO}" />
+						</f:facet>
+						<h:outputText value="#{item.hbertek}">
+							<f:convertNumber pattern="#,##0" />
+						</h:outputText>
+					</p:column>
+				</p:dataTable>
+			</p:dialog>
+
+			<p:dialog id="chartdialog" modal="false" widgetVar="chartwid"
+				closable="true" styleClass="commonDialog" draggable="true"
+				header="Grafikon" width="720">
+				<br />
+				<p:lineChart
+					value="#{realtyinvoiceserviceController.data.chartInList}"
+					id="chart" var="data" xfield="#{data[1]}" width="700">
+					<p:chartSeries label="Bejovo" value="#{data[2]}" />
+				</p:lineChart>
+				<div class="chartSummaryPanel">
+				<div class="summaryPanel"><h:panelGroup id="summaryAll">
+					<table width="100%" border="0" cellspacing="0" cellpadding="0">
+						<tr>
+							<td width="20%"><label>#{msg.INVOICEIN_TITLE}</label></td>
+							<td width="20%"><label>#{msg.ALL}:</label></td>
+							<td width="20%"><label>#{msg.SIDEBAR_DEBITTEXT_TITLE}</label>
+							</td>
+							<td width="20%"><label>#{msg.PAYED}:</label></td>
+							<td width="20%" class="last"><label>#{msg.EXPIRED}:</label>
+							</td>
+						</tr>
+						<tr>
+							<td width="20%"></td>
+							<td width="20%"><h:outputText
+								value="#{realtyinvoiceserviceController.data.sumIn}">
+								<f:convertNumber pattern="#,##0" />
+							</h:outputText></td>
+							<td width="20%"><h:outputText
+								value="#{realtyinvoiceserviceController.data.debitIn}">
+								<f:convertNumber pattern="#,##0" />
+							</h:outputText></td>
+							<td width="20%"><h:outputText
+								value="#{realtyinvoiceserviceController.data.payedIn}">
+								<f:convertNumber pattern="#,##0" />
+							</h:outputText></td>
+							<td width="20%" class="last"><h:outputText
+								value="#{realtyinvoiceserviceController.data.expiredIn}">
+								<f:convertNumber pattern="#,##0" />
+							</h:outputText></td>
+						</tr>
+						<tr></tr>
+					</table>
+				</h:panelGroup></div>
+				<h:panelGroup id="chartcalendar">
+					<div class="bottomFilterBarDateFilter"><p:calendar
+						pattern="#{msg.DATEFORMAT}" id="chartFrom"
+						value="#{realtyinvoiceserviceController.data.chartFrom}"
+						selectListener="#{realtyinvoiceserviceController.invoiceChartDateFromChange}"
+						onSelectUpdate="chart,summaryAll" inputStyle="width:100px">
+					</p:calendar></div>
+					<div class="bottomFilterBarDateFilter"><label>
+					#{msg.FROM}</label></div>
+					<div class="bottomFilterBarDateFilter"><p:calendar
+						pattern="#{msg.DATEFORMAT}" id="chartTo"
+						value="#{realtyinvoiceserviceController.data.chartTo}"
+						selectListener="#{realtyinvoiceserviceController.invoiceChartDateToChange}"
+						onSelectUpdate="chart,summaryAll" inputStyle="width:100px">
+					</p:calendar></div>
+					<div class="bottomFilterBarDateFilter"><label>
+					#{msg.TO}</label></div>
+				</h:panelGroup>
+				<div class="clear"></div>
+				</div>
+			</p:dialog>
+
+			<p:dialog id="realtychoose" widgetVar="realtychoosewid" modal="false"
+				closable="true" styleClass="commonDialog" draggable="true"
+				header="#{msg.NOTIFICATIONLIST_CHOOSEREALTY}">
+				<h:panelGroup id="realtychoosegp">
+					<div class="choosepartner-sales-form">
+					<div class="popupSearch"><h:inputText styleClass="input"
+						id="searchtext"
+						value="#{realtyinvoiceserviceController.data.realtySearchText}">
+						<p:ajax event="change" process="@this" />
+					</h:inputText> <p:commandButton value="#{msg.SEARCH}" update="realtychoosegp"
+						immediate="true" styleClass="popupSearchButton" process="@this"
+						action="#{realtyinvoiceserviceController.searchRealtyAction}" /></div>
+					<h:selectOneListbox id="realtys"
+						value="#{realtyinvoiceserviceController.data.selectedProjectId}"
+						style="width: 280px;height: 425px;background-color: #777;border:solid 1px #555;color: #fff">
+						<f:selectItem itemLabel="" itemValue="" escape="false" />
+						<f:selectItems
+							value="#{realtyinvoiceserviceController.data.flatItems}" />
+						<p:ajax event="change" />
+					</h:selectOneListbox>
+
+					<div class="submit"><p:commandButton value="OK"
+						process="@this" onclick="pb.start()" global="false"
+						actionListener="#{realtyinvoiceserviceController.selectRealtyAction}"
+						immediate="true" oncomplete="realtychoosewid.hide()"
+						update="panel,message" styleClass="commonButton" /></div>
+					</div>
+				</h:panelGroup>
+			</p:dialog>
+
+			<p:dialog id="ownerchoose" widgetVar="ownerchoosewid" modal="false"
+				closable="true" styleClass="commonDialog" draggable="true"
+				header="#{msg.NOTIFICATIONLIST_CHOOSEOWNER}">
+				<h:panelGroup id="ownerchoosegp">
+					<div class="choosepartner-sales-form">
+					<div class="popupSearch"><h:inputText styleClass="input"
+						id="searchowner"
+						value="#{realtyinvoiceserviceController.data.ownerSearchText}">
+						<p:ajax event="change" process="@this" />
+					</h:inputText> <p:commandButton value="#{msg.SEARCH}" update="ownerchoosegp"
+						styleClass="popupSearchButton" process="@this"
+						actionListener="#{realtyinvoiceserviceController.searchOwnerAction}" /></div>
+					<h:selectOneListbox id="owners"
+						value="#{realtyinvoiceserviceController.data.selectedOwnerId}"
+						style="width: 280px;height: 425px;background-color: #777;border:solid 1px #555;color: #fff">
+						<f:selectItem itemLabel="" itemValue="" escape="false" />
+						<f:selectItems
+							value="#{realtyinvoiceserviceController.data.ownerItems}" />
+						<p:ajax event="change" />
+					</h:selectOneListbox>
+
+					<div class="submit"><p:commandButton value="OK"
+						process="@this" onclick="pb.start()" global="false"
+						actionListener="#{realtyinvoiceserviceController.selectOwnerAction}"
+						immediate="true" oncomplete="ownerchoosewid.hide()"
+						update="panel,summaryPanel,message" styleClass="commonButton" /></div>
+					</div>
+				</h:panelGroup>
+			</p:dialog>
+
+			<p:dialog id="renterchoose" widgetVar="renterchoosewid" modal="false"
+				closable="true" styleClass="commonDialog" draggable="true"
+				header="#{msg.NOTIFICATIONLIST_CHOOSERENTER}">
+				<h:panelGroup id="renterchoosegp">
+					<div class="choosepartner-sales-form">
+					<div class="popupSearch"><h:inputText styleClass="input"
+						id="searchrenter"
+						value="#{realtyinvoiceserviceController.data.renterSearchText}">
+						<p:ajax event="change" process="@this" />
+					</h:inputText> <p:commandButton value="#{msg.SEARCH}" update="renterchoosegp"
+						immediate="true" styleClass="popupSearchButton" process="@this"
+						actionListener="#{realtyinvoiceserviceController.searchRenterAction}" /></div>
+					<h:selectOneListbox id="renters"
+						value="#{realtyinvoiceserviceController.data.selectedRenterId}"
+						style="width: 280px;height: 425px;background-color: #777;border:solid 1px #555;color: #fff">
+						<f:selectItem itemLabel="" itemValue="" escape="false" />
+						<f:selectItems
+							value="#{realtyinvoiceserviceController.data.renterItems}" />
+						<p:ajax event="change" />
+					</h:selectOneListbox>
+					<div class="submit"><p:commandButton value="OK"
+						process="@this" onclick="pb.start()" global="false"
+						actionListener="#{realtyinvoiceserviceController.selectRenterAction}"
+						immediate="true" oncomplete="renterchoosewid.hide()"
+						update="panel,summaryPanel,message" styleClass="commonButton" /></div>
+					</div>
+				</h:panelGroup>
+			</p:dialog>
+
+			<p:growl id="message" showDetail="true" sticky="false" life="5000"
+				showSummary="false" infoIcon="../img/newDesign/felkialto.png"
+				fatalIcon="../img/newDesign/x.png"
+				errorIcon="../img/newDesign/x.png" />
+
+			<script type="text/javascript">
+					function newWindow(){
+					window.open('','mywindow','width=1000,height=700');
+					return false;}
+				</script>
+
+		</h:form></div>
+	</ui:define>
+</ui:composition>

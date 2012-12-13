@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="datamagic_client_revco">
+        <wb-resource deploy-path="/" source-path="/web"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/datamagic_server"/>
+        <property name="context-root" value="datamagic_client_revco"/>
+        <property name="java-output-path"/>
+    </wb-module>
+</project-modules>

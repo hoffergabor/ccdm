@@ -1,0 +1,91 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<f:view contentType="text/html" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	locale="#{localeSelector.selectedLocale}">
+
+	<f:loadBundle
+		basename="hu.iboard.coandco.datamagic.resources.MessageResources_hu"
+		var="msg" />
+
+	<html>
+	<h:head>
+
+		<link rel="stylesheet" type="text/css" href="../css/style.css"
+			media="screen" />
+
+	</h:head>
+
+	<h:body>
+		<div class="wrapper100"><h:form id="registration">
+
+			<p:panel styleClass="gradpanel3" id="panel">
+				<h1>REGISZTRACIO</h1>
+				<div class="registration"><label>Felhasznalonev<h:inputText
+					value="#{registrationserviceController.data.user.userName}">
+					<f:validateLength minimum="1" />
+					<p:ajax event="blur" update="message" />
+				</h:inputText></label> <label>#{msg.PARTNERDATA_PWD1}<h:inputSecret id="pass1"
+					value="#{registrationserviceController.data.password1}"></h:inputSecret></label>
+				<label>#{msg.PARTNERDATA_PWD2}<h:inputSecret id="pass2"
+					value="#{registrationserviceController.data.password2}"></h:inputSecret></label>
+				<label>#{msg.PARTNERDATA_EMAIL}<h:inputText
+					value="#{registrationserviceController.data.partner.email}">
+					<f:validator validatorId="emailValidator" />
+					<p:ajax event="blur" update="message" />
+				</h:inputText></label> <label>#{msg.PARTNERDATA_NAME}<h:inputText
+					value="#{registrationserviceController.data.partner.nev}"></h:inputText></label>
+				<label>#{msg.PARTNERDATA_ZIP}<h:inputText
+					value="#{registrationserviceController.data.partner.irsz}"></h:inputText></label>
+				<label>#{msg.PARTNERDATA_CITY}<h:inputText
+					value="#{registrationserviceController.data.partner.varos}"></h:inputText></label>
+				<label>#{msg.PARTNERDATA_ADDR}<h:inputText
+					value="#{registrationserviceController.data.partner.cim}"></h:inputText></label>
+				<label>#{msg.PARTNERDATA_TEL1}<h:inputText
+					value="#{registrationserviceController.data.partner.tel1}"></h:inputText></label></div>
+				<br />
+				<p:commandButton value="REGISZTRAL" styleClass="button"
+					action="#{registrationserviceController.registrationAction}"
+					update="message"></p:commandButton>
+				<br />
+				<br />
+			</p:panel>
+
+			<p:growl id="message" showDetail="true" sticky="false" life="2000"
+				showSummary="true" />
+
+			<div id="loader" style="padding-top: 30px;" class="loader"><p:ajaxStatus
+				id="stat">
+				<f:facet name="start">
+					<h:panelGroup>
+						<table align="center" class="loadertable">
+							<tr>
+								<td
+									style="padding-bottom: 10px; padding-left: 10px; padding-right: 10px; padding-top: 10px;">
+								<h:graphicImage value="../img/loader.gif" /></td>
+							</tr>
+							<tr>
+								<td
+									style="padding-bottom: 10px; padding-left: 10px; padding-right: 10px;">
+								<h:outputText value="#{msg.LOGINPROCESS}"
+									style="color: #fff;font-weight: bold;font-size: 12px;"></h:outputText></td>
+							</tr>
+						</table>
+					</h:panelGroup>
+				</f:facet>
+				<f:facet name="complete">
+					<h:outputText value="" />
+				</f:facet>
+			</p:ajaxStatus></div>
+
+		</h:form></div>
+	</h:body>
+	</html>
+	<f:subview id="footer">
+		<ui:include src="/pages/footer.xhtml" />
+	</f:subview>
+</f:view>

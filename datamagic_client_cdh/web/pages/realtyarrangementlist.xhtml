@@ -1,0 +1,620 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	template="/pages/template.xhtml">
+
+	<ui:define name="body">
+		<div class="content textcolor1 backgroundcolor3">
+			<h:form id="realtyform" target="mywindow">
+				<p:panel styleClass="gradpanel" id="panel">
+					<div class="innerPanel">
+						<p:dataTable paginator="true" rows="10"
+							paginatorAlwaysVisible="false" paginatorPosition="top"
+							style="text-align:left" id="realtytable" selectionMode="single"
+							emptyMessage="#{msg.NODATA}" dynamic="true" lazy="false"
+							onselectStart="callmethod()" update="realtyitempanel"
+							selection="#{realtyarrangementserviceController.data.selectedRealty}"
+							value="#{realtyarrangementserviceController.data.realtyArrangements}"
+							var="data">
+							<p:column sortBy="#{data.itemNumber}" styleClass="bold"
+								style="min-width:120px">
+								<f:facet name="header">
+									<h:outputText value="#{msg.REALTY_NUMBER}" />
+								</f:facet>
+								<h:outputText value="#{data.itemNumber}" />
+							</p:column>
+							<p:column sortBy="#{data.status}" style="min-width:80px">
+								<f:facet name="header">
+									<h:outputText value="#{msg.REALTY_STATUS}" />
+								</f:facet>
+								<h:outputText value="#{data.status}" />
+							</p:column>
+							<p:column sortBy="#{data.objectaddress}" style="min-width:250px">
+								<f:facet name="header">
+									<h:outputText value="#{msg.REALTY_OBJECT}" />
+								</f:facet>
+								<h:outputText value="#{data.objectaddress}">
+								</h:outputText>
+							</p:column>
+							<p:column sortBy="#{data.flataddress}" style="min-width:250px">
+								<f:facet name="header">
+									<h:outputText value="#{msg.REALTY_FLAT}" />
+								</f:facet>
+								<h:outputText value="#{data.flataddress} #{data.flatTypeName}" />
+							</p:column>
+							<p:column sortBy="#{data.ownerName}" style="min-width:250px">
+								<f:facet name="header">
+									<h:outputText value="#{msg.NOTIFICATIONLIST_OWNER}" />
+								</f:facet>
+								<h:outputText value="#{data.ownerName}" />
+							</p:column>
+							<p:column sortBy="#{data.renterName}" style="min-width:250px">
+								<f:facet name="header">
+									<h:outputText value="#{msg.NOTIFICATIONLIST_RENTER}" />
+								</f:facet>
+								<h:outputText value="#{data.renterName}" />
+							</p:column>
+							<p:column sortBy="#{data.letrehozva}" styleClass="centerpos"
+								style="min-width:90px">
+								<f:facet name="header">
+									<h:outputText value="#{msg.REALTY_CREATED}" />
+								</f:facet>
+								<h:outputText value="#{data.letrehozva}">
+									<f:convertDateTime pattern="#{msg.DATEFORMAT}"
+										timeZone="Europe/Budapest" />
+								</h:outputText>
+							</p:column>
+							<p:column sortBy="#{data.befejezes}" styleClass="centerpos"
+								style="min-width:80px">
+								<f:facet name="header">
+									<h:outputText value="#{msg.REALTY_FINISHED}" />
+								</f:facet>
+								<h:outputText value="#{data.befejezes}">
+									<f:convertDateTime pattern="#{msg.DATEFORMAT}"
+										timeZone="Europe/Budapest" />
+								</h:outputText>
+							</p:column>
+							<p:column sortBy="#{data.datum}" styleClass="centerpos"
+								style="min-width:80px">
+								<f:facet name="header">
+									<h:outputText value="#{msg.REALTY_DATE}" />
+								</f:facet>
+								<h:outputText value="#{data.datum}">
+									<f:convertDateTime pattern="#{msg.DATEFORMAT}"
+										timeZone="Europe/Budapest" />
+								</h:outputText>
+							</p:column>
+							<p:column sortBy="#{data.bejelento}" style="min-width:120px">
+								<f:facet name="header">
+									<h:outputText value="#{msg.REALTY_REGISTERED}" />
+								</f:facet>
+								<h:outputText value="#{data.bejelento}" />
+							</p:column>
+							<p:column sortBy="#{data.hatarido}" styleClass="centerpos"
+								style="min-width:80px">
+								<f:facet name="header">
+									<h:outputText value="#{msg.REALTY_DEADLINE}" />
+								</f:facet>
+								<h:outputText value="#{data.hatarido}">
+									<f:convertDateTime pattern="#{msg.DATEFORMAT}"
+										timeZone="Europe/Budapest" />
+								</h:outputText>
+							</p:column>
+							<p:column sortBy="#{data.surgos}" style="min-width:80px">
+								<f:facet name="header">
+									<h:outputText value="#{msg.REALTY_URGENT}" />
+								</f:facet>
+								<h:outputText value="#{data.surgos ? 'X' : '-'}" />
+							</p:column>
+							<p:column sortBy="#{data.szerzSzam}" style="min-width:110px">
+								<f:facet name="header">
+									<h:outputText value="#{msg.REALTY_CONTRACTNUMBER}" />
+								</f:facet>
+								<h:outputText value="#{data.szerzSzam}" />
+							</p:column>
+							<p:column sortBy="#{data.alapkezelo}" style="min-width:80px">
+								<f:facet name="header">
+									<h:outputText value="#{msg.REALTY_FLATRATE}" />
+								</f:facet>
+								<h:outputText value="#{data.alapkezelo ? 'X':'-'}" />
+							</p:column>
+							<p:column sortBy="#{data.megjegyzes}" style="min-width:350px">
+								<f:facet name="header">
+									<h:outputText value="#{msg.REALTY_COMMENT}" />
+								</f:facet>
+								<h:outputText value="#{data.megjegyzes}" />
+							</p:column>
+							<p:column style="min-width:350px">
+								<f:facet name="header">
+									<h:outputText value="#{msg.REALTY_COMMENT} 4" />
+								</f:facet>
+								<h:outputText value="#{data.megj4}" />
+							</p:column>
+							<p:column style="min-width:200px">
+								<f:facet name="header">
+									<h:outputText value="#{msg.REALTY_COMMENT} 2" />
+								</f:facet>
+								<h:outputText value="#{data.megj2}" />
+							</p:column>
+							<p:column style="min-width:300px">
+								<f:facet name="header">
+									<h:outputText value="#{msg.REALTY_COMMENT} 3" />
+								</f:facet>
+								<h:outputText value="#{data.megj3}" />
+							</p:column>
+							<p:column sortBy="#{data.qulification}" style="min-width:100px">
+								<f:facet name="header">
+									<h:outputText value="#{msg.REALTY_QUALIFICATION}" />
+								</f:facet>
+								<h:outputText value="#{data.qulification}" />
+							</p:column>
+							<p:column sortBy="#{data.nettoAr}" style="min-width:80px">
+								<f:facet name="header">
+									<h:outputText value="#{msg.REALTY_NET}" />
+								</f:facet>
+								<h:outputText value="#{data.nettoAr}">
+									<f:convertNumber pattern="#,##0" />
+								</h:outputText>
+							</p:column>
+						</p:dataTable>
+					</div>
+					<h:panelGroup styleClass="summaryPanel" layout="block"
+						rendered="#{realtyarrangementserviceController.managedUser.userType!='DM_RENTER'}">
+						<h:panelGroup id="summaryPanel">
+							<table width="100%" border="0" cellspacing="0" cellpadding="0">
+								<tr>
+									<td width="20%"><span>#{msg.REALTY_SUMMARY}</span>
+									</td>
+									<td width="20%" class="last"><label style="float: right;">#{msg.REALTY_NETT}</label>
+									</td>
+								</tr>
+								<tr>
+									<td width="20%"></td>
+									<td width="20%" class="last"><h:outputText
+											value="#{realtyarrangementserviceController.data.netto}">
+											<f:convertNumber pattern="#,##0" />
+										</h:outputText>
+									</td>
+								</tr>
+							</table>
+						</h:panelGroup>
+					</h:panelGroup>
+					<h:panelGroup styleClass="clear" layout="block"
+						rendered="#{realtyarrangementserviceController.managedUser.userType=='DM_RENTER'}">
+						<br />
+					</h:panelGroup>
+					<div class="bottomFilterBar">
+						<div class="bottomFilterBarFilters">
+							<h:panelGroup id="filters">
+								<p:commandButton oncomplete="realtychoosewid.show()"
+									update="realtychoosegp,realtys"
+									action="#{realtyarrangementserviceController.showRealtys}"
+									value="#{msg.NOTIFICATIONLIST_REALTIES}" styleClass="button"
+									process="@this"></p:commandButton>
+								<p:commandButton oncomplete="ownerchoosewid.show()"
+									update="ownerchoosegp,owners"
+									rendered="#{realtyarrangementserviceController.managedUser.userType=='DM_WORKER'}"
+									actionListener="#{realtyarrangementserviceController.showOwners}"
+									value="#{msg.NOTIFICATIONLIST_OWNERS}" styleClass="button"
+									process="@this"></p:commandButton>
+								<p:commandButton oncomplete="renterchoosewid.show()"
+									update="renterchoosegp,renters,message"
+									rendered="#{realtyarrangementserviceController.managedUser.userType!='DM_RENTER'}"
+									actionListener="#{realtyarrangementserviceController.showRenters}"
+									value="#{msg.NOTIFICATIONLIST_RENTERS}" styleClass="button"
+									process="@this"></p:commandButton>
+								<p:commandButton update="bejelentochoosegp"
+									oncomplete="bejelentochoosewid.show()"
+									rendered="#{realtyarrangementserviceController.managedUser.userType=='DM_WORKER'}"
+									actionListener="#{realtyarrangementserviceController.showAllBejelento}"
+									value="#{msg.NOTIFICATIONLIST_ANNOUNCERS}" styleClass="button"
+									process="@this"></p:commandButton>
+								<p class="filterFilteredText">
+									<h:outputText
+										value="#{realtyarrangementserviceController.data.filteredText}"
+										id="filteredtext" />
+								</p>
+							</h:panelGroup>
+						</div>
+						<div class="bottomFilterBarDates bottomFilterBarDatesLong">
+							<h:panelGroup id="calendars">
+								<div class="bottomFilterBarDateFilter">
+									<h:selectOneMenu id="datetype"
+										value="#{realtyarrangementserviceController.data.choosenDateTypeFiled}">
+										<f:selectItem itemValue="datum"
+											itemLabel="#{msg.REALTY_DATE_DATE}" />
+										<f:selectItem itemValue="letrehozva"
+											itemLabel="#{msg.REALTY_DATE_STARTED}" />
+										<f:selectItem itemValue="befejezes"
+											itemLabel="#{msg.REALTY_DATE_ENDED}" />
+										<f:selectItem itemValue="hatarido"
+											itemLabel="#{msg.REALTY_DATE_DEADLINE}" />
+										<p:ajax event="change" update="realtytable,summaryPanel"
+											process="@this" global="false"
+											actionListener="#{realtyarrangementserviceController.dateTypeChange}">
+										</p:ajax>
+									</h:selectOneMenu>
+								</div>
+								<div class="bottomFilterBarDateFilter">
+									<p:calendar
+										value="#{realtyarrangementserviceController.data.from}"
+										onSelectUpdate="summaryPanel,realtytable,panel" id="from"
+										selectListener="#{realtyarrangementserviceController.realtyDateFromChange}"
+										pattern="#{msg.DATEFORMAT}">
+									</p:calendar>
+								</div>
+								<div class="bottomFilterBarDateFilter">
+									<label class="textcolor4"> #{msg.FROM}</label>
+								</div>
+
+								<div class="bottomFilterBarDateFilter">
+									<p:calendar id="to"
+										selectListener="#{realtyarrangementserviceController.realtyDateToChange}"
+										value="#{realtyarrangementserviceController.data.to}"
+										onSelectUpdate="realtytable,summaryPanel,panel"
+										pattern="#{msg.DATEFORMAT}">
+									</p:calendar>
+								</div>
+								<div class="bottomFilterBarDateFilter">
+									<label class="textcolor4"> #{msg.TO}</label>
+								</div>
+								<p:commandButton process="@this" styleClass="filterSubmitButton"
+									value="#{msg.FILTER}" update="panel,message"
+									actionListener="#{realtyarrangementserviceController.realtyDateChange}"></p:commandButton>
+								<p:commandButton update="panel" styleClass="filterResetButton"
+									actionListener="#{realtyarrangementserviceController.resetAction}"
+									value="reset" process="@this"></p:commandButton>
+
+							</h:panelGroup>
+						</div>
+					</div>
+					<h:commandLink value="#{msg.REALTY_ATTACHMENTS}" id="elszamolas"
+						styleClass="commonButtonLink"
+						rendered="#{realtyarrangementserviceController.managedPartner!=null or realtyarrangementserviceController.managedWorker!=null}"
+						disabled="#{empty realtyarrangementserviceController.data.realtyArrangements}"
+						actionListener="#{realtyarrangementserviceController.downloadAllAttach}"
+						immediate="true">
+					</h:commandLink>
+					<h:commandLink value="#{msg.ORDERS_PRINT_BUTTON1}" target="_blank"
+						immediate="true" styleClass="commonButtonLink"
+						disabled="#{empty realtyarrangementserviceController.data.realtyArrangements}"
+						actionListener="#{realtyarrangementserviceController.printList}">
+					</h:commandLink>
+				</p:panel>
+				<div class="clear">
+					<br />
+				</div>
+				<p:remoteCommand name="callmethod" oncomplete="realtyitemwid.show()"
+					update="realtyitempanel" global="true" process="@this"
+					action="#{realtyarrangementserviceController.realtyItemsAction}"></p:remoteCommand>
+
+				<p:dialog closable="true" draggable="false" id="realtypop"
+					styleClass="notificationDialog2 commonDialog" widgetVar="realtyitemwid"
+					modal="false" header="#{msg.REALTY_DETAILS}" width="847"
+					showEffect="fade" hideEffect="fade">
+
+					<h:panelGroup id="realtyitempanel">
+						<div class="left">
+							<label class="importantData">#{msg.NOTIFICATIONLIST_OWNER}: <span
+								class="rightFloat"><b><h:outputText
+											value="#{realtyarrangementserviceController.data.selectedRealty.ownerName}"></h:outputText>
+								</b> </span><div class="clear"></div></label> <label>#{msg.REALTY_NUMBER}: <span class="rightFloat"><b><h:outputText
+											value="#{realtyarrangementserviceController.data.selectedRealty.itemNumber}"></h:outputText>
+								</b> </span> </label> <label>#{msg.REALTY_CONTRACTNUMBER}: <span
+								class="rightFloat"><h:outputText
+										value="#{realtyarrangementserviceController.data.selectedRealty.szerzSzam}"></h:outputText>
+							</span> </label> <label>#{msg.REALTY_REGISTERED}: <span
+								class="rightFloat"><h:outputText
+										value="#{realtyarrangementserviceController.data.selectedRealty.bejelento}"></h:outputText>
+							</span> </label> <label>#{msg.REALTY_URGENT}: <span class="rightFloat"><h:outputText
+										value="#{realtyarrangementserviceController.data.selectedRealty.surgos ? 'X':'-'}"></h:outputText>
+							</span> </label> <label>#{msg.REALTY_FLATRATE}: <span class="rightFloat"><h:outputText
+										value="#{realtyarrangementserviceController.data.selectedRealty.alapkezelo ? 'X':'-'}"></h:outputText>
+							</span> </label> <label>#{msg.NOTIFICATIONLIST_RENTER}: <span
+								class="rightFloat"><b><h:outputText
+											value="#{realtyarrangementserviceController.data.selectedRealty.renterName}"></h:outputText>
+								</b> </span> </label> <label>#{msg.REALTY_OBJECT}: <span class="rightFloat"><h:outputText
+										value="#{realtyarrangementserviceController.data.selectedRealty.objectaddress}"></h:outputText>
+							</span> </label> <label>#{msg.REALTY_FLAT}: <span class="rightFloat"><h:outputText
+										value="#{realtyarrangementserviceController.data.selectedRealty.flataddress}"></h:outputText>
+							</span> </label> <label>#{msg.REALTY_STATUS}: <span
+								class="rightFloat"><h:outputText
+										value="#{realtyarrangementserviceController.data.selectedRealty.status}"></h:outputText>
+							</span> </label> <label>#{msg.REALTY_QUALIFICATION}: <span
+								class="rightFloat"><h:outputText
+										value="#{realtyarrangementserviceController.data.selectedRealty.minosites}"></h:outputText>
+							</span> </label> <label>#{msg.REALTY_NETT}: <span class="rightFloat"><b><h:outputText
+										value="#{realtyarrangementserviceController.data.selectedRealty.nettoAr}">
+										<f:convertNumber pattern="#,##0" />
+									</h:outputText> Ft</b></span> </label>
+						</div>
+						<div class="right">
+						<label>#{msg.REALTY_CREATED}: <span class="rightFloat"><h:outputText
+										value="#{realtyarrangementserviceController.data.selectedRealty.letrehozva}">
+										<f:convertDateTime pattern="#{msg.DATEFORMAT}"
+											timeZone="Europe/Budapest" />
+									</h:outputText> </span> </label> <label>#{msg.REALTY_DATE}: <span class="rightFloat"><h:outputText
+										value="#{realtyarrangementserviceController.data.selectedRealty.datum}">
+										<f:convertDateTime pattern="#{msg.DATEFORMAT}"
+											timeZone="Europe/Budapest" />
+									</h:outputText> </span> </label> <label>#{msg.REALTY_DEADLINE}: <span
+								class="rightFloat"><h:outputText
+										value="#{realtyarrangementserviceController.data.selectedRealty.hatarido}">
+										<f:convertDateTime pattern="#{msg.DATEFORMAT}"
+											timeZone="Europe/Budapest" />
+									</h:outputText> </span> </label> <label>#{msg.REALTY_FINISHED}: <span
+								class="rightFloat"><h:outputText
+										value="#{realtyarrangementserviceController.data.selectedRealty.befejezes}">
+										<f:convertDateTime pattern="#{msg.DATEFORMAT}"
+											timeZone="Europe/Budapest" />
+									</h:outputText> </span> </label> 
+									<br />
+						<label>#{msg.REALTY_COMMENT}: <span class="rightFloat"><h:outputText
+										value="#{realtyarrangementserviceController.data.selectedRealty.megjegyzes}"></h:outputText>
+							</span><div class="clear"></div></label> <label>#{msg.REALTY_COMMENT}2: <span class="rightFloat"><h:outputText
+										value="#{realtyarrangementserviceController.data.selectedRealty.megj2}"></h:outputText>
+							</span><div class="clear"></div></label> <label>#{msg.REALTY_COMMENT}3: <span class="rightFloat"><h:outputText
+										value="#{realtyarrangementserviceController.data.selectedRealty.megj3}"></h:outputText>
+							</span><div class="clear"></div></label> <label>#{msg.REALTY_COMMENT}4: <span class="rightFloat"><h:outputText
+										value="#{realtyarrangementserviceController.data.selectedRealty.megj4}"></h:outputText>
+							</span><div class="clear"></div></label> <br />
+							<h:panelGroup
+								rendered="#{realtyarrangementserviceController.managedUser.userType!='DM_RENTER'}">
+								<label class="importantData" style="border: none;">#{msg.NOTIFICATION_ATTACHED_FILES}:
+									<span class="rightFloat"> <ui:repeat
+											value="#{realtyarrangementserviceController.data.attachs}"
+											var="item">
+											<h:commandLink value="#{item.name}" immediate="true"
+												target="_blank"
+												actionListener="#{realtyarrangementserviceController.downloadAttach}">
+												<f:param value="#{item.id}" name="aattachid"></f:param>
+											</h:commandLink>
+											<br />
+											<br />
+										</ui:repeat> </span><div class="clear"></div></label>
+							</h:panelGroup>
+							<div class="clear"></div>
+						
+						</div>
+						
+						<div class="clear"><br /></div>
+						<div class="notificationDialog2Table"><p:dataTable paginator="true" rows="5"
+							paginatorAlwaysVisible="false" paginatorPosition="top"
+							style="text-align:left" id="aruktable" selectionMode="single"
+							emptyMessage="#{msg.NODATA}" dynamic="true" lazy="false"
+							value="#{realtyarrangementserviceController.data.intezaruk}"
+							var="data">
+							<p:column sortBy="#{data[1]}" styleClass="bold"
+								style="min-width:120px">
+								<f:facet name="header">
+									<h:outputText value="Megnevezés" />
+								</f:facet>
+								<h:outputText value="#{data[1]}" />
+							</p:column>
+							<p:column sortBy="#{data[2]}" styleClass="bold"
+								style="min-width:100px">
+								<f:facet name="header">
+									<h:outputText value="Megjegyzés" />
+								</f:facet>
+								<h:outputText value="#{data[2]}" />
+							</p:column>
+							<p:column sortBy="#{data[3]}" styleClass="bold"
+								style="min-width:50px">
+								<f:facet name="header">
+									<h:outputText value="Bizonyl." />
+								</f:facet>
+								<h:outputText value="#{data[3]}" />
+							</p:column>
+							<p:column sortBy="#{data[4]}" styleClass="bold"
+								style="min-width:50px">
+								<f:facet name="header">
+									<h:outputText value="Menny." />
+								</f:facet>
+								<h:outputText value="#{data[4]}" />
+							</p:column>
+							<p:column sortBy="#{data[5]}" styleClass="bold"
+								style="min-width:50px">
+								<f:facet name="header">
+									<h:outputText value="Egys.ár" />
+								</f:facet>
+								<h:outputText value="#{data[5]}">
+									<f:convertNumber pattern="#,##0" />
+								</h:outputText> Ft
+						</p:column>
+							<p:column styleClass="bold" sortBy="#{data[6]}"
+								style="min-width:40px">
+								<f:facet name="header">
+									<h:outputText value="Bonyolítás" />
+								</f:facet>
+								<h:outputText value="#{data[6]}">
+									<f:convertNumber pattern="#,##0" />
+								</h:outputText> Ft
+							</p:column>
+							<p:column styleClass="bold" sortBy="#{data[7]}"
+								style="min-width:40px">
+								<f:facet name="header">
+									<h:outputText value="Anyagigazg." />
+								</f:facet>
+								<h:outputText value="#{data[7]}">
+									<f:convertNumber pattern="#,##0" />
+								</h:outputText> Ft
+						</p:column>
+							<p:column styleClass="bold" sortBy="#{data[8]}"
+								style="min-width:60px">
+								<f:facet name="header">
+									<h:outputText value="Összesen" />
+								</f:facet>
+								<h:outputText value="#{data[8]}">
+									<f:convertNumber pattern="#,##0" />
+								</h:outputText> Ft
+						</p:column>
+						</p:dataTable></div>
+						<div class="clear"></div>
+						<br />
+					</h:panelGroup>
+					<h:commandLink value="#{msg.REALTY_ATTACHMENTS}" target="_blank"
+						actionListener="#{realtyarrangementserviceController.printPayOff}"
+						styleClass="commonButtonLink" immediate="true">
+					</h:commandLink>
+					<h:commandLink value="#{msg.REALTY_WORKSHEET}" target="_blank"
+						actionListener="#{realtyarrangementserviceController.printWorkSheet}"
+						styleClass="commonButtonLink" immediate="true">
+					</h:commandLink>
+
+				</p:dialog>
+
+				<p:dialog id="realtychoose" widgetVar="realtychoosewid"
+					modal="false" closable="true" styleClass="commonDialog"
+					draggable="true" header="#{msg.NOTIFICATIONLIST_CHOOSEREALTY}">
+					<h:panelGroup id="realtychoosegp">
+						<div class="choosepartner-sales-form">
+							<div class="popupSearch">
+								<h:inputText styleClass="input" id="searchtext"
+									value="#{realtyarrangementserviceController.data.realtySearchText}">
+									<p:ajax event="change" process="@this" />
+								</h:inputText>
+								<p:commandButton value="#{msg.SEARCH}" update="realtychoosegp"
+									immediate="true" styleClass="popupSearchButton" process="@this"
+									action="#{realtyarrangementserviceController.searchRealtyAction}" />
+							</div>
+							<h:selectOneListbox id="realtys"
+								value="#{realtyarrangementserviceController.data.selectedProjectId}"
+								style="width: 280px;height: 425px;background-color: #777;border:solid 1px #555;color: #fff">
+								<f:selectItem itemLabel="" itemValue="" escape="false" />
+								<f:selectItems
+									value="#{realtyarrangementserviceController.data.flatItems}" />
+								<p:ajax event="change" />
+							</h:selectOneListbox>
+
+							<div class="submit">
+								<p:commandButton value="OK" process="@this"
+									actionListener="#{realtyarrangementserviceController.selectRealtyAction}"
+									immediate="true" oncomplete="realtychoosewid.hide()"
+									update="panel,message" styleClass="commonButton" />
+							</div>
+						</div>
+					</h:panelGroup>
+				</p:dialog>
+
+				<p:dialog id="ownerchoose" widgetVar="ownerchoosewid" modal="false"
+					closable="true" styleClass="commonDialog" draggable="true"
+					header="#{msg.NOTIFICATIONLIST_CHOOSEOWNER}">
+					<h:panelGroup id="ownerchoosegp">
+						<div class="choosepartner-sales-form">
+							<div class="popupSearch">
+								<h:inputText styleClass="input" id="searchowner"
+									value="#{realtyarrangementserviceController.data.ownerSearchText}">
+									<p:ajax event="change" process="@this" />
+								</h:inputText>
+								<p:commandButton value="#{msg.SEARCH}" update="ownerchoosegp"
+									styleClass="popupSearchButton" process="@this"
+									actionListener="#{realtyarrangementserviceController.searchOwnerAction}" />
+							</div>
+							<h:selectOneListbox id="owners"
+								value="#{realtyarrangementserviceController.data.selectedOwnerId}"
+								style="width: 280px;height: 425px;background-color: #777;border:solid 1px #555;color: #fff">
+								<f:selectItem itemLabel="" itemValue="" escape="false" />
+								<f:selectItems
+									value="#{realtyarrangementserviceController.data.ownerItems}" />
+								<p:ajax event="change" />
+							</h:selectOneListbox>
+
+							<div class="submit">
+								<p:commandButton value="OK" process="@this"
+									actionListener="#{realtyarrangementserviceController.selectOwnerAction}"
+									immediate="true" oncomplete="ownerchoosewid.hide()"
+									update="panel,message" styleClass="commonButton" />
+							</div>
+						</div>
+					</h:panelGroup>
+				</p:dialog>
+
+				<p:dialog id="renterchoose" widgetVar="renterchoosewid"
+					modal="false" closable="true" styleClass="commonDialog"
+					draggable="true" header="#{msg.NOTIFICATIONLIST_CHOOSERENTER}">
+					<h:panelGroup id="renterchoosegp">
+						<div class="choosepartner-sales-form">
+							<div class="popupSearch">
+								<h:inputText styleClass="input" id="searchrenter"
+									value="#{realtyarrangementserviceController.data.renterSearchText}">
+									<p:ajax event="change" process="@this" />
+								</h:inputText>
+								<p:commandButton value="#{msg.SEARCH}" update="renterchoosegp"
+									immediate="true" styleClass="popupSearchButton" process="@this"
+									actionListener="#{realtyarrangementserviceController.searchRenterAction}" />
+							</div>
+							<h:selectOneListbox id="renters"
+								value="#{realtyarrangementserviceController.data.selectedRenterId}"
+								style="width: 280px;height: 425px;background-color: #777;border:solid 1px #555;color: #fff">
+								<f:selectItem itemLabel="" itemValue="" escape="false" />
+								<f:selectItems
+									value="#{realtyarrangementserviceController.data.renterItems}" />
+								<p:ajax event="change" />
+							</h:selectOneListbox>
+							<div class="submit">
+								<p:commandButton value="OK" process="@this"
+									actionListener="#{realtyarrangementserviceController.selectRenterAction}"
+									immediate="true" oncomplete="renterchoosewid.hide()"
+									update="panel,message" styleClass="commonButton" />
+							</div>
+						</div>
+					</h:panelGroup>
+				</p:dialog>
+
+				<p:dialog id="bejelentochoose" widgetVar="bejelentochoosewid"
+					modal="false" closable="true" styleClass="commonDialog"
+					draggable="true" header="#{msg.NOTIFICATIONLIST_CHOOSEANNOUNCER}">
+					<h:panelGroup id="bejelentochoosegp">
+						<div class="choosepartner-sales-form">
+							<div class="popupSearch">
+								<h:inputText styleClass="input" id="searchbejelento"
+									value="#{realtyarrangementserviceController.data.bejelentoSearchText}">
+									<p:ajax event="change" process="@this" />
+								</h:inputText>
+								<p:commandButton value="#{msg.SEARCH}"
+									update="bejelentochoosegp" immediate="true"
+									styleClass="popupSearchButton" process="@this"
+									actionListener="#{realtyarrangementserviceController.searchBejelentoAction}" />
+							</div>
+							<div class="popupListBorder">
+								<ui:repeat var="data"
+									value="#{realtyarrangementserviceController.data.allBejelento}">
+									<p:commandLink value="#{data}" id="bejelentok" process="@this"
+										oncomplete="bej()">
+										<f:setPropertyActionListener value="#{data}"
+											target="#{realtyarrangementserviceController.data.selectedBejelento}" />
+									</p:commandLink>
+									<br />
+								</ui:repeat>
+							</div>
+						</div>
+					</h:panelGroup>
+				</p:dialog>
+
+				<p:remoteCommand
+					action="#{realtyarrangementserviceController.selectBejelentoAction}"
+					name="bej" update="realtyform"
+					oncomplete="bejelentochoosewid.hide()"></p:remoteCommand>
+
+				<p:growl id="message" showDetail="true" sticky="false" life="5000"
+					showSummary="false" infoIcon="../img/newDesign/felkialto.png"
+					fatalIcon="../img/newDesign/x.png"
+					errorIcon="../img/newDesign/x.png" />
+
+				<script type="text/javascript">
+					function newWindow() {
+						window.open('', 'mywindow', 'width=1000,height=700');
+						return false;
+					}
+				</script>
+
+			</h:form>
+		</div>
+
+	</ui:define>
+</ui:composition>

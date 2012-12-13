@@ -1,0 +1,221 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+	<h:form id="menuform">
+		<p:panel styleClass="menu textcolor4" id="menu">
+			<div class="inside"><img class="logo"
+				src="../img/mobile/logo.png" />
+			<hr class="nomobile" />
+			<h1 class="nomobile"><h:outputText
+				value="#{loginserviceController.managedPartner.nev}#{loginserviceController.managedWorker.dnev}" /></h1>
+			<hr class="nomobile" />
+			<table class="nomobile" width="100%" border="0" cellspacing="0"
+				cellpadding="0">
+				<tr>
+					<td width="20%" align="left" valign="top"><strong>#{msg.SIDEBAR_USERADDRESSTEXT_TITLE}</strong></td>
+					<td width="5%" align="left" valign="top"></td>
+					<td width="75%" align="left" valign="top"><h:outputText
+						value="#{loginserviceController.managedPartner.cim}#{loginserviceController.managedWorker.dcim}" /></td>
+				</tr>
+				<tr>
+					<td align="left" valign="top"><strong>#{msg.SIDEBAR_TELTEXT_TITLE}</strong></td>
+					<td align="left" valign="top"></td>
+					<td align="left" valign="top"><h:outputText
+						value="#{loginserviceController.managedPartner.tel1}#{loginserviceController.managedWorker.dtelefon}" /></td>
+				</tr>
+				<tr>
+					<td align="left" valign="top"><strong>#{msg.SIDEBAR_EMAILTEXT_TITLE}</strong></td>
+					<td align="left" valign="top"></td>
+					<td align="left" valign="top"><h:outputText
+						value="#{loginserviceController.managedPartner.email}#{loginserviceController.managedWorker.email}" /></td>
+				</tr>
+				<tr>
+					<td align="left" valign="top"><strong>#{msg.SIDEBAR_TAXNUMTEXT_TITLE}</strong></td>
+					<td align="left" valign="top"></td>
+					<td align="left" valign="top"><h:outputText
+						value="#{loginserviceController.managedPartner.adoszam}" /></td>
+				</tr>
+				<tr>
+					<td align="left" valign="top"><strong>#{msg.SIDEBAR_ACCOUNTNUMTEXT_TITLE}</strong></td>
+					<td align="left" valign="top"></td>
+					<td align="left" valign="top"><h:outputText
+						value="#{loginserviceController.managedPartner.szlaszam}" /></td>
+				</tr>
+			</table>
+			<hr class="nomobile" />
+			<div class="menupoints"><h:panelGroup
+				rendered="#{loginserviceController.managedUser.userType=='DM_PARTNER'}">
+				<p:commandButton styleClass="button" rendered="true"
+					action="partnerdataupdate"
+					value="#{msg.SIDEBAR_PARTNERDATA_BUTTON}" />
+				<p:commandButton styleClass="button" action="orderlist"
+					value="#{msg.SIDEBAR_ORDER_BUTTON}" rendered="true" />
+				<p:commandButton styleClass="button" action="invoicelist"
+					value="#{msg.SIDEBAR_INVOICE_BUTTON}" rendered="true" />
+				<p:commandButton styleClass="button" action="shippinglist"
+					value="#{msg.SIDEBAR_SHIPPING_BUTTON}" rendered="true" />
+				<p:commandButton styleClass="button" action="realtyarrangementlist"
+					value="#{msg.SIDEBAR_REALTY_BUTTON}" rendered="true" />
+				<p:commandButton styleClass="button" action="managenotification"
+					value="#{msg.MANAGE_NOTIFICATION}" rendered="true" />
+				<p:commandButton styleClass="button" action="notificationlist"
+					value="#{msg.NOTIFICATION}" rendered="true" />
+				<p:commandButton styleClass="button" action="openitemslist"
+					value="#{msg.SIDEBAR_OPENITEMS_BUTTON}" rendered="true" />
+				<p:commandButton styleClass="button" action="productlist"
+					value="#{msg.SIDEBAR_PRODUCTS_BUTTON}" rendered="true" />
+				<p:commandButton styleClass="button" action="managefiles"
+					value="FILE KEZELÉS" rendered="true" />
+				<p:commandButton styleClass="button" action="retail" value="KISKER"
+					rendered="false" />
+				<p:commandButton styleClass="button product" action="bizkomment"
+					value="KOMMENT" rendered="false" />
+			</h:panelGroup> <h:panelGroup
+				rendered="#{loginserviceController.managedUser.userType=='DM_WORKER'}">
+				<p:commandButton styleClass="button" rendered="true"
+					action="workerdataupdate" value="#{msg.SIDEBAR_PARTNERDATA_BUTTON}" />
+				<p:commandButton styleClass="button" action="orderlist"
+					value="#{msg.SIDEBAR_ORDER_BUTTON}" rendered="true" />
+				<p:commandButton styleClass="button" action="invoicelist"
+					value="#{msg.SIDEBAR_INVOICE_BUTTON}" rendered="true" />
+				<p:commandButton styleClass="button" action="shippinglist"
+					value="#{msg.SIDEBAR_SHIPPING_BUTTON}" rendered="true" />
+				<p:commandButton styleClass="button" action="realtyarrangementlist"
+					value="#{msg.SIDEBAR_REALTY_BUTTON}" rendered="true" />
+				<p:commandButton styleClass="button" action="managenotification"
+					value="#{msg.MANAGE_NOTIFICATION}" rendered="true" />
+				<p:commandButton styleClass="button" action="notificationlist"
+					value="#{msg.NOTIFICATION}" rendered="true" />
+				<p:commandButton styleClass="button" action="openitemslist"
+					value="#{msg.SIDEBAR_OPENITEMS_BUTTON}" rendered="true" />
+				<p:commandButton styleClass="button" action="productlist"
+					value="#{msg.SIDEBAR_PRODUCTS_BUTTON}" rendered="true" />
+				<p:commandButton styleClass="button" action="managefiles"
+					value="FILE KEZELÉS" rendered="true" />
+				<p:commandButton styleClass="button" action="retail" value="KISKER"
+					rendered="false" />
+				<p:commandButton styleClass="button product" action="bizkomment"
+					value="KOMMENT" rendered="false" />
+			</h:panelGroup> <h:panelGroup
+				rendered="#{loginserviceController.managedUser.userType=='DM_SALES'}">
+				<p:commandButton styleClass="button" rendered="true"
+					action="partnerdataupdate"
+					value="#{msg.SIDEBAR_PARTNERDATA_BUTTON}" />
+				<p:commandButton styleClass="button" action="orderlist"
+					value="#{msg.SIDEBAR_ORDER_BUTTON}" rendered="true" />
+				<p:commandButton styleClass="button" action="invoicelist"
+					value="#{msg.SIDEBAR_INVOICE_BUTTON}" rendered="true" />
+				<p:commandButton styleClass="button" action="shippinglist"
+					value="#{msg.SIDEBAR_SHIPPING_BUTTON}" rendered="true" />
+				<p:commandButton styleClass="button" action="realtyarrangementlist"
+					value="#{msg.SIDEBAR_REALTY_BUTTON}" rendered="true" />
+				<p:commandButton styleClass="button" action="managenotification"
+					value="#{msg.MANAGE_NOTIFICATION}" rendered="true" />
+				<p:commandButton styleClass="button" action="notificationlist"
+					value="#{msg.NOTIFICATION}" rendered="true" />
+				<p:commandButton styleClass="button" action="openitemslist"
+					value="#{msg.SIDEBAR_OPENITEMS_BUTTON}" rendered="true" />
+				<p:commandButton styleClass="button" action="productlist"
+					value="#{msg.SIDEBAR_PRODUCTS_BUTTON}" rendered="true" />
+				<p:commandButton styleClass="button" action="managefiles"
+					value="FILE KEZELÉS" rendered="true" />
+				<p:commandButton styleClass="button" action="retail" value="KISKER"
+					rendered="false" />
+				<p:commandButton styleClass="button product" action="bizkomment"
+					value="KOMMENT" rendered="true" />
+			</h:panelGroup> <h:panelGroup
+				rendered="#{loginserviceController.managedUser.userType=='DM_GUEST'}">
+				<p:commandButton styleClass="button" rendered="true"
+					action="partnerdataupdate"
+					value="#{msg.SIDEBAR_PARTNERDATA_BUTTON}" />
+				<p:commandButton styleClass="button" action="orderlist"
+					value="#{msg.SIDEBAR_ORDER_BUTTON}" rendered="true" />
+				<p:commandButton styleClass="button" action="invoicelist"
+					value="#{msg.SIDEBAR_INVOICE_BUTTON}" rendered="true" />
+				<p:commandButton styleClass="button" action="shippinglist"
+					value="#{msg.SIDEBAR_SHIPPING_BUTTON}" rendered="true" />
+				<p:commandButton styleClass="button" action="realtyarrangementlist"
+					value="#{msg.SIDEBAR_REALTY_BUTTON}" rendered="true" />
+				<p:commandButton styleClass="button" action="managenotification"
+					value="#{msg.MANAGE_NOTIFICATION}" rendered="true" />
+				<p:commandButton styleClass="button" action="notificationlist"
+					value="#{msg.NOTIFICATION}" rendered="true" />
+				<p:commandButton styleClass="button" action="openitemslist"
+					value="#{msg.SIDEBAR_OPENITEMS_BUTTON}" rendered="true" />
+				<p:commandButton styleClass="button" action="productlist"
+					value="#{msg.SIDEBAR_PRODUCTS_BUTTON}" rendered="true" />
+				<p:commandButton styleClass="button" action="managefiles"
+					value="FILE KEZELÉS" rendered="true" />
+				<p:commandButton styleClass="button" action="retail" value="KISKER"
+					rendered="false" />
+				<p:commandButton styleClass="button product" action="bizkomment"
+					value="KOMMENT" rendered="false" />
+			</h:panelGroup> <h:panelGroup
+				rendered="#{loginserviceController.managedUser.userType=='DM_ADMIN'}">
+				<p:commandButton styleClass="button" rendered="true"
+					action="partnerdataupdate"
+					value="#{msg.SIDEBAR_PARTNERDATA_BUTTON}" />
+				<p:commandButton styleClass="button" action="orderlist"
+					value="#{msg.SIDEBAR_ORDER_BUTTON}" rendered="true" />
+				<p:commandButton styleClass="button" action="invoicelist"
+					value="#{msg.SIDEBAR_INVOICE_BUTTON}" rendered="true" />
+				<p:commandButton styleClass="button" action="shippinglist"
+					value="#{msg.SIDEBAR_SHIPPING_BUTTON}" rendered="true" />
+				<p:commandButton styleClass="button" action="realtyarrangementlist"
+					value="#{msg.SIDEBAR_REALTY_BUTTON}" rendered="true" />
+				<p:commandButton styleClass="button" action="managenotification"
+					value="#{msg.MANAGE_NOTIFICATION}" rendered="true" />
+				<p:commandButton styleClass="button" action="notificationlist"
+					value="#{msg.NOTIFICATION}" rendered="true" />
+				<p:commandButton styleClass="button" action="openitemslist"
+					value="#{msg.SIDEBAR_OPENITEMS_BUTTON}" rendered="true" />
+				<p:commandButton styleClass="button" action="productlist"
+					value="#{msg.SIDEBAR_PRODUCTS_BUTTON}" rendered="true" />
+				<p:commandButton styleClass="button" action="managefiles"
+					value="FILE KEZELÉS" rendered="true" />
+				<p:commandButton styleClass="button" action="retail" value="KISKER"
+					rendered="false" />
+				<p:commandButton styleClass="button product" action="bizkomment"
+					value="KOMMENT" rendered="true" />
+			</h:panelGroup></div>
+			<hr class="nomobile" />
+			<h:outputText value="#{loginserviceController.currentDate}"
+				styleClass="menudate">
+				<f:convertDateTime type="date" dateStyle="full" />
+			</h:outputText>
+			<div id="txt" class="timeclock"></div>
+			<hr class="nomobile" />
+			<p:commandButton styleClass="logout button"
+				action="#{loginserviceController.logout}"
+				value="#{msg.SIDEBAR_LOGOUT_BUTTON}" />
+			<hr />
+			<small><strong>PARTNER JOGOSULTSAGI SZINT</strong></small><br />
+
+			<label>#{loginserviceController.managedPartner.vevocsop.megn}</label>
+
+			<hr />
+			</div>
+		</p:panel>
+		<p:dialog resizable="false" close="false" widgetVar="idleDialog"
+			modal="true" closable="false" styleClass="dialog3"
+			style="width: 280px">
+			<center><h:panelGroup id="logoutpanel">
+				<h:outputText value="Session lejárt, kérjük jelentkezzen be újra!"
+					style="font-size: 13px" />
+				<br />
+				<br />
+				<p:commandButton action="#{loginserviceController.logout}"
+					value="OK" styleClass="button" type="submit" global="false"
+					onclick="window.location.reload()"></p:commandButton>
+			</h:panelGroup></center>
+		</p:dialog>
+		<p:idleMonitor timeout="600000" onidle="idleDialog.show();"
+			idleListener="#{loginserviceController.idleListener}" />
+	</h:form>
+</ui:composition>

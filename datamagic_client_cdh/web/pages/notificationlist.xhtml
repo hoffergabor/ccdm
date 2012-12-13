@@ -1,0 +1,423 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	template="/pages/template.xhtml">
+
+	<ui:define name="body">
+		<div class="content"><h:form id="notificationform"
+			target="mywindow">
+			<p:panel styleClass="gradpanel" id="panel">
+				<div class="innerPanel"><p:dataTable style="text-align:left;" 
+					selectionMode="single" emptyMessage="#{msg.NODATA}" dynamic="true"
+					rows="10" paginator="true" paginatorPosition="top"
+					paginatorAlwaysVisible="false"
+					value="#{notificationserviceController.data.notifList}" var="data"
+					id="notifTable" onselectStart="callmethod()"
+					selection="#{notificationserviceController.data.selectedNotificationVO}"
+					update="notifpanel">
+					<p:column sortBy="#{data[1]}" style="min-width:250px"
+						styleClass="bold">
+						<f:facet name="header">
+							<h:outputText value="#{msg.NOTIFICATIONLIST_REALTYADDRESS}" />
+						</f:facet>
+						<h:outputText value="#{data[1]}" />
+					</p:column>
+					<p:column sortBy="#{data[12]}"
+						style="text-align:center;min-width:120px">
+						<f:facet name="header">
+							<h:outputText value="#{msg.NOTIFICATIONLIST_STATUS}" />
+						</f:facet>
+						<h:outputText value="#{data[12]}" />
+					</p:column>
+					<p:column sortBy="#{data[6]}" style="min-width:200px"
+						styleClass="bold">
+						<f:facet name="header">
+							<h:outputText value="#{msg.NOTIFICATIONLIST_ANNOUNCER}" />
+						</f:facet>
+						<h:outputText value="#{data[6]}" />
+					</p:column>
+					<p:column sortBy="#{data[7]}"
+						style="min-width:150px;text-align: center">
+						<f:facet name="header">
+							<h:outputText value="#{msg.NOTIFICATIONLIST_DATEOFNOTIFICATION}" />
+						</f:facet>
+						<h:outputText value="#{data[7]}">
+							<f:convertDateTime pattern="#{msg.DATEFORMAT}"
+								timeZone="Europe/Budapest" />
+						</h:outputText>
+					</p:column>
+					<p:column sortBy="#{data[8]}"
+						style="min-width:150px;text-align: center">
+						<f:facet name="header">
+							<h:outputText value="#{msg.NOTIFICATIONLIST_DATEOFPERCEPTION}" />
+						</f:facet>
+						<h:outputText value="#{data[8]}">
+							<f:convertDateTime pattern="yyyy-MM-dd"
+								timeZone="Europe/Budapest" />
+						</h:outputText>
+					</p:column>
+					<p:column sortBy="#{data[10]}"
+						style="min-width:170px;text-align: center">
+						<f:facet name="header">
+							<h:outputText value="#{msg.NOTIFICATIONLIST_DATEOFASKEDREPAIR}" />
+						</f:facet>
+						<h:outputText value="#{data[10]}">
+							<f:convertDateTime pattern="#{msg.DATEFORMAT}"
+								timeZone="Europe/Budapest" />
+						</h:outputText>
+					</p:column>
+					<p:column sortBy="#{data[13]}"
+						style="text-align:center;min-width:120px">
+						<f:facet name="header">
+							<h:outputText value="#{msg.NOTIFICATIONLIST_CALLBACK}" />
+						</f:facet>
+						<center><h:graphicImage height="12"
+							url="#{data[21]? '../img/newDesign/icons/75-phone.png' : '../img/newDesign/holder.png'}" />&nbsp;&nbsp;&nbsp;#{data[13]}</center>
+					</p:column>
+					<p:column sortBy="#{data[11]}"
+						style="text-align:center;min-width:80px">
+						<f:facet name="header">
+							<h:outputText value="#{msg.NOTIFICATIONLIST_PRIORITY}" />
+						</f:facet>
+						<center><h:graphicImage height="15"
+							url="#{data[11]? '../img/newDesign/icons/28-star.png' : '../img/newDesign/holder.png'}" /></center>
+					</p:column>
+					<p:column sortBy="#{data[3]}" style="min-width:200px"
+						styleClass="bold">
+						<f:facet name="header">
+							<h:outputText value="#{msg.NOTIFICATIONLIST_TITLE}" />
+						</f:facet>
+						<h:outputText value="#{data[3]}" />
+					</p:column>
+					<p:column sortBy="#{data[13]}"
+						style="text-align:center;min-width:160px">
+						<f:facet name="header">
+							<h:outputText
+								value="#{msg.NOTIFICATIONLIST_LISTENTOTROUBLESHOOTING}" />
+						</f:facet>
+						<center><h:graphicImage height="15"
+							url="#{data[19]? '../img/newDesign/icons/12-eye.png' : '../img/newDesign/holder.png'}" /></center>
+					</p:column>
+					<p:column sortBy="#{data[4]}" style="min-width:200px"
+						styleClass="bold">
+						<f:facet name="header">
+							<h:outputText value="#{msg.NOTIFICATIONLIST_OWNER}" />
+						</f:facet>
+						<h:outputText value="#{data[4]}" />
+					</p:column>
+					<p:column sortBy="#{data[5]}" style="min-width:200px"
+						styleClass="bold">
+						<f:facet name="header">
+							<h:outputText value="#{msg.NOTIFICATIONLIST_RENTER}" />
+						</f:facet>
+						<h:outputText value="#{data[5]}" />
+					</p:column>
+					<p:column sortBy="#{data[9]}"
+						style="min-width:180px;text-align:center;">
+						<f:facet name="header">
+							<h:outputText value="#{msg.NOTIFICATIONLIST_COMMENT}" />
+						</f:facet>
+						<h:outputText value="#{data[9]}" />
+					</p:column>
+					<p:column sortBy="#{data[14]}"
+						style="text-align:center;min-width:110px">
+						<f:facet name="header">
+							<h:outputText value="#{msg.NOTIFICATIONLIST_SPONSOR}" />
+						</f:facet>
+						<center><h:graphicImage height="15"
+							url="#{data[14]? '../img/newDesign/icons/59-flag.png' : '../img/newDesign/holder.png'}" /></center>
+					</p:column>
+					<p:column sortBy="#{data[15]}"
+						style="text-align:center;min-width:90px">
+						<f:facet name="header">
+							<h:outputText value="#{msg.NOTIFICATIONLIST_FLATRATE}" />
+						</f:facet>
+						<center><h:graphicImage height="15"
+							url="#{data[15]? '../img/newDesign/icons/59-flag.png' : '../img/newDesign/holder.png'}" /></center>
+					</p:column>
+				</p:dataTable></div>
+				<br />
+				<div class="bottomFilterBar">
+				<div class="bottomFilterBarFilters"><h:panelGroup id="filters">
+
+					<p:commandButton oncomplete="realtychoosewid.show()"
+						update="realtychoosegp,realtys"
+						rendered="#{notificationserviceController.data.showRealEstateButton}"
+						action="#{notificationserviceController.showRealtys}"
+						value="#{msg.NOTIFICATIONLIST_REALTIES}" styleClass="button"
+						process="@this"></p:commandButton>
+					<p:commandButton oncomplete="ownerchoosewid.show()"
+						update="ownerchoosegp,owners"
+						rendered="#{notificationserviceController.managedUser.userType=='DM_WORKER'}"
+						actionListener="#{notificationserviceController.showOwners}"
+						value="#{msg.NOTIFICATIONLIST_OWNERS}" styleClass="button"
+						process="@this"></p:commandButton>
+					<p:commandButton oncomplete="renterchoosewid.show()"
+						update="renterchoosegp,renters,message"
+						rendered="#{notificationserviceController.managedUser.userType!='DM_RENTER'}"
+						actionListener="#{notificationserviceController.showRenters}"
+						value="#{msg.NOTIFICATIONLIST_RENTERS}" styleClass="button"
+						process="@this"></p:commandButton>
+					<p:commandButton update="bejelentochoosegp"
+						oncomplete="bejelentochoosewid.show()"
+						rendered="#{notificationserviceController.managedUser.userType=='DM_WORKER'}"
+						actionListener="#{notificationserviceController.showAllBejelento}"
+						value="#{msg.NOTIFICATIONLIST_ANNOUNCERS}" styleClass="button"
+						process="@this"></p:commandButton>
+
+					<p class="filterFilteredText"><h:outputText
+						value="#{notificationserviceController.data.filteredText}"
+						id="filteredtext" /></p>
+				</h:panelGroup></div>
+				<div class="bottomFilterBarDates"><h:panelGroup id="calendars">
+					<div class="bottomFilterBarDateFilter"><p:calendar
+						value="#{notificationserviceController.data.from}"
+						selectListener="#{notificationserviceController.notificationDateFromChange}"
+						pattern="#{msg.DATEFORMAT}" inputStyle="width:100px">
+					</p:calendar></div>
+					<div class="bottomFilterBarDateFilter"><label>
+					#{msg.FROM}</label></div>
+
+					<div class="bottomFilterBarDateFilter"><p:calendar
+						value="#{notificationserviceController.data.to}"
+						selectListener="#{notificationserviceController.notificationDateToChange}"
+						pattern="#{msg.DATEFORMAT}" inputStyle="width:100px">
+					</p:calendar></div>
+					<div class="bottomFilterBarDateFilter"><label>
+					#{msg.TO}</label></div>
+					<p:commandButton process="@this" value="#{msg.FILTER}"
+						update="panel,message" styleClass="filterSubmitButton"
+						actionListener="#{notificationserviceController.notificationDateChange}"></p:commandButton>
+					<p:commandButton update="panel" styleClass="filterResetButton"
+						actionListener="#{notificationserviceController.resetAction}"
+						value="reset" process="@this"></p:commandButton>
+				</h:panelGroup></div>
+
+				</div>
+				<div class="clear"></div>
+			</p:panel>
+
+			<p:remoteCommand name="callmethod" oncomplete="notifwid.show()"
+				process="@this" update="notifpanel,modleiras"
+				action="#{notificationserviceController.showNotification}"></p:remoteCommand>
+
+
+			<p:dialog id="notificationdialog" closable="true" draggable="false"
+				styleClass="notificationDialog" widgetVar="notifwid" modal="false"
+				width="720" header="#{msg.NOTIFICATIONLIST_REGISTEREDNOTIFICATION}"
+				showEffect="fade" hideEffect="fade">
+				<h:panelGroup id="notifpanel">
+					<div class="left" style=""><label>#{msg.NOTIFICATIONLIST_TITLE}:
+					<span><b><h:outputText
+						value="#{notificationserviceController.data.selectedNotificationVO[3]}"></h:outputText></b></span></label>
+					<label>#{msg.NOTIFICATIONLIST_RENTAL}:<span>#{notificationserviceController.data.selectedNotificationVO[2]}</span></label>
+					<label>#{msg.NOTIFICATIONLIST_DATEOFNOTIFICATION}: <span><h:outputText
+						value="#{notificationserviceController.data.selectedNotificationVO[7]}">
+						<f:convertDateTime pattern="#{msg.DATEFORMAT2}"
+							timeZone="Europe/Budapest" />
+					</h:outputText></span></label> <label>#{msg.NOTIFICATIONLIST_DATEOFPERCEPTION}: <span><h:outputText
+						value="#{notificationserviceController.data.selectedNotificationVO[8]}">
+						<f:convertDateTime pattern="#{msg.DATEFORMAT2}"
+							timeZone="Europe/Budapest" />
+					</h:outputText></span></label> <label>#{msg.NOTIFICATIONLIST_DATEOFASKEDREPAIR}: <span><h:outputText
+						value="#{notificationserviceController.data.selectedNotificationVO[10]}">
+						<f:convertDateTime pattern="#{msg.DATEFORMAT}"
+							timeZone="Europe/Budapest" />
+					</h:outputText></span></label> <label>#{msg.NOTIFICATIONLIST_COMMENT}: <span><h:outputText
+						value="#{notificationserviceController.data.selectedNotificationVO[9]}"></h:outputText></span></label></div>
+					<div class="right"><label>#{msg.NOTIFICATIONLIST_ANNOUNCER}:<span>#{notificationserviceController.data.selectedNotificationVO[6]}</span></label>
+					<label>#{msg.NOTIFICATIONLIST_URGENT}: <span><h:outputText
+						rendered="#{notificationserviceController.managedUser.userType!='DM_WORKER'}"
+						value="#{notificationserviceController.data.selectedNotificationVO[11]?'Igen':'Nem'}" /><h:outputText
+						value="#{notificationserviceController.data.selectedNotificationVO[11]?'Igen':'Nem'}"
+						rendered="#{notificationserviceController.managedUser.userType=='DM_WORKER'}">
+					</h:outputText></span></label> <label>#{msg.NOTIFICATIONLIST_STATUS}: <span><h:outputText
+						value="#{notificationserviceController.data.selectedNotificationVO[12]}"></h:outputText></span></label>
+					<label>#{msg.NOTIFICATIONLIST_LISTENTOTROUBLESHOOTING}: <span><h:outputText
+						value="#{notificationserviceController.data.selectedNotificationVO[19]?'Igen':'Nem'}" /></span></label>
+					<label>#{msg.NOTIFICATIONLIST_CALLBACK}:<span> <h:outputText
+						value="#{notificationserviceController.data.selectedNotificationVO[21]?'Igen':'Nem'}" /></span></label>
+					<label>#{msg.NOTIFICATIONLIST_FLATRATE}: <span><h:outputText
+						value="#{notificationserviceController.data.selectedNotificationVO[15]?'Igen':'Nem'}" /></span></label>
+					<label>#{msg.NOTIFICATIONLIST_SPONSOR}: <span><h:outputText
+						value="#{notificationserviceController.data.selectedNotificationVO[18]}" /></span></label>
+					</div>
+					<div class="clear"></div>
+					<div class="notificationDialogComment"><label
+						style="border: none;">#{msg.NOTIFICATIONLIST_DESRIPTION}:
+					<span><h:outputText id="modleiras"
+						style="width: 690px; height: 50px; margin-bottom:20px;"
+						value="#{notificationserviceController.data.selectedNotificationVO[17]}">
+					</h:outputText></span></label> <br />
+					<label style="border: none; clear: both">#{msg.NOTIFICATIONLIST_OWNCOMMENT}:
+					<span><h:outputText
+						style="width: 690px; height: 50px; margin-bottom:20px;"
+						value="#{notificationserviceController.data.selectedNotificationVO[20]}">
+					</h:outputText></span></label>
+					<div class="clear"></div>
+					</div>
+					<div class="notificationDialogFiles"><label
+						style="border: none; padding-top: 10px">#{msg.NOTIFICATIONLIST_ATTACHEDFILES}:
+					<span> <ui:repeat style="background-color: #000"
+						value="#{notificationserviceController.data.files}" var="item">
+						<h:commandLink value="#{item.name}" immediate="true"
+							target="_blank"
+							actionListener="#{notificationserviceController.downloadAttach}">
+							<f:param value="#{item.filenev}" name="aattachname"></f:param>
+							<f:param value="#{item.name}" name="filename"></f:param>
+						</h:commandLink>
+						<br />
+						<br />
+					</ui:repeat> </span></label>
+
+					<div class="clear"></div>
+					</div>
+					<div class="clear"></div>
+					<br />
+				</h:panelGroup>
+				<br />
+				<div class="right" style="display: none;"><p:commandButton
+					value="Módosítás" process="@this" oncomplete="notifwid.hide()"
+					update="message,notifTable,notifpanel,modleiras"
+					actionListener="#{notificationserviceController.updateNotification}"
+					rendered="#{notificationserviceController.managedUser.userType!='DM_RENTER'}"></p:commandButton></div>
+				<div class="clear">&nbsp;</div>
+			</p:dialog>
+
+			<p:dialog id="realtychoose" widgetVar="realtychoosewid" modal="false"
+				closable="true" draggable="true"
+				header="#{msg.NOTIFICATIONLIST_CHOOSEREALTY}"
+				styleClass="commonDialog">
+				<h:panelGroup id="realtychoosegp">
+					<div class="choosepartner-sales-form">
+					<div class="popupSearch"><h:inputText styleClass="input"
+						id="searchtext"
+						value="#{notificationserviceController.data.realtySearchText}">
+						<p:ajax event="change" process="@this" />
+					</h:inputText> <p:commandButton value="#{msg.SEARCH}" update="realtychoosegp"
+						immediate="true" styleClass="popupSearchButton" process="@this"
+						action="#{notificationserviceController.searchRealtyAction}" /></div>
+					<h:selectOneListbox id="realtys"
+						value="#{notificationserviceController.data.selectedProjectId}"
+						style="width: 280px;height: 425px;background-color: #777;border:solid 1px #555;color: #fff">
+						<f:selectItem itemLabel="" itemValue="" escape="false" />
+						<f:selectItems
+							value="#{notificationserviceController.data.flatItems}" />
+						<p:ajax event="change" process="@this" />
+					</h:selectOneListbox>
+
+					<div class="submit"><p:commandButton value="OK"
+						process="@this"
+						actionListener="#{notificationserviceController.selectRealtyAction}"
+						immediate="true" oncomplete="realtychoosewid.hide()"
+						update="panel,message" styleClass="commonButton" /></div>
+					</div>
+				</h:panelGroup>
+			</p:dialog>
+
+			<p:dialog id="ownerchoose" widgetVar="ownerchoosewid" modal="false"
+				closable="true" styleClass="commonDialog" draggable="true"
+				header="#{msg.NOTIFICATIONLIST_CHOOSEOWNER}">
+				<h:panelGroup id="ownerchoosegp">
+					<div class="choosepartner-sales-form">
+					<div class="popupSearch"><h:inputText styleClass="input"
+						id="searchowner"
+						value="#{notificationserviceController.data.ownerSearchText}">
+						<p:ajax event="change" process="@this" />
+					</h:inputText> <p:commandButton value="#{msg.SEARCH}" update="ownerchoosegp"
+						styleClass="popupSearchButton" process="@this"
+						actionListener="#{notificationserviceController.searchOwnerAction}" /></div>
+					<h:selectOneListbox id="owners"
+						value="#{notificationserviceController.data.selectedOwnerId}"
+						style="width: 280px;height: 425px;background-color: #777;border:solid 1px #555;color: #fff">
+						<f:selectItem itemLabel="" itemValue="" escape="false" />
+						<f:selectItems
+							value="#{notificationserviceController.data.ownerItems}" />
+						<p:ajax event="change" process="@this" />
+					</h:selectOneListbox>
+					<div class="submit"><p:commandButton value="OK"
+						process="@this"
+						actionListener="#{notificationserviceController.selectOwnerAction}"
+						immediate="true" oncomplete="ownerchoosewid.hide()"
+						update="panel,message" styleClass="commonButton" /></div>
+					</div>
+				</h:panelGroup>
+			</p:dialog>
+
+			<p:dialog id="renterchoose" widgetVar="renterchoosewid" modal="false"
+				closable="true" styleClass="commonDialog" draggable="true"
+				header="#{msg.NOTIFICATIONLIST_CHOOSERENTER}">
+				<h:panelGroup id="renterchoosegp">
+					<div class="choosepartner-sales-form">
+					<div class="popupSearch"><h:inputText styleClass="input"
+						id="searchrenter"
+						value="#{notificationserviceController.data.renterSearchText}">
+						<p:ajax event="change" process="@this" />
+					</h:inputText> <p:commandButton value="#{msg.SEARCH}" update="renterchoosegp"
+						immediate="true" styleClass="popupSearchButton" process="@this"
+						actionListener="#{notificationserviceController.searchRenterAction}" /></div>
+					<h:selectOneListbox id="renters"
+						value="#{notificationserviceController.data.selectedRenterId}"
+						style="width: 280px;height: 425px;background-color: #777;border:solid 1px #555;color: #fff">
+						<f:selectItem itemLabel="" itemValue="" escape="false" />
+						<f:selectItems
+							value="#{notificationserviceController.data.renterItems}" />
+						<p:ajax event="change" process="@this" />
+					</h:selectOneListbox>
+					<div class="submit"><p:commandButton value="OK"
+						process="@this"
+						actionListener="#{notificationserviceController.selectRenterAction}"
+						immediate="true" oncomplete="renterchoosewid.hide()"
+						update="panel,message" styleClass="commonButton" /></div>
+					</div>
+				</h:panelGroup>
+			</p:dialog>
+
+			<p:dialog id="bejelentochoose" widgetVar="bejelentochoosewid"
+				modal="false" closable="true" styleClass="commonDialog"
+				draggable="true" header="#{msg.NOTIFICATIONLIST_CHOOSEANNOUNCER}">
+				<h:panelGroup id="bejelentochoosegp">
+					<div class="choosepartner-sales-form">
+					<div class="popupSearch"><h:inputText styleClass="input"
+						id="searchbejelento"
+						value="#{notificationserviceController.data.bejelentoSearchText}">
+						<p:ajax event="change" process="@this" />
+					</h:inputText> <p:commandButton value="#{msg.SEARCH}" update="bejelentochoosegp"
+						immediate="true" styleClass="popupSearchButton" process="@this"
+						actionListener="#{notificationserviceController.searchBejelentoAction}" /></div>
+					<h:selectOneListbox id="bejelentok"
+						value="#{notificationserviceController.data.selectedBejelento}"
+						style="width: 280px;height: 425px;background-color: #777;border:solid 1px #555;color: #fff">
+						<f:selectItem itemLabel="" itemValue="" escape="false" />
+						<f:selectItems
+							value="#{notificationserviceController.data.allBejelento}" />
+						<p:ajax event="change" process="@this" />
+					</h:selectOneListbox>
+					<div class="submit"><p:commandButton value="OK"
+						process="@this"
+						actionListener="#{notificationserviceController.selectBejelentoAction}"
+						immediate="true" oncomplete="bejelentochoosewid.hide()"
+						update="panel,message" styleClass="commonButton" /></div>
+					</div>
+				</h:panelGroup>
+			</p:dialog>
+
+			<p:growl id="message" showDetail="true" sticky="false" life="5000"
+				showSummary="false" infoIcon="../img/newDesign/felkialto.png"
+				fatalIcon="../img/newDesign/x.png"
+				errorIcon="../img/newDesign/x.png" />
+
+			<script type="text/javascript">
+					function newWindow(){
+					window.open('','mywindow','width=1000,height=700');
+					return false;}
+				</script>
+		</h:form></div>
+
+	</ui:define>
+</ui:composition>

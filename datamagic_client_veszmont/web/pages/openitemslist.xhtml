@@ -1,0 +1,208 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	template="/pages/template.xhtml">
+
+
+	<ui:define name="body">
+		<div class="content textcolor1 backgroundcolor3"><h:form
+			id="openitemform" target="mywindow">
+			<p:panel styleClass="gradpanel" id="panel">
+				<div class="innerPanel"><p:dataTable style="text-align:left"
+					selectionMode="single" rows="10" paginator="true"
+					paginatorPosition="top" paginatorAlwaysVisible="false"
+					emptyMessage="#{msg.NODATA}" dynamic="true"
+					value="#{openitemsserviceController.data.openItemList}" var="data"
+					id="openitemTable">
+					<p:column sortBy="#{data.kimeno}" style="min-width:50px">
+						<f:facet name="header">
+							<h:outputText value="#{msg.INVOICELIST_INOUT}" />
+						</f:facet>
+						<h:graphicImage
+							url="#{data.kimeno ? '../img/kimeno.png' : '../img/bejovo.png'}" />
+					</p:column>
+					<p:column sortBy="#{data.sorszam}" style="min-width:100px">
+						<f:facet name="header">
+							<h:outputText value="#{msg.ORDERS_ORDERVIEW_ORDERNUM}" />
+						</f:facet>
+						<h:outputText value="#{data.sorszam}" styleClass="bold" />
+					</p:column>
+					<p:column sortBy="#{data.cegnev}" style="min-width:250px">
+						<f:facet name="header">
+							<h:outputText value="#{msg.INVOICELIST_COMPANY}" />
+						</f:facet>
+						<h:outputText value="#{data.cegnev}" />
+					</p:column>
+					<p:column sortBy="#{data.kelt}"
+						style="min-width:120px;text-align:center">
+						<f:facet name="header">
+							<h:outputText value="#{msg.INVOICELIST_FILE}" />
+						</f:facet>
+						<h:outputText value="#{data.kelt}">
+							<f:convertDateTime pattern="#{msg.DATEFORMAT}"
+								timeZone="Europe/Budapest" />
+						</h:outputText>
+					</p:column>
+					<p:column sortBy="#{data.esedkelt}"
+						style="min-width:120px;text-align:center">
+						<f:facet name="header">
+							<h:outputText value="#{msg.INVOICELIST_DUE}" />
+						</f:facet>
+						<h:outputText value="#{data.esedkelt}">
+							<f:convertDateTime pattern="#{msg.DATEFORMAT}"
+								timeZone="Europe/Budapest" />
+						</h:outputText>
+					</p:column>
+					<p:column sortBy="#{data.telj}"
+						style="min-width:120px;text-align:center">
+						<f:facet name="header">
+							<h:outputText value="#{msg.INVOICELIST_COMPLETED}" />
+						</f:facet>
+						<h:outputText value="#{data.telj}">
+							<f:convertDateTime pattern="#{msg.DATEFORMAT}"
+								timeZone="Europe/Budapest" />
+						</h:outputText>
+					</p:column>
+					<p:column sortBy="#{data.realesed}"
+						style="min-width:120px;text-align:center">
+						<f:facet name="header">
+							<h:outputText value="#{msg.INVOICELIST_WARRANT}" />
+						</f:facet>
+						<h:outputText value="#{data.realesed}">
+							<f:convertDateTime type="date" />
+						</h:outputText>
+					</p:column>
+					<p:column sortBy="#{data.fizetve}"
+						style="min-width:120px;text-align:center">
+						<f:facet name="header">
+							<h:outputText value="#{msg.INVOICELIST_PAYMENT}" />
+						</f:facet>
+						<h:outputText value="#{data.fizetve}">
+							<f:convertDateTime pattern="#{msg.DATEFORMAT}"
+								timeZone="Europe/Budapest" />
+						</h:outputText>
+					</p:column>
+					<p:column sortBy="#{data.dnetto}"
+						style="min-width:80px;text-align:right">
+						<f:facet name="header">
+							<h:outputText value="#{msg.ORDERS_ORDERVIEW_NET}" />
+						</f:facet>
+						<h:outputText value="#{data.netto}">
+							<f:convertNumber pattern="#,##0" />
+						</h:outputText>
+					</p:column>
+					<p:column sortBy="#{data.dbrutto}"
+						style="text-align:right;min-width:80px">
+						<f:facet name="header">
+							<h:outputText value="#{msg.ORDERS_ORDERVIEW_GRO}" />
+						</f:facet>
+						<h:outputText value="#{data.brutto}">
+							<f:convertNumber pattern="#,##0" />
+						</h:outputText>
+					</p:column>
+					<p:column sortBy="#{data.rossz}"
+						style="text-align:right;min-width:80px">
+						<f:facet name="header">
+							<h:outputText value="FIZETVE" />
+						</f:facet>
+						<h:outputText value="#{data.rossz}">
+							<f:convertNumber pattern="#,##0" />
+						</h:outputText>
+					</p:column>
+					<p:column sortBy="#{data.arrears}"
+						style="text-align:right;min-width:80px">
+						<f:facet name="header">
+							<h:outputText value="HATRALEK" />
+						</f:facet>
+						<h:outputText value="#{data.arrears}">
+							<f:convertNumber pattern="#,##0" />
+						</h:outputText>
+					</p:column>
+					<p:column sortBy="#{data.devnem}" style="min-width:80px">
+						<f:facet name="header">
+							<h:outputText value="#{msg.ORDERS_ORDERVIEW_FOREX}" />
+						</f:facet>
+						<h:outputText value="#{data.devnem}" />
+					</p:column>
+					<p:column sortBy="#{data.fizmod}" style="min-width:100px">
+						<f:facet name="header">
+							<h:outputText value="#{msg.INVOICELIST_PAYMENTMODE}" />
+						</f:facet>
+						<h:outputText value="#{data.fizmod}" />
+					</p:column>
+				</p:dataTable></div>
+				<div class="summaryPanel"><h:panelGroup id="summaryPanel">
+					<table width="100%" border="0" cellspacing="0" cellpadding="0">
+						<tr>
+							<td width="40%"><label>#{msg.ORDERS_ORDERVIEW_SUMMARY}</label></td>
+							<td width="20%"><label>#{msg.ORDERS_ORDERVIEW_NET}</label></td>
+							<td width="20%"><label>#{msg.ORDERS_ORDERVIEW_GRO}</label></td>
+							<td width="20%" class="last"><label>#{msg.ARREARS}</label></td>
+						</tr>
+						<tr>
+							<td width="40%"></td>
+							<td width="20%"><h:outputText
+								value="#{openitemsserviceController.data.netto}">
+								<f:convertNumber pattern="#,##0" />
+							</h:outputText></td>
+							<td width="20%"><h:outputText
+								value="#{openitemsserviceController.data.brutto}">
+								<f:convertNumber pattern="#,##0" />
+							</h:outputText></td>
+							<td width="20%" class="last"><h:outputText
+								value="#{openitemsserviceController.data.arrears}">
+								<f:convertNumber pattern="#,##0" />
+							</h:outputText></td>
+						</tr>
+					</table>
+				</h:panelGroup></div>
+<div class="bottomFilterBar">
+				<div class="bottomFilterBarFilters">
+				</div>
+				<div class="bottomFilterBarDates">
+				<h:panelGroup>
+					<div class="bottomFilterBarDateFilter"><p:calendar
+						value="#{openitemsserviceController.data.from}"
+						selectListener="#{openitemsserviceController.invoiceDateFromChange}"
+						pattern="#{msg.DATEFORMAT}" inputStyle="width:100px">
+					</p:calendar></div>
+					<div class="bottomFilterBarDateFilter"><label
+						class="textcolor4"> #{msg.INVOICESTORNFIX_DATEFROM}</label></div>
+
+					<div class="bottomFilterBarDateFilter"><p:calendar
+						value="#{openitemsserviceController.data.to}"
+						selectListener="#{openitemsserviceController.invoiceDateToChange}"
+						pattern="#{msg.DATEFORMAT}" inputStyle="width:100px">
+					</p:calendar></div>
+					<div class="bottomFilterBarDateFilter"><label
+						class="textcolor4"> #{msg.INVOICESTORNFIX_DATETO}</label></div>
+						
+						<p:commandButton
+						process="@this" value="Szűrés" update="panel,message" styleClass="filterSubmitButton"
+						actionListener="#{openitemsserviceController.invoiceDateChange}"></p:commandButton>
+				</h:panelGroup>
+				</div></div>
+				<h:commandLink
+					disabled="#{empty openitemsserviceController.data.openItemList}"
+					value="#{msg.ORDERS_PRINT_BUTTON1}"
+					styleClass="commonButtonLink"
+					immediate="true" action="#{openitemsserviceController.print}">
+				</h:commandLink>
+				<div class="clear"></div>
+			</p:panel>
+			<p:growl id="message" showDetail="true" sticky="false" life="4000"
+				showSummary="true" />
+
+			<script type="text/javascript">
+					function newWindow(){
+					window.open('','mywindow','width=1000,height=700');
+					return false;}
+				</script>
+		</h:form></div>
+	</ui:define>
+</ui:composition>

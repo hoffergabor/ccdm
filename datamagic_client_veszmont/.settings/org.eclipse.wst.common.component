@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="datamagic_client_demo">
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/datamagic_server"/>
+        <property name="context-root" value="datamagic_client_demo"/>
+        <property name="java-output-path" value="/datamagic_client_demo/web/WEB-INF/classes"/>
+    </wb-module>
+</project-modules>

@@ -1,0 +1,97 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+	<div class="wrapper"><h:form id="menuform">
+		<div class="menuHeader"><img class="logo"
+			src="../img/newDesign/logoMenu.png" /> <p:ajaxStatus id="stat">
+			<f:facet name="start">
+				<div class="headerLoader"><img class="loaderImg"
+					src="../img/newDesign/loader.gif" /><h:panelGroup id="statElement">
+					<h:outputText value="#{msg.PROGRESS_MSG}" />
+				</h:panelGroup></div>
+			</f:facet>
+
+			<f:facet name="complete">
+
+				<h:outputText value="" />
+			</f:facet>
+		</p:ajaxStatus> <p:commandButton styleClass="logout button"
+			action="#{loginserviceController.logout}"
+			value="#{msg.SIDEBAR_LOGOUT_BUTTON}" />
+		<div class="menuUser">
+		<h1 class="nomobile"><h:outputText
+			value="#{loginserviceController.managedPartner.nev}#{loginserviceController.managedWorker.dnev}#{loginserviceController.managedRenter.nev}" /></h1>
+		<h:outputText
+			value="#{loginserviceController.managedPartner.email}#{loginserviceController.managedWorker.email}#{loginserviceController.managedRenter.email}" />
+		</div>
+		</div>
+		<h:panelGroup styleClass="menu" id="menu">
+			<div class="inside">
+			<div class="menupoints"><h:panelGroup
+				rendered="#{loginserviceController.emergency=='false'}">
+				<p:commandButton action="managenotification"
+					value="#{msg.MANAGE_NOTIFICATION}" id="menu1"
+					binding="#{menuController.data.menu1}" update="menu"
+					immediate="true"
+					actionListener="#{menuController.changeActiveMenuColor}"></p:commandButton>
+				<p:commandButton action="notificationlist"
+					value="#{msg.NOTIFICATION}" id="menu2"
+					binding="#{menuController.data.menu2}" update="menu"
+					immediate="true"
+					actionListener="#{menuController.changeActiveMenuColor}" />
+				<p:commandButton action="realtyarrangementlist"
+					value="#{msg.SIDEBAR_REALTY_BUTTON}" id="menu3"
+					binding="#{menuController.data.menu3}" update="menu"
+					immediate="true"
+					actionListener="#{menuController.changeActiveMenuColor}" />
+				<p:commandButton action="realtyinvoicelist"
+					value="#{msg.SIDEBAR_INVOICE_BUTTON}" id="menu6"
+					binding="#{menuController.data.menu6}" update="menu"
+					immediate="true"
+					actionListener="#{menuController.changeActiveMenuColor}" />
+				<p:commandButton action="partnerdataupdate"
+					rendered="#{loginserviceController.managedUser.userType=='DM_PARTNER' or loginserviceController.managedUser.userType=='DM_RENTER'}"
+					value="#{msg.SIDEBAR_PARTNERDATA_BUTTON}" id="menu4"
+					binding="#{menuController.data.menu4}" update="menu"
+					immediate="true"
+					actionListener="#{menuController.changeActiveMenuColor}" />
+				<p:commandButton
+					rendered="#{loginserviceController.managedUser.userType=='DM_WORKER'}"
+					action="workerdataupdate" value="#{msg.SIDEBAR_PARTNERDATA_BUTTON}"
+					id="menu5" binding="#{menuController.data.menu5}" update="menu"
+					immediate="true"
+					actionListener="#{menuController.changeActiveMenuColor}" />
+				<p:commandButton
+					rendered="#{loginserviceController.managedUser.userType=='DM_WORKER'}"
+					action="chat" value="Chat"
+					id="menu6" binding="#{menuController.data.menu6}" update="menu"
+					immediate="true"
+					actionListener="#{menuController.changeActiveMenuColor}" />					
+			</h:panelGroup> <h:panelGroup rendered="#{loginserviceController.emergency=='true'}">
+				<p:commandButton styleClass="button" action="managenotification"
+					value="#{msg.MANAGE_NOTIFICATION}"></p:commandButton>
+			</h:panelGroup></div>
+			</div>
+		</h:panelGroup>
+		<p:dialog resizable="false" widgetVar="idleDialog" modal="true"
+			styleClass="dialog3" width="280" closable="false">
+			<center><h:panelGroup id="logoutpanel">
+				<h:outputText value="#{msg.SESSION_TIMEOUT}" style="font-size: 13px" />
+				<br />
+				<br />
+				<p:commandButton action="#{loginserviceController.logout}"
+					value="OK" styleClass="button" type="submit" global="false"
+					onclick="window.location.reload()"></p:commandButton>
+			</h:panelGroup></center>
+		</p:dialog>
+		<p:idleMonitor timeout="600000" onidle="idleDialog.show();"
+			idleListener="#{loginserviceController.idleListener}" />
+
+	</h:form></div>
+</ui:composition>

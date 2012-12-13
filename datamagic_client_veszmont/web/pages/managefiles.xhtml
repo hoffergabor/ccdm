@@ -1,0 +1,102 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	template="/pages/template.xhtml">
+
+	<ui:define name="body">
+		<div class="content textcolor1 backgroundcolor3"><h:form>
+			<p:panel styleClass="gradpanel" id="panel">
+				<p:commandLink value="\.."
+					actionListener="#{managefilesController.gotoRoot}" update="panel"></p:commandLink>
+				<br />
+				<p:tree value="#{managefilesController.data.root}" var="node"
+					collapseAnim="FADE_OUT" dynamic="true" selectionMode="single"
+					expandAnim="FADE_IN" update="message,actualpath" cache="false"
+					nodeSelectListener="#{managefilesController.onNodeSelect}"
+					selection="#{managefilesController.data.selectedNode}" id="tree">
+					<p:treeNode>
+						<h:outputText value="#{node}" />
+					</p:treeNode>
+				</p:tree>
+				<br />
+				<div class="left"><label>Aktuális könyvtár / fájl: </label><h:outputText
+					value="#{managefilesController.data.path}/" id="actualpath"></h:outputText></div>
+				<br />
+				<br />
+				<table style="text-align: left">
+					<tr>
+						<td width="400px"><p:fileUpload update="tree,message"
+							auto="true" height="25" width="150" customUI="true"
+							wmode="transparent" image="../img/newDesign/fileUpload.png"
+							sizeLimit="99999999"
+							fileUploadListener="#{managefilesController.handleFileUpload}" /></td>
+					</tr>
+				</table>
+				<br />
+				<br />
+			</p:panel>
+
+			<p:contextMenu for="panel">
+				<p:menuitem value="Törlés" update="delpanel" process="@this"
+					onclick="deletedialogwid.show()" />
+				<p:menuitem value="Új könyvtár létrehozása"
+					actionListener="#{managefilesController.initCreateDir}"
+					update="page:dirpanel,page:dirname,page:pathname" process="@this"
+					oncomplete="newdirdialogwid.show()"></p:menuitem>
+				<p:menuitem value="Fájl letöltés" update="message"
+					action="#{managefilesController.fileDownload}" ajax="false">
+				</p:menuitem>
+
+			</p:contextMenu>
+
+			<p:growl id="message" showDetail="true" sticky="false" life="2000"
+				showSummary="true" />
+
+			<p:dialog modal="false" id="deletedialog" widgetVar="deletedialogwid"
+				showEffect="fade" hideEffect="fade" closable="true"
+				styleClass="smallDialog" draggable="true" header="Biztos benne, hogy törölni szeretné?">
+				<h:panelGroup id="delpanel">
+					<center>
+					<h:outputText value="#{managefilesController.data.path}"
+						style="color: #fff"></h:outputText><br />
+					<h:panelGrid columns="2">
+						<p:commandButton styleClass="logout textcolor4 button" value="OK"
+							update="page:tree,messages" global="false"
+							oncomplete="deletedialogwid.hide()"
+							actionListener="#{managefilesController.deleteItem}" />
+						<p:commandButton styleClass="logout textcolor4 button"
+							value="#{msg.CANCEL}" global="false"
+							onclick="deletedialogwid.hide();" />
+					</h:panelGrid></center>
+				</h:panelGroup>
+			</p:dialog>
+
+			<p:dialog modal="false" id="newdirdialog" widgetVar="newdirdialogwid"
+				showEffect="fade" hideEffect="fade" closable="true"
+				styleClass="smallDialog" draggable="true" header="Kérem adja meg a könyvtár nevét!">
+				<h:panelGroup id="dirpanel">
+					<center>
+					<h:outputText value="#{managefilesController.data.path}/"
+						id="pathname"></h:outputText> <h:inputText
+						value="#{managefilesController.data.dir}" id="dirname">
+					</h:inputText><br />
+					<br />
+					<h:panelGrid columns="2">
+						<p:commandButton styleClass="logout textcolor4 button" value="OK"
+							update="page:tree,messages" global="false"
+							oncomplete="newdirdialogwid.hide()"
+							action="#{managefilesController.createDir}" />
+						<p:commandButton styleClass="logout textcolor4 button"
+							value="#{msg.CANCEL}" global="false"
+							onclick="newdirdialogwid.hide();" />
+					</h:panelGrid></center>
+				</h:panelGroup>
+			</p:dialog>
+		</h:form></div>
+	</ui:define>
+</ui:composition>

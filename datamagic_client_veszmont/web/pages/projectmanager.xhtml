@@ -1,0 +1,288 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	template="/pages/template.xhtml">
+
+
+	<ui:define name="body">
+		<div class="content"><h:form id="projektform">
+			<p:panel styleClass="gradpanel" id="projektpanel">
+
+				<div class="manageNotificationOdd">
+				<div class="manageNotificationStepNumber">1</div>
+				<div class="manageNotificationRow">
+				<div class="manageNotificationRowSubject">Projekt kiválasztása</div>
+				<div class="manageNotificationRowForm"><p:commandButton
+					oncomplete="projectchoosewid.show()" update="projectchoosepg"
+					styleClass="manageNotificationSelectButton" immediate="true"
+					value="Projektek" process="@this" title="Projektek"
+					actionListener="#{prProjektController.showAllProjekt}"></p:commandButton></div>
+				<div class="clear"></div>
+				</div>
+				</div>
+				
+				<h:panelGroup rendered="#{prProjektController.data.selectedPRProjekt==null}" id="gantt">
+				<div class="manageNotificationEven">
+				<div class="manageNotificationRow">
+				<div class="manageNotificationRowSubject">Futó projektek</div>
+				<div class="manageNotificationRowForm">
+					<div class="projectSchedule">
+						<p:schedule value="#{prProjektController.data.eventModel}"  
+	                	editable="true" widgetVar="myschedule" onEventSelectUpdate="projektform"
+	                	eventSelectListener="#{prProjektController.onEventSelect}">  
+	  					</p:schedule>
+					</div>
+				</div>
+				<div class="clear"></div>
+				</div>
+				</div>
+				</h:panelGroup>
+				
+				<h:panelGroup rendered="#{prProjektController.data.selectedPRProjekt!=null}" id="datas">
+				<div class="manageNotificationEven">
+				<div class="manageNotificationStepNumber">2</div>
+				<div class="manageNotificationRow">
+				<div class="manageNotificationRowSubject">Projekt adatlap<p:commandButton
+					styleClass="projektBackButton" immediate="true"
+					value="Vissza" title="Vissza"
+					action="projectmanager"></p:commandButton></div>
+				
+				<div class="manageNotificationRowForm">
+				<div class="projektForm">
+				<div class="left"><label class="Odd">Projektkód <span
+					class="data">#{prProjektController.data.prProjekt[0]}</span>
+				<div class="clear"></div>
+				</label> <label class="Odd">Megnevezés <span class="data">#{prProjektController.data.prProjekt[1]}</span>
+				<div class="clear"></div>
+				</label> <h:panelGroup rendered="#{prProjektController.managedWorker!=null}"><label>Partner <span class="data">#{prProjektController.data.prProjekt[10]}</span>
+				<div class="clear"></div> 
+				</label> <label>Cím <span class="data">#{prProjektController.data.prProjekt[11]}</span>
+				<div class="clear"></div>
+				</label> </h:panelGroup><label>Közvetett vagy közvetlen <span class="data"><h:outputText
+					rendered="#{prProjektController.data.prProjekt[2]!=null}"
+					value="#{prProjektController.data.prProjekt[2]=='1'?'Közvetett':'Közvetlen'}" /></span>
+				<div class="clear"></div>
+				</label> <label class="Odd">Tervezett időtartam <span class="data"><h:outputText
+					value="#{prProjektController.data.prProjekt[3]}">
+					<f:convertDateTime type="date" pattern="yyyy.MM.dd." />
+				</h:outputText> - <h:outputText
+					value="#{prProjektController.data.prProjekt[4]}">
+					<f:convertDateTime type="date" pattern="yyyy.MM.dd." />
+				</h:outputText></span>
+				<div class="clear"></div>
+				</label> <label class="Odd">Valós időtartam <span class="data"><h:outputText
+					value="#{prProjektController.data.prProjekt[5]}">
+					<f:convertDateTime type="date" pattern="yyyy.MM.dd." />
+				</h:outputText> - <h:outputText
+					value="#{prProjektController.data.prProjekt[6]}">
+					<f:convertDateTime type="date" pattern="yyyy.MM.dd." />
+				</h:outputText></span>
+				<div class="clear"></div>
+				</label> <label>Projekt készültsége <span class="data">
+				<div class="projektReady"
+					style="width: #{prProjektController.data.prProjekt[7]}%">#{prProjektController.data.prProjekt[7]}%&nbsp;</div>
+				</span>
+				<div class="clear"></div>
+				</label> <label class="Odd">Projekt felelősök <span class="data">#{prProjektController.data.prProjekt[8]}</span>
+				<div class="clear"></div>
+				</label> <label class="Odd">Kapcsolattartó <span class="data">#{prProjektController.data.prProjekt[9]}</span>
+				<div class="clear"></div>
+				</label> <label>Rendelésszám <span class="data">#{prProjektController.data.prProjekt[13]}
+				</span>
+				<div class="clear"></div>
+				</label> <label>Megrendelés dátuma <span class="data">
+				<h:outputText
+					value="#{prProjektController.data.prProjekt[14]}">
+					<f:convertDateTime type="date" pattern="yyyy.MM.dd." />
+				</h:outputText>
+				</span>
+				<div class="clear"></div>
+				</label> <label>Szállítási határidő <span class="data">
+				<h:outputText
+					value="#{prProjektController.data.prProjekt[15]}">
+					<f:convertDateTime type="date" pattern="yyyy.MM.dd." />
+				</h:outputText>
+				</span>
+				<div class="clear"></div>
+				</label> <label class="Odd">Megjegyzés <span class="data">#{prProjektController.data.selectedPRProjekt.megj}</span>
+				<div class="clear"></div>
+				</label> </div>
+
+				<div class="right">
+				<p:dataTable style="text-align:left;"
+					selectionMode="single" emptyMessage="Nincs alprojekt!" dynamic="true"
+					rows="10" paginator="true" paginatorPosition="bottom"
+					paginatorAlwaysVisible="false" update="alprojectpg"
+					value="#{prProjektController.data.alProjekt}" var="data"
+					id="alprojektTable" onselectComplete="alproj()" 
+					selection="#{prProjektController.data.selectedAlPRProjekt}">
+					<p:column sortBy="#{data.megn}" style="min-width:250px"
+						styleClass="bold">
+						<f:facet name="header">
+							<h:outputText value="Alprojektek" />
+						</f:facet>
+						<h:outputText value="#{data.megn}" />
+					</p:column>
+				</p:dataTable>
+				<br />
+				<h2>Cikklista</h2>
+				<p:dataTable style="text-align:left;" 
+					selectionMode="single" emptyMessage="Nincsenek cikkek csatolva a projekthez!" dynamic="true"
+					rows="10" paginator="true" paginatorPosition="bottom"
+					paginatorAlwaysVisible="false"
+					value="#{prProjektController.data.products}" var="data"
+					id="aruTable">
+					<p:column sortBy="#{data[0]}" style="min-width:70px">
+						<f:facet name="header">
+							<h:outputText value="Cikkszám" />
+						</f:facet>
+						<h:outputText value="#{data[0]}" />
+					</p:column>
+					<p:column sortBy="#{data[1]}" style="min-width:100px"
+						styleClass="bold">
+						<f:facet name="header">
+							<h:outputText value="Megnevezés" />
+						</f:facet>
+						<h:outputText value="#{data[1]}" />
+					</p:column>
+					<p:column sortBy="#{data[2]}" style="min-width:20px">
+						<f:facet name="header">
+							<h:outputText value="db" />
+						</f:facet>
+						<h:outputText value="#{data[2]}" />
+					</p:column>
+					<p:column sortBy="#{data[3]}" style="min-width:38px"
+						styleClass="bold">
+						<f:facet name="header">
+							<h:outputText value="Státusz" />
+						</f:facet>
+						<h:outputText value="#{data[3]}" />
+					</p:column>
+				</p:dataTable>
+				<div class="clear"></div></div>
+				</div>
+				</div>
+				<div class="clear"></div>
+				
+				</div>
+				</div>
+				</h:panelGroup>
+				<div class="clear"><br/></div>
+<!-- 					<div class="bottomFilterBar"> -->
+<!-- 						<p:commandButton value="gantt diagram" process="@this" -->
+<!-- 							styleClass="commonButton" update="exit" global="false" -->
+<!-- 							oncomplete="confirmation.show()" /> -->
+<!-- 					</div> -->
+
+
+				</p:panel>
+
+			<p:dialog widgetVar="projectchoosewid" modal="false" closable="true"
+				styleClass="commonDialog" draggable="true" header="Projektek">
+				<h:panelGroup id="projectchoosepg">
+					<div class="choosepartner-sales-form">
+					<div class="popupListBorder"><ui:repeat var="data"
+						value="#{prProjektController.data.allProjekt}">
+						<p:commandLink value="#{data.megn}" id="projectek" process="@this"
+							oncomplete="proj()">
+							<f:setPropertyActionListener value="#{data}"
+								target="#{prProjektController.data.selectedPRProjekt}" />
+						</p:commandLink>
+						<br />
+					</ui:repeat></div>
+					</div>
+				</h:panelGroup>
+			</p:dialog>
+			
+			<p:dialog widgetVar="alprojectwid" modal="false" closable="true"
+				styleClass="commonDialog" draggable="true" header="Alprojekt" width="400">
+				<h:panelGroup id="alprojectpg">
+				<div class="manageNotificationEven">
+				<div class="manageNotificationStepNumber">2</div>
+				<div class="manageNotificationRow">
+				<div class="manageNotificationRowSubject">Projekt adatlap</div>
+				<div class="manageNotificationRowForm">
+				<div class="projektForm">
+				<div class="left"><label class="Odd">Projektkód <span
+					class="data">#{prProjektController.data.prProjekt[0]}</span>
+				<div class="clear"></div>
+				</label> <label class="Odd">Megnevezés <span class="data">#{prProjektController.data.alPrProjekt[1]}</span>
+				<div class="clear"></div>
+				</label> <h:panelGroup rendered="#{prProjektController.managedWorker!=null}"><label>Partner <span class="data">#{prProjektController.data.alPrProjekt[10]}</span>
+				<div class="clear"></div> 
+				</label> <label>Cím <span class="data">#{prProjektController.data.alPrProjekt[11]}</span>
+				<div class="clear"></div>
+				</label> </h:panelGroup><label>Közvetett vagy közvetlen <span class="data"><h:outputText
+					rendered="#{prProjektController.data.alPrProjekt[2]!=null}"
+					value="#{prProjektController.data.alPrProjekt[2]=='1'?'Közvetett':'Közvetlen'}" /></span>
+				<div class="clear"></div>
+				</label> <label class="Odd">Tervezett időtartam <span class="data"><h:outputText
+					value="#{prProjektController.data.alPrProjekt[3]}">
+					<f:convertDateTime type="date" pattern="yyyy.MM.dd." />
+				</h:outputText> - <h:outputText
+					value="#{prProjektController.data.alPrProjekt[4]}">
+					<f:convertDateTime type="date" pattern="yyyy.MM.dd." />
+				</h:outputText></span>
+				<div class="clear"></div>
+				</label> <label class="Odd">Valós időtartam <span class="data"><h:outputText
+					value="#{prProjektController.data.alPrProjekt[5]}">
+					<f:convertDateTime type="date" pattern="yyyy.MM.dd." />
+				</h:outputText> - <h:outputText
+					value="#{prProjektController.data.alPrProjekt[6]}">
+					<f:convertDateTime type="date" pattern="yyyy.MM.dd." />
+				</h:outputText></span>
+				<div class="clear"></div>
+				</label> <label>Projekt készültsége <span class="data">
+				<div class="projektReady"
+					style="width: #{prProjektController.data.alPrProjekt[7]}%">#{prProjektController.data.alPrProjekt[7]}%&nbsp;</div>
+				</span>
+				<div class="clear"></div>
+				</label> <label class="Odd">Projekt felelősök <span class="data">#{prProjektController.data.alPrProjekt[8]}</span>
+				<div class="clear"></div>
+				</label> <label class="Odd">Kapcsolattartó <span class="data">#{prProjektController.data.alPrProjekt[9]}</span>
+				<div class="clear"></div>
+				</label> <label>Rendelésszám <span class="data">#{prProjektController.data.alPrProjekt[13]}
+				</span>
+				<div class="clear"></div>
+				</label> <label>Megrendelés dátuma <span class="data">
+				<h:outputText
+					value="#{prProjektController.data.alPrProjekt[14]}">
+					<f:convertDateTime type="date" pattern="yyyy.MM.dd." />
+				</h:outputText>
+				</span>
+				<div class="clear"></div>
+				</label> <label>Szállítási határidő <span class="data">
+				<h:outputText
+					value="#{prProjektController.data.alPrProjekt[15]}">
+					<f:convertDateTime type="date" pattern="yyyy.MM.dd." />
+				</h:outputText>
+				</span>
+				<div class="clear"></div>
+				</label> <label class="Odd">Megjegyzés111 <span class="data"><h:outputText value="#{prProjektController.data.alPrProjekt[12]}" escape="false"></h:outputText></span>
+				<div class="clear"></div>
+				</label> </div>
+				</div>
+				</div>
+				<div class="clear"></div>
+				</div>
+				</div>
+				</h:panelGroup>
+			</p:dialog>
+
+			<p:remoteCommand name="proj" update="projektform,datas"
+				action="#{prProjektController.selectProjektAction}"
+				oncomplete="projectchoosewid.hide()"></p:remoteCommand>
+			<p:remoteCommand name="alproj" update="alprojectpg,aruTable"
+				actionListener="#{prProjektController.selectAlProjektAction}"
+				oncomplete="alprojectwid.show()"></p:remoteCommand>
+			
+			
+		</h:form></div>
+
+	</ui:define>
+</ui:composition>

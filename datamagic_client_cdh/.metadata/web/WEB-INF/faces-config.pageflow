@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf12977822300001" configfile="/datamagic_client_cdh/web/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="*" x="122" y="5170" id="pf12977822718282" outlinks="pf12977822718283 pf12977822718284 pf12977822718285 pf12977822718286 pf12977822718288 pf129778227182813 pf129778227182816 pf129778227182817 pf129778227182818 pf129778227182821 pf129778227182822 pf129778227182825 pf129778227182826 pf129778227182827 pf129778227182828 pf129778227182829 pf129778227182830 pf129778227182831" path="*"/>
+  <nodes xsi:type="pageflow:PFPage" name="login" x="338" y="178" id="pf129778227182832" referenceLink="//@navigationRule.0/@navigationCase.5/@toViewId|" inlinks="pf12977822718283 pf12977822718288" path="/login.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="index" x="338" y="562" id="pf129778227182833" referenceLink="//@navigationRule.0/@navigationCase.1/@toViewId|" inlinks="pf12977822718284" path="/index.jsp"/>
+  <nodes xsi:type="pageflow:PFPage" name="login_cdh" x="338" y="946" id="pf129778227182834" referenceLink="//@navigationRule.0/@navigationCase.2/@toViewId|" inlinks="pf12977822718285" path="/login_cdh.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/mainpage" x="338" y="1330" id="pf129778227182835" referenceLink="//@navigationRule.0/@navigationCase.3/@toViewId|" inlinks="pf12977822718286" path="/pages/mainpage.jsp"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/realtyinvoicelist" x="338" y="3634" id="pf129778227182841" referenceLink="//@navigationRule.0/@navigationCase.10/@toViewId|" inlinks="pf129778227182813" path="/pages/realtyinvoicelist.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/partnerdataupdate" x="338" y="4786" id="pf129778227182844" referenceLink="//@navigationRule.0/@navigationCase.13/@toViewId|" inlinks="pf129778227182816" path="/pages/partnerdataupdate.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/workerdataupdate" x="338" y="5170" id="pf129778227182845" referenceLink="//@navigationRule.0/@navigationCase.14/@toViewId|" inlinks="pf129778227182817" path="/pages/workerdataupdate.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/realtyarrangementlist" x="338" y="5554" id="pf129778227182846" referenceLink="//@navigationRule.0/@navigationCase.15/@toViewId|" inlinks="pf129778227182818" path="/pages/realtyarrangementlist.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/managenotification" x="338" y="6706" id="pf129778227182849" referenceLink="//@navigationRule.0/@navigationCase.18/@toViewId|" inlinks="pf129778227182821" path="/pages/managenotification.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/notificationlist" x="338" y="7090" id="pf129778227182850" referenceLink="//@navigationRule.0/@navigationCase.19/@toViewId|" inlinks="pf129778227182822" path="/pages/notificationlist.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="mobile/pages/mobilepage" x="338" y="8242" id="pf129778227182853" referenceLink="//@navigationRule.0/@navigationCase.22/@toViewId|" inlinks="pf129778227182825" path="/mobile/pages/mobilepage.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="mobile/pages/mobilepartnerdataupdate" x="338" y="8626" id="pf129778227182854" referenceLink="//@navigationRule.0/@navigationCase.23/@toViewId|" inlinks="pf129778227182826" path="/mobile/pages/mobilepartnerdataupdate.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="mobile/pages/mobileinvoicelist" x="338" y="9010" id="pf129778227182855" referenceLink="//@navigationRule.0/@navigationCase.24/@toViewId|" inlinks="pf129778227182827" path="/mobile/pages/mobileinvoicelist.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="mobile/pages/mobilenotificationlist" x="338" y="9394" id="pf129778227182856" referenceLink="//@navigationRule.0/@navigationCase.25/@toViewId|" inlinks="pf129778227182828" path="/mobile/pages/mobilenotificationlist.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="mobile/pages/mobilerealtyarrangementlist" x="338" y="9778" id="pf129778227182857" referenceLink="//@navigationRule.0/@navigationCase.26/@toViewId|" inlinks="pf129778227182829" path="/mobile/pages/mobilerealtyarrangementlist.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="mobile/pages/mobilerealtyinvoicelist" x="338" y="10162" id="pf129778227182858" referenceLink="//@navigationRule.0/@navigationCase.27/@toViewId|" inlinks="pf129778227182830" path="/mobile/pages/mobilerealtyinvoicelist.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="error" x="338" y="10546" id="pf129778227182859" referenceLink="//@navigationRule.0/@navigationCase.28/@toViewId|" inlinks="pf129778227182831" path="/error.xhtml"/>
+  <links id="pf12977822718283" target="pf129778227182832" source="pf12977822718282" outcome="login" redirect="true"/>
+  <links id="pf12977822718284" target="pf129778227182833" source="pf12977822718282" outcome="index" redirect="true"/>
+  <links id="pf12977822718285" target="pf129778227182834" source="pf12977822718282" outcome="login_cdh" redirect="true"/>
+  <links id="pf12977822718286" target="pf129778227182835" source="pf12977822718282" outcome="mainpage" redirect="true"/>
+  <links id="pf12977822718288" target="pf129778227182832" source="pf12977822718282" outcome="logout" redirect="true"/>
+  <links id="pf129778227182813" target="pf129778227182841" source="pf12977822718282" outcome="realtyinvoicelist" redirect="true"/>
+  <links id="pf129778227182816" target="pf129778227182844" source="pf12977822718282" outcome="partnerdataupdate" redirect="true"/>
+  <links id="pf129778227182817" target="pf129778227182845" source="pf12977822718282" outcome="workerdataupdate" redirect="true"/>
+  <links id="pf129778227182818" target="pf129778227182846" source="pf12977822718282" outcome="realtyarrangementlist" redirect="true"/>
+  <links id="pf129778227182821" target="pf129778227182849" source="pf12977822718282" outcome="managenotification" redirect="true"/>
+  <links id="pf129778227182822" target="pf129778227182850" source="pf12977822718282" outcome="notificationlist" redirect="true"/>
+  <links id="pf129778227182825" target="pf129778227182853" source="pf12977822718282" outcome="mobilepage" redirect="true"/>
+  <links id="pf129778227182826" target="pf129778227182854" source="pf12977822718282" outcome="mobilepartnerdataupdate" redirect="true"/>
+  <links id="pf129778227182827" target="pf129778227182855" source="pf12977822718282" outcome="mobileinvoicelist" redirect="true"/>
+  <links id="pf129778227182828" target="pf129778227182856" source="pf12977822718282" outcome="mobilenotificationlist" redirect="true"/>
+  <links id="pf129778227182829" target="pf129778227182857" source="pf12977822718282" outcome="mobilerealtyarrangementlist" redirect="true"/>
+  <links id="pf129778227182830" target="pf129778227182858" source="pf12977822718282" outcome="mobilerealtyinvoicelist" redirect="true"/>
+  <links id="pf129778227182831" target="pf129778227182859" source="pf12977822718282"/>
+</pageflow:Pageflow>

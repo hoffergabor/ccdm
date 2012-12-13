@@ -1,0 +1,67 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	template="/pages/template.xhtml"
+	locale="#{localeSelector.selectedLocale}">
+
+	<script type="text/javascript" src="../js/mobile.js"></script>
+	<script type="text/javascript" src="../js/jscharts.js"></script>
+
+
+
+	<ui:define name="body">
+		<div class="content textcolor1 backgroundcolor3"><h:form
+			id="bizkommentform">
+			<p:panel styleClass="gradpanel" id="panel">
+				<h1>BIZKOMMENT</h1>
+				<table style="margin: 20px">
+					<tr>
+						<td><p:editor id="editor" width="890px"
+							value="#{bizkommentserviceController.data.partnerBizkomment.bizmegj}"
+							height="300px">
+						</p:editor></td>
+					</tr>
+				</table>
+				<h:panelGroup>
+					<p:commandButton value="#{msg.SAVE}"
+						action="#{bizkommentserviceController.savePartnerBizkomment}"
+						update="message" styleClass="button" />
+					<p:commandButton value="#{msg.SIDEBAR_LOGOUT_BUTTON}"
+						styleClass="button" process="@this" global="false"
+						onclick="document.getElementById('page:bizkommentform:panel').style.visibility='hidden'" />
+				</h:panelGroup>
+			</p:panel>
+			
+			<p:growl id="message" showDetail="true" sticky="false" life="2000"
+				showSummary="true" />
+		</h:form></div>
+		<div id="loader" class="loader"><p:ajaxStatus id="stat">
+			<f:facet name="start">
+				<h:panelGroup>
+					<table align="center" class="loadertable">
+						<tr>
+							<td
+								style="padding-bottom: 10px; padding-left: 10px; padding-right: 10px; padding-top: 10px;"><h:graphicImage
+								value="../img/loader.gif"></h:graphicImage></td>
+						</tr>
+						<tr>
+							<td
+								style="padding-bottom: 10px; padding-left: 10px; padding-right: 10px;"><h:outputText
+								value="#{msg.PROGRESS_MSG}"
+								style="color: #fff;font-weight: bold;font-size: 12px;"></h:outputText></td>
+						</tr>
+					</table>
+				</h:panelGroup>
+			</f:facet>
+			<f:facet name="complete">
+				<p></p>
+			</f:facet>
+		</p:ajaxStatus></div>
+
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,546 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	template="/pages/template.xhtml">
+
+	<ui:define name="body">
+		<div class="content"><h:form id="managenotifform">
+
+			<p:panel styleClass="gradpanel" id="panel">
+				<div class="manageNotificationOdd">
+				<div class="manageNotificationStepNumber">1</div>
+				<div class="manageNotificationRow">
+				<div class="manageNotificationRowSubject">#{msg.MANAGENOTIFICATION_CHOOSERENTAL}</div>
+				<div class="manageNotificationRowForm"><h:panelGroup
+					rendered="#{loginserviceController.managedUser.userType!='DM_RENTER'}">
+					<p:commandButton oncomplete="realtychoosewid.show()"
+						styleClass="manageNotificationSelectButton" immediate="true"
+						update="realtychoosegp"
+						action="#{managenotificationserviceController.showRealtys}"
+						value="#{msg.MANAGENOTIFICATION_REALTIES}" process="@this"
+						title="#{msg.MANAGENOTIFICATION_REALTIESTOOLTIP}"></p:commandButton>
+					<p:commandButton oncomplete="renterchoosewid.show()"
+						styleClass="manageNotificationSelectButton"
+						rendered="#{managenotificationserviceController.managedWorker!=null || managenotificationserviceController.managedPartner!=null}"
+						immediate="true" update="renterchoosegp"
+						actionListener="#{managenotificationserviceController.showRenters}"
+						value="#{msg.MANAGENOTIFICATION_RENTERS}" process="@this"
+						title="#{msg.MANAGENOTIFICATION_RENTERSTOOLTIP}"></p:commandButton>
+				</h:panelGroup> <h:selectOneMenu id="rentals"
+					valueChangeListener="#{managenotificationserviceController.showRenterBySelectedRealty}"
+					value="#{managenotificationserviceController.data.aruextId}"
+					immediate="true" styleClass="manageNotificationSelect"
+					title="#{msg.MANAGENOTIFICATION_RENTALSTOOLTIP}">
+					<f:selectItems
+						value="#{managenotificationserviceController.data.rentalItems}" />
+					<p:ajax event="change" process="@this" update="rentername,rentals"
+						immediate="true" />
+				</h:selectOneMenu><strong><h:outputText id="rentername"
+					value="#{managenotificationserviceController.data.selectedRenterName}" /></strong>
+				</div>
+				</div>
+				</div>
+				<div class="manageNotificationEven">
+				<div class="manageNotificationStepNumber">2</div>
+				<div class="manageNotificationRow">
+				<div class="manageNotificationRowSubject">#{msg.MANAGENOTIFICATION_NOTIFICATIONNAME}</div>
+				<div class="manageNotificationRowForm morePadding"><h:inputText
+					styleClass="manageNotificationTextFieldLong" id="cim"
+					required="true"
+					requiredMessage="#{msg.MANAGENOTIFICATION_NOTIFICATIONNAMEERROR}"
+					style="float: left;"
+					value="#{managenotificationserviceController.data.notification.cim}"></h:inputText>
+				<div class="manageNotificationIcons"><h:panelGrid columns="11">
+					<p:commandLink global="false"
+						title="#{msg.MANAGENOTIFICATION_WATER}" id="water"
+						immediate="true" process="@this" update="wateradvi"
+						style="padding-right:5px;" oncomplete="wateradvwid.show()"
+						onclick="poweradvwid.hide();closeadvwid.hide();floodadvwid.hide();heatingadvwid.hide()">
+						<h:graphicImage url="../img/_VIZ.png"></h:graphicImage>
+					</p:commandLink>
+					<p:commandLink style="padding-right:5px;" global="false" id="power"
+						process="@this" update="poweradvi"
+						title="#{msg.MANAGENOTIFICATION_ELECTRIC}"
+						onclick="wateradvwid.hide();closeadvwid.hide();floodadvwid.hide();heatingadvwid.hide()"
+						oncomplete="poweradvwid.show()">
+						<h:graphicImage url="../img/_ELEKTROMOS.png"></h:graphicImage>
+					</p:commandLink>
+					<p:commandLink style="padding-right:5px;" global="false" id="close"
+						process="@this" update="closeadvi"
+						title="#{msg.MANAGENOTIFICATION_LOCK}"
+						onclick="wateradvwid.hide();poweradvwid.hide();floodadvwid.hide();heatingadvwid.hide()"
+						oncomplete="closeadvwid.show()">
+						<h:graphicImage url="../img/_ZAR.png"></h:graphicImage>
+					</p:commandLink>
+					<p:commandLink style="padding-right:5px;" global="false"
+						id="aircond" process="@this"
+						title="#{msg.MANAGENOTIFICATION_AIRCONDITIONER}"
+						onclick="document.getElementById('page:managenotifform:cim').value='Légkondícionáló hiba'">
+						<h:graphicImage url="../img/_KLIMA.png"></h:graphicImage>
+					</p:commandLink>
+					<p:commandLink style="padding-right:5px;" global="false" id="alarm"
+						process="@this" title="#{msg.MANAGENOTIFICATION_ALARM}"
+						onclick="document.getElementById('page:managenotifform:cim').value='Riasztó hiba';">
+						<h:graphicImage url="../img/_RIASZTO.png"></h:graphicImage>
+					</p:commandLink>
+					<p:commandLink style="padding-right:5px;" global="false"
+						id="flooding" process="@this" oncomplete="floodadvwid.show()"
+						update="floodadvi" title="#{msg.MANAGENOTIFICATION_FLOODING}"
+						onclick="poweradvwid.hide();closeadvwid.hide();wateradvwid.hide();heatingadvwid.hide()">
+						<h:graphicImage url="../img/_BEAZAS.png"></h:graphicImage>
+					</p:commandLink>
+					<p:commandLink style="padding-right:5px;" global="false"
+						id="heating" process="@this" oncomplete="heatingadvwid.show()"
+						update="heatingadvi" title="#{msg.MANAGENOTIFICATION_HEATING}"
+						onclick="poweradvwid.hide();closeadvwid.hide();wateradvwid.hide();floodadvwid.hide()">
+						<h:graphicImage url="../img/_FUTES.png"></h:graphicImage>
+					</p:commandLink>
+					<p:commandLink style="padding-right:5px;" global="false"
+						id="elevator" process="@this"
+						title="#{msg.MANAGENOTIFICATION_ELEVATOR}"
+						onclick="document.getElementById('page:managenotifform:cim').value='Lift hiba'">
+						<h:graphicImage url="../img/_LIFT.png"></h:graphicImage>
+					</p:commandLink>
+					<p:commandLink style="padding-right:5px;" global="false"
+						id="garden" process="@this"
+						title="#{msg.MANAGENOTIFICATION_GARDEN}"
+						onclick="document.getElementById('page:managenotifform:cim').value='Hiba a kertben';">
+						<h:graphicImage url="../img/_KERT.png"></h:graphicImage>
+					</p:commandLink>
+					<p:commandLink style="padding-right:5px;" global="false"
+						rendered="#{managenotificationserviceController.managedUser.userType=='DM_WORKER'}"
+						id="relatycontrol" process="@this"
+						title="#{msg.MANAGENOTIFICATION_REALESTATECONTROL}"
+						onclick="document.getElementById('page:managenotifform:cim').value='Ingatlanellenőrzés';">
+						<h:graphicImage url="../img/_INGATLANELLENORZES.png"></h:graphicImage>
+					</p:commandLink>
+
+				</h:panelGrid></div>
+				<div class="clear"></div>
+
+				</div>
+				</div>
+				</div>
+
+				<div class="manageNotificationOdd">
+				<div class="manageNotificationStepNumber">3</div>
+				<div class="manageNotificationRow">
+				<div class="manageNotificationRowSubject">#{msg.MANAGENOTIFICATION_NOTIFICATIONDESCRIPTION}</div>
+				<div class="manageNotificationRowForm morePadding"><h:inputTextarea
+					styleClass="manageNotificationTextArea left" id="leiras"
+					required="true" rows="6"
+					requiredMessage="#{msg.MANAGENOTIFICATION_NOTIFICATIONDESCRIPTIONERROR}"
+					value="#{managenotificationserviceController.data.notification.leiras}"></h:inputTextarea>
+				<div class="manageNotificationSpacer" style="height: 98px;">&nbsp;</div>
+
+				<h:panelGroup styleClass="manageNotificationStepNumber2"
+					rendered="#{loginserviceController.managedUser.userType!='DM_RENTER'}">3.1</h:panelGroup>
+				<h:panelGroup styleClass="manageNotificationRowSubject2"
+					rendered="#{loginserviceController.managedUser.userType!='DM_RENTER'}">#{msg.MANAGENOTIFICATION_OWNCOMMENT}</h:panelGroup>
+				<br />
+				<br />
+				<h:inputTextarea styleClass="manageNotificationTextAreaSmall left"
+					id="komment"
+					value="#{managenotificationserviceController.data.notification.komment}"
+					rows="6"
+					rendered="#{loginserviceController.managedUser.userType!='DM_RENTER'}"></h:inputTextarea>
+				<div class="clear"></div>
+				</div>
+				</div>
+				</div>
+
+				<div class="manageNotificationEven">
+				<div class="manageNotificationStepNumber">4</div>
+				<div class="manageNotificationRow">
+				<div class="manageNotificationRowSubject">#{msg.MANAGENOTIFICATION_ADDITIONALSETTINGS}</div>
+				<div class="manageNotificationRowForm morePaddingOnlyText">
+				<div class="manageNotificationSettings"><label><h:selectBooleanCheckbox
+					immediate="true" id="callback"
+					value="#{managenotificationserviceController.data.notification.visszahiv}">
+				</h:selectBooleanCheckbox> #{msg.ASK_RECALL} </label><h:panelGroup id="telo">
+					<p:autoComplete id="tel" styleClass="manageNotificationSettingsTel"
+						completeMethod="#{managenotificationserviceController.showTels}"
+						maxlength="30"
+						value="#{managenotificationserviceController.data.notification.telefon}" />
+				</h:panelGroup><br />
+				<h:panelGroup
+					rendered="#{managenotificationserviceController.managedUser.userType!='DM_RENTER'}">
+					<label><h:selectBooleanCheckbox immediate="true"
+						id="figyel"
+						value="#{managenotificationserviceController.data.notification.figyel}"></h:selectBooleanCheckbox>
+					#{msg.ANNOUNCER_LISTEN_TO_TROUBLESHOOTING}</label>
+				</h:panelGroup></div>
+				<div class="manageNotificationSpacer"
+					style="height: 45px; margin-bottom: 12px;">&nbsp;</div>
+
+				<h:panelGroup rendered="#{loginserviceController.managedUser.userType=='DM_WORKER'}" styleClass="manageNotificationStepNumber2">4.1</h:panelGroup>
+				<h:panelGroup rendered="#{loginserviceController.managedUser.userType=='DM_WORKER'}" styleClass="manageNotificationRowSubject2">#{msg.MANAGENOTIFICATION_ADDITIONALSETTINGS}</h:panelGroup>
+
+				<div
+					class="manageNotificationSettings manageNotificationSettingsSmall"><h:panelGroup
+					rendered="#{loginserviceController.managedUser.userType=='DM_WORKER'}">
+					<label style="margin-right: 20px;"><h:selectBooleanCheckbox
+						value="#{managenotificationserviceController.data.notification.urgent}"></h:selectBooleanCheckbox>
+					#{msg.MANAGENOTIFICATION_URGENT}</label>
+					<label><h:selectBooleanCheckbox
+						value="#{managenotificationserviceController.data.flatRate}" />
+					#{msg.MANAGENOTIFICATION_FLATRATE} </label>
+				</h:panelGroup><br />
+				<h:panelGroup
+					rendered="#{managenotificationserviceController.managedUser.userType=='DM_WORKER'}"
+					id="otherpanel">
+					<label
+						style="margin-top: -15px; margin-left: -114px; width: 100px;"><h:selectBooleanCheckbox
+						id="koltsegviselo" immediate="true"
+						value="#{managenotificationserviceController.data.charges}">
+						<p:ajax event="click" process="@this" immediate="true"
+							update="koltsegviselo,kvcombo"
+							action="#{managenotificationserviceController.chargesAction}"></p:ajax>
+					</h:selectBooleanCheckbox> #{msg.MANAGENOTIFICATION_SPONSOR} </label>
+					<h:panelGroup id="kvcombo">
+						<h:selectOneMenu immediate="true"
+							styleClass="manageNotificationSettingsSelect"
+							value="#{managenotificationserviceController.data.selectedCharger}"
+							rendered="#{managenotificationserviceController.data.charges}"
+							id="koltsegviselocombo">
+							<f:selectItems
+								value="#{managenotificationserviceController.data.allPartnerItems}" />
+						</h:selectOneMenu>
+					</h:panelGroup>
+				</h:panelGroup></div>
+				</div>
+				</div>
+				</div>
+
+				<div class="manageNotificationOdd">
+				<div class="manageNotificationStepNumber">5</div>
+				<div class="manageNotificationRow">
+				<div class="manageNotificationRowSubject">#{msg.MANAGENOTIFICATION_DATESETTINGS}</div>
+				<div class="manageNotificationRowForm morePaddingOnlyText">
+				<div class="notifdates">
+				<div class="manageNotificationDates"><label class="textcolor4">#{msg.DATE_OF_NOTIFICATION}
+				*</label> <h:outputText id="bejelentes"
+					value="#{managenotificationserviceController.data.notification.bejelentes_ido}">
+					<f:convertDateTime pattern="#{msg.DATEFORMAT}" />
+				</h:outputText></div>
+				<div class="manageNotificationDates"><label class="textcolor4">#{msg.DATE_OF_PERCEPTION}
+				*</label> <p:calendar id="eszleles" pattern="#{msg.DATEFORMAT}"
+					immediate="true"
+					requiredMessage="Észlelés időpont megadása kötelező!"
+					required="true" effect="fadeIn"
+					value="#{managenotificationserviceController.data.notification.eszleles_ido}">
+				</p:calendar></div>
+				<div class="manageNotificationDates"><label class="textcolor4">#{msg.DATE_OF_ASKED_REPAIR}
+				*</label> <p:calendar pattern="#{msg.DATEFORMAT}" immediate="true"
+					requiredMessage="Kért javítás időpont megadása kötelező!"
+					required="true" effect="fadeIn"
+					value="#{managenotificationserviceController.data.notification.hatarido}">
+				</p:calendar></div>
+				<div class="manageNotificationDates"><label class="textcolor4">#{msg.MANAGENOTIFICATION_COMMENT}:
+				</label> <h:inputText id="javitas" maxlength="50"
+					value="#{managenotificationserviceController.data.notification.kertjav_ido}">
+				</h:inputText></div>
+
+				</div>
+				<div class="clear"></div>
+				</div>
+				</div>
+				</div>
+
+
+
+				<div class="manageNotificationEven">
+				<div class="manageNotificationStepNumber">6</div>
+				<div class="manageNotificationRow">
+				<div class="manageNotificationRowSubject">#{msg.MANAGENOTIFICATION_FILEUPLOAD}</div>
+				<div class="manageNotificationRowForm">
+				<div class="bottomButtonBar"><h:graphicImage
+					url="../img/newDesign/submitBackGround.png"
+					styleClass="submitArrow"></h:graphicImage> <p:commandButton
+					value="#{msg.MANAGENOTIFICATION_SUBMIT}" id="saveButton"
+					process="@this" styleClass="submitButton"
+					onclick="confirmNotif.show()" global="false" /></div>
+				<div class="fileUploader"><p:fileUpload id="upload"
+					update="info" auto="true" height="25" width="150"
+					styleClass="fileUploadFlash" customUI="false" wmode="transparent"
+					image="#{msg.MANAGENOTIFICATION_FILEUPLOADPICTURE}"
+					sizeLimit="99999999"
+					fileUploadListener="#{managenotificationserviceController.handleFileUpload}">
+				</p:fileUpload></div>
+				<div class="fileUploadFiles"><h:panelGroup id="info">
+					<ui:repeat
+						value="#{managenotificationserviceController.data.fileList}"
+						var="file">
+						<table style="border-bottom: dotted 1px #999;">
+							<tr>
+								<td>
+								<table>
+									<tr>
+										<td width="70px" style="text-align: left"><h:outputText
+											value="#{msg.FILE_NAME}:" /></td>
+										<td width="250px"><strong><h:outputText
+											value="#{file.fileName}" /></strong></td>
+
+									</tr>
+									<tr>
+										<td width="70px" style="text-align: left"><h:outputText
+											value="#{msg.FILE_SIZE}(kB):" /></td>
+										<td><h:outputText value="#{file.size/1024}">
+											<f:convertNumber pattern="#,##0" />
+
+										</h:outputText></td>
+									</tr>
+								</table>
+								</td>
+								<td><p:commandButton value="X" styleClass="button"
+									global="false" immediate="true" id="remove"
+									oncomplete="deleteitem()" title="Fájl törlése">
+									<f:setPropertyActionListener value="#{file}"
+										target="#{managenotificationserviceController.data.selectedFile}" />
+								</p:commandButton></td>
+							</tr>
+						</table>
+					</ui:repeat>
+				</h:panelGroup></div>
+				<div class="fileUploadText">#{msg.MANAGENOTIFICATION_FILEUPLOADTEXT}</div>
+				</div>
+				</div>
+				</div>
+
+
+
+				<div style="clear: both;"></div>
+			</p:panel>
+
+			<p:remoteCommand name="deleteitem" process="@this" global="false"
+				update="info,message"
+				actionListener="#{managenotificationserviceController.removeFile}"></p:remoteCommand>
+
+			<!-- POPUPS  -->
+
+			<p:dialog modal="false" id="wateradv" widgetVar="wateradvwid"
+				closable="true" styleClass="smallDialog" draggable="false"
+				header="#{msg.MANAGENOTIFICATION_WATER}" showEffect="fade"
+				hideEffect="fade">
+				<h:panelGroup id="wateradvi">
+					<p:commandLink id="water1" global="false" immediate="true"
+						onclick="document.getElementById('page:managenotifform:cim').value='Dugulás';wateradvwid.hide()"
+						style="padding-right:5px;"
+						title="#{msg.MANAGENOTIFICATION_PLUGGAGE}">
+						<h:graphicImage url="../img/dugulas.png"></h:graphicImage>
+					</p:commandLink>
+					<p:commandLink id="water2" global="false" immediate="true"
+						onclick="document.getElementById('page:managenotifform:cim').value='Csőtörés';wateradvwid.hide()"
+						style="padding-right:5px;"
+						title="#{msg.MANAGENOTIFICATION_BREAKPIPE}">
+						<h:graphicImage url="../img/csotores.png"></h:graphicImage>
+					</p:commandLink>
+					<p:commandLink id="water3" global="false" immediate="true"
+						onclick="document.getElementById('page:managenotifform:cim').value='Rossz csaptelep';wateradvwid.hide()"
+						style="padding-right:5px;"
+						title="#{msg.MANAGENOTIFICATION_BADSTUCK}">
+						<h:graphicImage url="../img/csaptelep.png"></h:graphicImage>
+					</p:commandLink>
+					<p:commandLink id="water4" global="false" immediate="true"
+						onclick="document.getElementById('page:managenotifform:cim').value='Nincs víz';wateradvwid.hide()"
+						style="padding-right:5px;"
+						title="#{msg.MANAGENOTIFICATION_NOWATER}">
+						<h:graphicImage url="../img/nincsviz.png"></h:graphicImage>
+					</p:commandLink>
+					<p:commandLink id="water5" global="false" immediate="true"
+						onclick="document.getElementById('page:managenotifform:cim').value='WC tartály hiba';wateradvwid.hide()"
+						style="padding-right:5px;"
+						title="#{msg.MANAGENOTIFICATION_BADTOILET}">
+						<h:graphicImage url="../img/wcrossz.png"></h:graphicImage>
+					</p:commandLink>
+				</h:panelGroup>
+			</p:dialog>
+
+			<p:dialog modal="false" id="poweradv" widgetVar="poweradvwid"
+				closable="true" styleClass="smallDialog" draggable="false"
+				header="#{msg.MANAGENOTIFICATION_ELECTRICSYSTEMERROR}"
+				showEffect="fade" hideEffect="fade">
+				<h:panelGroup id="poweradvi">
+					<p:commandLink id="power1" global="false" immediate="true"
+						process="@this"
+						onclick="document.getElementById('page:managenotifform:cim').value='Világítás hiba';poweradvwid.hide()"
+						style="padding-right:5px;"
+						title="#{msg.MANAGENOTIFICATION_LIGHTNINGERROR}">
+						<h:graphicImage url="../img/vilagitas.png"></h:graphicImage>
+					</p:commandLink>
+					<p:commandLink id="power2" global="false" immediate="true"
+						process="@this"
+						onclick="document.getElementById('page:managenotifform:cim').value='Zárlat';poweradvwid.hide()"
+						style="padding-right:5px;"
+						title="#{msg.MANAGENOTIFICATION_CLOSURE}">
+						<h:graphicImage url="../img/zarlat.png"></h:graphicImage>
+					</p:commandLink>
+					<p:commandLink id="power3" global="false" immediate="true"
+						process="@this"
+						onclick="document.getElementById('page:managenotifform:cim').value='Nincs feszültség';poweradvwid.hide()"
+						style="padding-right:5px;"
+						title="#{msg.MANAGENOTIFICATION_NOVOLTAGE}">
+						<h:graphicImage url="../img/nincsfeszultseg1.png"></h:graphicImage>
+					</p:commandLink>
+				</h:panelGroup>
+			</p:dialog>
+
+			<p:dialog modal="false" id="closeadv" widgetVar="closeadvwid"
+				closable="true" styleClass="smallDialog" draggable="false"
+				header="#{msg.MANAGENOTIFICATION_LOCKERROR}" showEffect="fade"
+				hideEffect="fade">
+				<h:panelGroup id="closeadvi">
+					<p:commandLink id="close1" global="false" immediate="true"
+						process="@this"
+						onclick="document.getElementById('page:managenotifform:cim').value='Zár hiba';closeadvwid.hide()"
+						style="padding-right:5px;"
+						title="#{msg.MANAGENOTIFICATION_LOCKERROR}">
+						<h:graphicImage url="../img/zarhiba.png"></h:graphicImage>
+					</p:commandLink>
+					<p:commandLink id="close2" global="false" immediate="true"
+						process="@this"
+						onclick="document.getElementById('page:managenotifform:cim').value='Elektromos kapu hiba';closeadvwid.hide()"
+						style="padding-right:5px;"
+						title="#{msg.MANAGENOTIFICATION_ELECTRICGATEERROR}">
+						<h:graphicImage url="../img/elektromoskapu.png"></h:graphicImage>
+					</p:commandLink>
+				</h:panelGroup>
+			</p:dialog>
+
+			<p:dialog modal="false" id="floodadv" widgetVar="floodadvwid"
+				closable="true" styleClass="smallDialog" draggable="false"
+				header="#{msg.MANAGENOTIFICATION_FLOODINGERROR}" showEffect="fade"
+				hideEffect="fade">
+				<h:panelGroup id="floodadvi">
+					<p:commandLink id="flood1" global="false" immediate="true"
+						process="@this"
+						onclick="document.getElementById('page:managenotifform:cim').value='Beázás';floodadvwid.hide()"
+						style="padding-right:5px;"
+						title="#{msg.MANAGENOTIFICATION_FLOODING}">
+						<h:graphicImage url="../img/beazas.png"></h:graphicImage>
+					</p:commandLink>
+					<p:commandLink id="flood2" global="false" immediate="true"
+						process="@this"
+						onclick="document.getElementById('page:managenotifform:cim').value='Festés';floodadvwid.hide()"
+						style="padding-right:5px;"
+						title="#{msg.MANAGENOTIFICATION_PAINTING}">
+						<h:graphicImage url="../img/festes.png"></h:graphicImage>
+					</p:commandLink>
+				</h:panelGroup>
+			</p:dialog>
+
+			<p:dialog modal="false" id="heatingadv" widgetVar="heatingadvwid"
+				closable="true" styleClass="smallDialog" draggable="false"
+				header="#{msg.MANAGENOTIFICATION_HEATINGSYSTEMERROR}"
+				showEffect="fade" hideEffect="fade">
+				<h:panelGroup id="heatingadvi">
+					<p:commandLink id="heating1" global="false" immediate="true"
+						process="@this"
+						onclick="document.getElementById('page:managenotifform:cim').value='Nem működik a fűtés';heatingadvwid.hide()"
+						style="padding-right:5px;"
+						title="#{msg.MANAGENOTIFICATION_HEATINGNOTWORKING}">
+						<h:graphicImage url="../img/nincsfutes.png"></h:graphicImage>
+					</p:commandLink>
+					<p:commandLink id="heating2" global="false" immediate="true"
+						process="@this"
+						onclick="document.getElementById('page:managenotifform:cim').value='Csöpög a radiátor';heatingadvwid.hide()"
+						style="padding-right:5px;"
+						title="#{msg.MANAGENOTIFICATION_WEEPINGRADIATOR}">
+						<h:graphicImage url="../img/csopogaradiator.png"></h:graphicImage>
+					</p:commandLink>
+				</h:panelGroup>
+			</p:dialog>
+
+
+			<p:dialog id="realtychoose" widgetVar="realtychoosewid" modal="false"
+				closable="true" styleClass="commonDialog"
+				header="#{msg.MANAGENOTIFICATION_CHOOSEREALTY}">
+				<h:panelGroup id="realtychoosegp">
+					<div class="choosepartner-sales-form">
+					<div class="popupSearch"><h:inputText styleClass="input"
+						id="searchtext"
+						value="#{managenotificationserviceController.data.realtySearchText}">
+						<p:ajax event="change" process="@this" />
+					</h:inputText> <p:commandButton value="#{msg.MANAGENOTIFICATION_SEARCH}"
+						update="realtychoosegp" immediate="true"
+						styleClass="popupSearchButton" process="@this"
+						action="#{managenotificationserviceController.searchRealtyAction}" /></div>
+					<h:selectOneListbox id="realtys"
+						value="#{managenotificationserviceController.data.projectId}"
+						style="width: 280px;height: 425px;background-color: #777;border:solid 1px #555;color: #fff">
+						<f:selectItem itemLabel="" itemValue="" escape="false" />
+						<f:selectItems
+							value="#{managenotificationserviceController.data.flatItems}" />
+						<p:ajax event="change" process="@this" />
+					</h:selectOneListbox>
+					<div class="submit"><p:commandButton value="OK"
+						process="@this"
+						action="#{managenotificationserviceController.selectRealtyAction}"
+						immediate="true" oncomplete="realtychoosewid.hide()"
+						update="message,rentals,rentername,renterchoosegp"
+						styleClass="commonButton" /></div>
+					</div>
+				</h:panelGroup>
+			</p:dialog>
+
+			<p:dialog id="renterchoose" widgetVar="renterchoosewid" modal="false"
+				closable="true" styleClass="commonDialog"
+				header="#{msg.MANAGENOTIFICATION_CHOOSERENTER}">
+				<h:panelGroup id="renterchoosegp">
+					<div class="choosepartner-sales-form">
+					<div class="popupSearch"><h:inputText styleClass="input"
+						id="rentersearchtext"
+						value="#{managenotificationserviceController.data.renterSearchText}">
+						<p:ajax event="change" process="@this" />
+					</h:inputText> <p:commandButton value="#{msg.MANAGENOTIFICATION_SEARCH}"
+						update="renterchoosegp" immediate="true"
+						styleClass="popupSearchButton" process="@this"
+						actionListener="#{managenotificationserviceController.searchRenterAction}" /></div>
+					<h:selectOneListbox id="renters"
+						value="#{managenotificationserviceController.data.selectedRenterId}"
+						style="width: 280px;height: 425px;background-color: #777;border:solid 1px #555;color: #fff">
+						<f:selectItem itemLabel="" itemValue="" escape="false" />
+						<f:selectItems
+							value="#{managenotificationserviceController.data.renterItems}" />
+						<p:ajax event="change" process="@this" />
+					</h:selectOneListbox>
+
+					<div class="submit"><p:commandButton value="OK"
+						process="@this"
+						actionListener="#{managenotificationserviceController.selectRenterAction}"
+						immediate="true" oncomplete="renterchoosewid.hide()"
+						update="message,rentals,rentername" styleClass="commonButton" /></div>
+					</div>
+				</h:panelGroup>
+			</p:dialog>
+
+			<p:dialog header="#{msg.NOTIFICATION_CONFIRM}"
+				widgetVar="confirmNotif" modal="true" draggable="false"
+				styleClass="smallDialog" closable="false" width="200">
+				<center><br />
+				<p:commandButton value="#{msg.NOTIFICATION_NO}" process="@this"
+					immediate="true" onclick="confirmNotif.hide();" type="button"
+					styleClass="commonButton cancelButton" /> <p:commandButton
+					value="#{msg.NOTIFICATION_SAVE}"
+					onclick="confirmNotif.hide();start();saveButton.disable()"
+					styleClass="commonButton submitButton"
+					action="#{managenotificationserviceController.saveNotification}"
+					update="realtychoosegp,eszleles,bejelentes,message,rentals,cim,leiras,komment,telo,figyel,callback,rentername,info,javitas,otherpanel" />
+				<br />
+				<br />
+				</center>
+			</p:dialog>
+
+			<p:growl id="message" showDetail="true" sticky="false" life="5000"
+				showSummary="false" infoIcon="../img/newDesign/felkialto.png"
+				fatalIcon="../img/newDesign/x.png"
+				errorIcon="../img/newDesign/x.png" />
+			<p:tooltip global="true"></p:tooltip>
+		</h:form></div>
+	</ui:define>
+</ui:composition>

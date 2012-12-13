@@ -1,0 +1,69 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<f:view contentType="text/html" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:i="http://primefaces.prime.com.tr/touch"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	
+		<f:loadBundle
+		basename="hu.iboard.coandco.datamagic.resources.MessageResources_hu"
+		var="msg" />
+
+	<i:application theme="dark">
+		<i:view id="realtyarrangementlist" title="Intézkedések">
+			<f:facet name="rightNavBar">
+				<i:navBarControl label="Info" effect="flip" type="button" />
+			</f:facet>
+			<h:form prependId="false">
+				<i:tableView id="ip">
+					<i:rowGroup>
+						<i:rowItem>
+							<div style="margin-right: 5px; float: left;"><p:calendar
+								value="#{realtyarrangementserviceController.data.from}"
+								id="from"
+								selectListener="#{realtyarrangementserviceController.realtyDateFromChange}"
+								pattern="#{msg.DATEFORMAT}" inputStyle="width:100px">
+							</p:calendar></div>
+							<div style="margin-right: 20px; float: left;"><label
+								class="textcolor4"> #{msg.INVOICESTORNFIX_DATEFROM}</label></div>
+							<div style="margin-right: 5px; float: left;"><p:calendar
+								id="to"
+								selectListener="#{realtyarrangementserviceController.realtyDateToChange}"
+								value="#{realtyarrangementserviceController.data.to}"
+								pattern="#{msg.DATEFORMAT}" inputStyle="width:100px">
+							</p:calendar></div>
+							<label class="textcolor4">#{msg.INVOICESTORNFIX_DATETO}</label>
+							<i:rowGroup>
+								<center><i:rowItem
+									style="margin-left: 20px; margin-top: -6px;" process="@this"
+									value="Szűrés" update="list" view="a"
+									actionListener="#{realtyarrangementserviceController.realtyDateChange}">
+								</i:rowItem></center>
+							</i:rowGroup>
+						</i:rowItem>
+					</i:rowGroup>
+					<i:rowGroup display="edgetoedge" id="list">
+						<ui:repeat
+							value="#{realtyarrangementserviceController.data.realtyArrangements}"
+							var="data">
+							<i:rowItem>
+								<div style="font-size: 12px; color: white">#{data.itemNumber}<br />
+								#{data.objectaddress}<br />
+								<h:outputText value="#{data.letrehozva}" style="float:right">
+									<f:convertDateTime pattern="#{msg.DATEFORMAT}" />
+								</h:outputText>#{data.status}</div>
+							</i:rowItem>
+						</ui:repeat>
+					</i:rowGroup>
+					<i:rowGroup>
+						<center><i:rowItem value="Főmenü" update="list"
+							action="mobilepage" styleClass="whiteButton" view="a" /></center>
+					</i:rowGroup>
+				</i:tableView>
+			</h:form>
+		</i:view>
+	</i:application>
+</f:view>

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<dms_config>
+	<ftp_host>195.56.54.70</ftp_host>
+	<ftp_port>21</ftp_port>
+	<ftp_user>cdhungary\coandco</ftp_user>
+	<ftp_pass>Buda123</ftp_pass>
+	
+<!--	<ftp_host>zsolt.datamagic.hu</ftp_host>-->
+<!--	<ftp_port>21</ftp_port>-->
+<!--	<ftp_user>web</ftp_user>-->
+<!--	<ftp_pass>WebPass012</ftp_pass>-->
+	
+	<!--<ftp_download_path><![CDATA[/var/www/DMC/downloads/]]></ftp_download_path>-->
+	<ftp_download_path><![CDATA[c:/Program Files/EasyPHP 2.0b1/www/DMC/downloads/]]></ftp_download_path>
+</dms_config>

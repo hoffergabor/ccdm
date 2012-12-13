@@ -1,0 +1,112 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	template="/pages/template.xhtml">
+
+	<ui:define name="body">
+		<div class="content textcolor1 backgroundcolor3"><h:form
+			id="partnerdataform">
+			<p:panel styleClass="gradpanel" id="panel">
+				<h:panelGroup styleClass="partnerDataUpdate" id="datapanel">
+					<div class="left"><label class="importantData">#{msg.PARTNERDATA_NAME}<h:inputText
+						value="#{partnerdataupdateController.data.partner.nev}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_ZIP}<h:inputText 
+						value="#{partnerdataupdateController.data.partner.irsz}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_CITY}<h:inputText 
+						value="#{partnerdataupdateController.data.partner.varos}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_ADDR}<h:inputText 
+						value="#{partnerdataupdateController.data.partner.cim}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_DELIVERY_ADDR}<h:inputText
+						value="#{partnerdataupdateController.data.partner.szallcim}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_MAILING_ZIP}<h:inputText
+						value="#{partnerdataupdateController.data.partner.levirsz}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_MAILING_CITY}<h:inputText
+						value="#{partnerdataupdateController.data.partner.levvaros}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_MAILING_ADDR}<h:inputText
+						value="#{partnerdataupdateController.data.partner.levcim}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_TEL1}<h:inputText 
+						value="#{partnerdataupdateController.data.tel1}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_TEL2}<h:inputText 
+						value="#{partnerdataupdateController.data.tel2}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_FAX1}<h:inputText 
+						value="#{partnerdataupdateController.data.fax1}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_FAX2}<h:inputText 
+						value="#{partnerdataupdateController.data.fax2}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_EMAIL}<h:inputText 
+						value="#{partnerdataupdateController.data.email}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_URL}<h:inputText 
+						value="#{partnerdataupdateController.data.partner.honlap}"></h:inputText></label>
+					</div>
+					<div class="right"><label>#{msg.PARTNERDATA_CEO}<h:inputText
+						value="#{partnerdataupdateController.data.partner.ugyvezeto}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_CEO_TEL}<h:inputText
+						value="#{partnerdataupdateController.data.partner.ugyvtel}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_CEO_EMAIL}<h:inputText
+						value="#{partnerdataupdateController.data.partner.ugyvemail}"></h:inputText></label>
+					<hr />
+					<label>#{msg.PARTNERDATA_CONTACT_TEL}<h:inputText
+						value="#{partnerdataupdateController.data.partner.kapcstel}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_CONTACT_EMAIL}<h:inputText
+						value="#{partnerdataupdateController.data.partner.kapcsemail}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_COMPANY_NUM}<h:inputText
+						value="#{partnerdataupdateController.data.partner.cegjegyzek}"></h:inputText></label>
+					<hr />
+					<label>#{msg.PARTNERDATA_TAX_NUM}<h:inputText
+						value="#{partnerdataupdateController.data.partner.adoszam}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_BANK_NAME}<h:inputText
+						value="#{partnerdataupdateController.data.partner.banknev}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_ACCOUNT}<h:inputText
+						value="#{partnerdataupdateController.data.partner.szlaszam}"></h:inputText></label>
+					<label>#{msg.PARTNERDATA_PAYMENT_TYPE} <h:inputText
+						id="payment"
+						value="#{partnerdataupdateController.data.partner.fizmod}">
+					</h:inputText></label> <h:panelGroup rendered="true">
+						<hr />
+						<label>#{msg.PARTNERDATA_PWD1}<h:inputSecret id="pass1"
+							value="#{partnerdataupdateController.data.password1}"></h:inputSecret></label>
+						<label>#{msg.PARTNERDATA_PWD2}<h:inputSecret id="pass2"
+							value="#{partnerdataupdateController.data.password2}"></h:inputSecret></label>
+					</h:panelGroup></div>
+
+					<div class="clear" />
+				</h:panelGroup>
+				<br />
+
+				<p:commandButton value="Adatmódosítás" styleClass="commonButton"
+					update="message,datapanel"  process="@all"
+					action="#{partnerdataupdateController.sendEmailWithChangedDatas}"
+					 />
+
+				<p:commandButton rendered="true"
+					action="#{partnerdataupdateController.changePasswordAction}"
+					value="#{msg.PARTNERDATA_CHANGE_PWD_BUTTON}"
+					styleClass="commonButton" update="message,pass1,pass2" />
+				<p:commandButton value="#{msg.SAVE}" styleClass="commonButton"
+					rendered="false"
+					actionListener="#{partnerdataupdateController.updatePartnerData}"
+					id="updatedata" update="message,menu:menuform" />
+
+			</p:panel>
+
+
+			<p:growl id="message" sticky="false" life="40000" showSummary="false"
+				showDetail="true" />
+
+		</h:form></div>
+
+		<div class="helpContent" onclick="RemoveHelp();" id="help">
+		<div class="headerHelp"></div>
+		<div class="menuHelp">
+		<div class="helpBubble"
+			style="top: 100px; left: 560px; border-top-right-radius: 0; -moz-border-radius-topright: 0; -webkit-border-top-right-radius: 0;">
+		Az <strong>ADATMÓDOSÍTÁS</strong> menüpontban van, itt megtekintheti
+		regisztrált adatait, illetve egyes adatokat módosíthat.</div>
+		</div>
+		</div>
+	</ui:define>
+</ui:composition>
