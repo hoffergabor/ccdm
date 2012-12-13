@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project name="datamagic_server" resourceRoot="" soapui-version="4.0.0" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings><con:setting id="ProjectSettings@projectNature">com.eviware.soapui.soapuiNature</con:setting></con:settings><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="BasicHttpBinding_IDMRPC_Contract" type="wsdl" bindingName="{http://tempuri.org/}BasicHttpBinding_IDMRPC_Contract" soapVersion="1_1" anonymous="optional" definition="http://ftp.datamagic.hu:7532/DMRPC?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.actions.iface.tools.wsimport.WSImportAction@values-local"><![CDATA[<xml-fragment xmlns:con="http://eviware.com/soapui/config">
+  <con:entry key="wsdlLocation" value=""/>
+  <con:entry key="Use cached WSDL" value="false"/>
+  <con:entry key="HTTP Proxy" value=""/>
+  <con:entry key="WSDL" value="http://ftp.datamagic.hu:7532/DMRPC?wsdl"/>
+  <con:entry key="Catalog" value=""/>
+  <con:entry key="Source Directory" value="C:\workspace\datamagic_server\src"/>
+  <con:entry key="Package" value="hu.iboard.coandco.datamagic.webservice.test"/>
+  <con:entry key="Keep" value="true"/>
+  <con:entry key="Target Directory" value="C:\workspace\datamagic_server\bin"/>
+  <con:entry key="Tool Args" value=""/>
+  <con:entry key="Binding files" value=""/>
+</xml-fragment>]]></con:setting></con:settings><con:definitionCache type="TEXT" rootPart="http://ftp.datamagic.hu:7532/DMRPC?wsdl"><con:part><con:url>http://ftp.datamagic.hu:7532/DMRPC?wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="DMRPC" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:tns="http://tempuri.org/" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://ftp.datamagic.hu:7532/DMRPC?xsd=xsd0" namespace="http://tempuri.org/"/>
+      <xsd:import schemaLocation="http://ftp.datamagic.hu:7532/DMRPC?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/"/>
+      <xsd:import schemaLocation="http://ftp.datamagic.hu:7532/DMRPC?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/SZLA"/>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IDMRPC_Contract_GetAruCount_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAruCount"/>
+  </wsdl:message>
+  <wsdl:message name="IDMRPC_Contract_GetAruCount_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAruCountResponse"/>
+  </wsdl:message>
+  <wsdl:message name="IDMRPC_Contract_GetDateTimeNow_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDateTimeNow"/>
+  </wsdl:message>
+  <wsdl:message name="IDMRPC_Contract_GetDateTimeNow_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDateTimeNowResponse"/>
+  </wsdl:message>
+  <wsdl:message name="IDMRPC_Contract_GetLastException_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetLastException"/>
+  </wsdl:message>
+  <wsdl:message name="IDMRPC_Contract_GetLastException_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetLastExceptionResponse"/>
+  </wsdl:message>
+  <wsdl:message name="IDMRPC_Contract_GetMachineName_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetMachineName"/>
+  </wsdl:message>
+  <wsdl:message name="IDMRPC_Contract_GetMachineName_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetMachineNameResponse"/>
+  </wsdl:message>
+  <wsdl:message name="IDMRPC_Contract_GetSessionId_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSessionId"/>
+  </wsdl:message>
+  <wsdl:message name="IDMRPC_Contract_GetSessionId_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSessionIdResponse"/>
+  </wsdl:message>
+  <wsdl:message name="IDMRPC_Contract_IsValidSession_InputMessage">
+    <wsdl:part name="parameters" element="tns:IsValidSession"/>
+  </wsdl:message>
+  <wsdl:message name="IDMRPC_Contract_IsValidSession_OutputMessage">
+    <wsdl:part name="parameters" element="tns:IsValidSessionResponse"/>
+  </wsdl:message>
+  <wsdl:message name="IDMRPC_Contract_GetManagementReport_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetManagementReport"/>
+  </wsdl:message>
+  <wsdl:message name="IDMRPC_Contract_GetManagementReport_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetManagementReportResponse"/>
+  </wsdl:message>
+  <wsdl:message name="IDMRPC_Contract_GetGridValue_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetGridValue"/>
+  </wsdl:message>
+  <wsdl:message name="IDMRPC_Contract_GetGridValue_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetGridValueResponse"/>
+  </wsdl:message>
+  <wsdl:message name="IDMRPC_Contract_SendGrid_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendGrid"/>
+  </wsdl:message>
+  <wsdl:message name="IDMRPC_Contract_SendGrid_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendGridResponse"/>
+  </wsdl:message>
+  <wsdl:portType name="IDMRPC_Contract">
+    <wsdl:operation name="GetAruCount">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDMRPC_Contract/GetAruCount" message="tns:IDMRPC_Contract_GetAruCount_InputMessage"/>
+      <wsdl:output wsaw:Action="http://tempuri.org/IDMRPC_Contract/GetAruCountResponse" message="tns:IDMRPC_Contract_GetAruCount_OutputMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetDateTimeNow">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDMRPC_Contract/GetDateTimeNow" message="tns:IDMRPC_Contract_GetDateTimeNow_InputMessage"/>
+      <wsdl:output wsaw:Action="http://tempuri.org/IDMRPC_Contract/GetDateTimeNowResponse" message="tns:IDMRPC_Contract_GetDateTimeNow_OutputMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetLastException">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDMRPC_Contract/GetLastException" message="tns:IDMRPC_Contract_GetLastException_InputMessage"/>
+      <wsdl:output wsaw:Action="http://tempuri.org/IDMRPC_Contract/GetLastExceptionResponse" message="tns:IDMRPC_Contract_GetLastException_OutputMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetMachineName">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDMRPC_Contract/GetMachineName" message="tns:IDMRPC_Contract_GetMachineName_InputMessage"/>
+      <wsdl:output wsaw:Action="http://tempuri.org/IDMRPC_Contract/GetMachineNameResponse" message="tns:IDMRPC_Contract_GetMachineName_OutputMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetSessionId">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDMRPC_Contract/GetSessionId" message="tns:IDMRPC_Contract_GetSessionId_InputMessage"/>
+      <wsdl:output wsaw:Action="http://tempuri.org/IDMRPC_Contract/GetSessionIdResponse" message="tns:IDMRPC_Contract_GetSessionId_OutputMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="IsValidSession">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDMRPC_Contract/IsValidSession" message="tns:IDMRPC_Contract_IsValidSession_InputMessage"/>
+      <wsdl:output wsaw:Action="http://tempuri.org/IDMRPC_Contract/IsValidSessionResponse" message="tns:IDMRPC_Contract_IsValidSession_OutputMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetManagementReport">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDMRPC_Contract/GetManagementReport" message="tns:IDMRPC_Contract_GetManagementReport_InputMessage"/>
+      <wsdl:output wsaw:Action="http://tempuri.org/IDMRPC_Contract/GetManagementReportResponse" message="tns:IDMRPC_Contract_GetManagementReport_OutputMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetGridValue">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDMRPC_Contract/GetGridValue" message="tns:IDMRPC_Contract_GetGridValue_InputMessage"/>
+      <wsdl:output wsaw:Action="http://tempuri.org/IDMRPC_Contract/GetGridValueResponse" message="tns:IDMRPC_Contract_GetGridValue_OutputMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="SendGrid">
+      <wsdl:input wsaw:Action="http://tempuri.org/IDMRPC_Contract/SendGrid" message="tns:IDMRPC_Contract_SendGrid_InputMessage"/>
+      <wsdl:output wsaw:Action="http://tempuri.org/IDMRPC_Contract/SendGridResponse" message="tns:IDMRPC_Contract_SendGrid_OutputMessage"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IDMRPC_Contract" type="tns:IDMRPC_Contract">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="GetAruCount">
+      <soap:operation soapAction="http://tempuri.org/IDMRPC_Contract/GetAruCount" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDateTimeNow">
+      <soap:operation soapAction="http://tempuri.org/IDMRPC_Contract/GetDateTimeNow" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLastException">
+      <soap:operation soapAction="http://tempuri.org/IDMRPC_Contract/GetLastException" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMachineName">
+      <soap:operation soapAction="http://tempuri.org/IDMRPC_Contract/GetMachineName" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSessionId">
+      <soap:operation soapAction="http://tempuri.org/IDMRPC_Contract/GetSessionId" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsValidSession">
+      <soap:operation soapAction="http://tempuri.org/IDMRPC_Contract/IsValidSession" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetManagementReport">
+      <soap:operation soapAction="http://tempuri.org/IDMRPC_Contract/GetManagementReport" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGridValue">
+      <soap:operation soapAction="http://tempuri.org/IDMRPC_Contract/GetGridValue" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendGrid">
+      <soap:operation soapAction="http://tempuri.org/IDMRPC_Contract/SendGrid" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="DMRPC">
+    <wsdl:port name="BasicHttpBinding_IDMRPC_Contract" binding="tns:BasicHttpBinding_IDMRPC_Contract">
+      <soap:address location="http://ftp.datamagic.hu:7532/DMRPC"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part><con:part><con:url>http://ftp.datamagic.hu:7532/DMRPC?xsd=xsd0</con:url><con:content><![CDATA[<xs:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://tempuri.org/">
+  <xs:import schemaLocation="http://ftp.datamagic.hu:7532/DMRPC?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/SZLA"/>
+  <xs:element name="GetAruCount">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="sessionid" type="xs:long"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAruCountResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetAruCountResult" type="xs:int"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDateTimeNow">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="sessionid" type="xs:long"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDateTimeNowResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetDateTimeNowResult" type="xs:dateTime"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetLastException">
+    <xs:complexType>
+      <xs:sequence/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetLastExceptionResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetLastExceptionResult" nillable="true" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetMachineName">
+    <xs:complexType>
+      <xs:sequence/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetMachineNameResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetMachineNameResult" nillable="true" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetSessionId">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="dbServer" nillable="true" type="xs:string"/>
+        <xs:element minOccurs="0" name="dbPort" nillable="true" type="xs:string"/>
+        <xs:element minOccurs="0" name="dbUser" nillable="true" type="xs:string"/>
+        <xs:element minOccurs="0" name="dbPass" nillable="true" type="xs:string"/>
+        <xs:element minOccurs="0" name="dataBase" nillable="true" type="xs:string"/>
+        <xs:element minOccurs="0" name="cegUnikazon" nillable="true" type="xs:string"/>
+        <xs:element minOccurs="0" name="dolgozoKod" type="xs:int"/>
+        <xs:element minOccurs="0" name="dolgozoPass" nillable="true" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetSessionIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetSessionIdResult" type="xs:long"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="IsValidSession">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="sessionid" type="xs:long"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="IsValidSessionResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="IsValidSessionResult" type="xs:boolean"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetManagementReport">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="sessionid" type="xs:long"/>
+        <xs:element minOccurs="0" name="datum" type="xs:dateTime"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetManagementReportResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetManagementReportResult" nillable="true" type="q1:ManagementReport" xmlns:q1="http://schemas.datacontract.org/2004/07/SZLA"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetGridValue">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="gridid" type="xs:int"/>
+        <xs:element minOccurs="0" name="rowindex" type="xs:int"/>
+        <xs:element minOccurs="0" name="columnindex" type="xs:int"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetGridValueResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetGridValueResult" nillable="true" type="xs:anyType"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SendGrid">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="endpoint" nillable="true" type="xs:string"/>
+        <xs:element minOccurs="0" name="message" nillable="true" type="xs:string"/>
+        <xs:element minOccurs="0" name="gridid" type="xs:int"/>
+        <xs:element minOccurs="0" name="gridDescriptor" nillable="true" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SendGridResponse">
+    <xs:complexType>
+      <xs:sequence/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part><con:part><con:url>http://ftp.datamagic.hu:7532/DMRPC?xsd=xsd2</con:url><con:content><![CDATA[<xs:schema elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/SZLA" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.datacontract.org/2004/07/SZLA">
+  <xs:complexType name="ManagementReport">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Adott_havi_atlagos_arres" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="Bank_egyenleg" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="Havi_arbevetel" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="Keszletertek" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="Leszamlazatlan_szallitolevelek" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="Penztar_egyenleg" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="Szallitoi_tartozasok" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="Szallitoi_tartozasok_lejart" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="Vevo_tartozasok" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="Vevo_tartozasok_lejart" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="Visszaigazolatlan_szallitolevelek" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="Visszaigazolt_rendelesek_erteke" type="xs:decimal"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ManagementReport" nillable="true" type="tns:ManagementReport"/>
+</xs:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part><con:part><con:url>http://ftp.datamagic.hu:7532/DMRPC?xsd=xsd1</con:url><con:content><![CDATA[<xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.microsoft.com/2003/10/Serialization/">
+  <xs:element name="anyType" nillable="true" type="xs:anyType"/>
+  <xs:element name="anyURI" nillable="true" type="xs:anyURI"/>
+  <xs:element name="base64Binary" nillable="true" type="xs:base64Binary"/>
+  <xs:element name="boolean" nillable="true" type="xs:boolean"/>
+  <xs:element name="byte" nillable="true" type="xs:byte"/>
+  <xs:element name="dateTime" nillable="true" type="xs:dateTime"/>
+  <xs:element name="decimal" nillable="true" type="xs:decimal"/>
+  <xs:element name="double" nillable="true" type="xs:double"/>
+  <xs:element name="float" nillable="true" type="xs:float"/>
+  <xs:element name="int" nillable="true" type="xs:int"/>
+  <xs:element name="long" nillable="true" type="xs:long"/>
+  <xs:element name="QName" nillable="true" type="xs:QName"/>
+  <xs:element name="short" nillable="true" type="xs:short"/>
+  <xs:element name="string" nillable="true" type="xs:string"/>
+  <xs:element name="unsignedByte" nillable="true" type="xs:unsignedByte"/>
+  <xs:element name="unsignedInt" nillable="true" type="xs:unsignedInt"/>
+  <xs:element name="unsignedLong" nillable="true" type="xs:unsignedLong"/>
+  <xs:element name="unsignedShort" nillable="true" type="xs:unsignedShort"/>
+  <xs:element name="char" nillable="true" type="tns:char"/>
+  <xs:simpleType name="char">
+    <xs:restriction base="xs:int"/>
+  </xs:simpleType>
+  <xs:element name="duration" nillable="true" type="tns:duration"/>
+  <xs:simpleType name="duration">
+    <xs:restriction base="xs:duration">
+      <xs:pattern value="\-?P(\d*D)?(T(\d*H)?(\d*M)?(\d*(\.\d*)?S)?)?"/>
+      <xs:minInclusive value="-P10675199DT2H48M5.4775808S"/>
+      <xs:maxInclusive value="P10675199DT2H48M5.4775807S"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="guid" nillable="true" type="tns:guid"/>
+  <xs:simpleType name="guid">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[\da-fA-F]{8}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{12}"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:attribute name="FactoryType" type="xs:QName"/>
+  <xs:attribute name="Id" type="xs:ID"/>
+  <xs:attribute name="Ref" type="xs:IDREF"/>
+</xs:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://ftp.datamagic.hu:7532/DMRPC</con:endpoint></con:endpoints><con:operation isOneWay="false" action="http://tempuri.org/IDMRPC_Contract/GetAruCount" name="GetAruCount" bindingOperationName="GetAruCount" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://ftp.datamagic.hu:7532/DMRPC</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <tem:GetAruCount>
+         <!--Optional:-->
+         <tem:sessionid>?</tem:sessionid>
+      </tem:GetAruCount>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://tempuri.org/IDMRPC_Contract/GetAruCount"/></con:call></con:operation><con:operation isOneWay="false" action="http://tempuri.org/IDMRPC_Contract/GetDateTimeNow" name="GetDateTimeNow" bindingOperationName="GetDateTimeNow" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://ftp.datamagic.hu:7532/DMRPC</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <tem:GetDateTimeNow>
+         <!--Optional:-->
+         <tem:sessionid>?</tem:sessionid>
+      </tem:GetDateTimeNow>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://tempuri.org/IDMRPC_Contract/GetDateTimeNow"/></con:call></con:operation><con:operation isOneWay="false" action="http://tempuri.org/IDMRPC_Contract/GetGridValue" name="GetGridValue" bindingOperationName="GetGridValue" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://ftp.datamagic.hu:7532/DMRPC</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <tem:GetGridValue>
+         <!--Optional:-->
+         <tem:gridid>?</tem:gridid>
+         <!--Optional:-->
+         <tem:rowindex>?</tem:rowindex>
+         <!--Optional:-->
+         <tem:columnindex>?</tem:columnindex>
+      </tem:GetGridValue>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://tempuri.org/IDMRPC_Contract/GetGridValue"/></con:call></con:operation><con:operation isOneWay="false" action="http://tempuri.org/IDMRPC_Contract/GetLastException" name="GetLastException" bindingOperationName="GetLastException" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://ftp.datamagic.hu:7532/DMRPC</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <tem:GetLastException/>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://tempuri.org/IDMRPC_Contract/GetLastException"/></con:call></con:operation><con:operation isOneWay="false" action="http://tempuri.org/IDMRPC_Contract/GetMachineName" name="GetMachineName" bindingOperationName="GetMachineName" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://ftp.datamagic.hu:7532/DMRPC</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <tem:GetMachineName/>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://tempuri.org/IDMRPC_Contract/GetMachineName"/></con:call></con:operation><con:operation isOneWay="false" action="http://tempuri.org/IDMRPC_Contract/GetManagementReport" name="GetManagementReport" bindingOperationName="GetManagementReport" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://ftp.datamagic.hu:7532/DMRPC</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <tem:GetManagementReport>
+         <!--Optional:-->
+         <tem:sessionid>?</tem:sessionid>
+         <!--Optional:-->
+         <tem:datum>?</tem:datum>
+      </tem:GetManagementReport>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://tempuri.org/IDMRPC_Contract/GetManagementReport"/></con:call></con:operation><con:operation isOneWay="false" action="http://tempuri.org/IDMRPC_Contract/GetSessionId" name="GetSessionId" bindingOperationName="GetSessionId" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://ftp.datamagic.hu:7532/DMRPC</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <tem:GetSessionId>
+         <!--Optional:-->
+         <tem:dbServer>?</tem:dbServer>
+         <!--Optional:-->
+         <tem:dbPort>?</tem:dbPort>
+         <!--Optional:-->
+         <tem:dbUser>?</tem:dbUser>
+         <!--Optional:-->
+         <tem:dbPass>?</tem:dbPass>
+         <!--Optional:-->
+         <tem:dataBase>?</tem:dataBase>
+         <!--Optional:-->
+         <tem:cegUnikazon>?</tem:cegUnikazon>
+         <!--Optional:-->
+         <tem:dolgozoKod>?</tem:dolgozoKod>
+         <!--Optional:-->
+         <tem:dolgozoPass>?</tem:dolgozoPass>
+      </tem:GetSessionId>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://tempuri.org/IDMRPC_Contract/GetSessionId"/></con:call></con:operation><con:operation isOneWay="false" action="http://tempuri.org/IDMRPC_Contract/IsValidSession" name="IsValidSession" bindingOperationName="IsValidSession" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://ftp.datamagic.hu:7532/DMRPC</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <tem:IsValidSession>
+         <!--Optional:-->
+         <tem:sessionid>?</tem:sessionid>
+      </tem:IsValidSession>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://tempuri.org/IDMRPC_Contract/IsValidSession"/></con:call></con:operation><con:operation isOneWay="false" action="http://tempuri.org/IDMRPC_Contract/SendGrid" name="SendGrid" bindingOperationName="SendGrid" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://ftp.datamagic.hu:7532/DMRPC</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <tem:SendGrid>
+         <!--Optional:-->
+         <tem:endpoint>?</tem:endpoint>
+         <!--Optional:-->
+         <tem:message>?</tem:message>
+         <!--Optional:-->
+         <tem:gridid>?</tem:gridid>
+         <!--Optional:-->
+         <tem:gridDescriptor>?</tem:gridDescriptor>
+      </tem:SendGrid>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://tempuri.org/IDMRPC_Contract/SendGrid"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/></con:soapui-project>
