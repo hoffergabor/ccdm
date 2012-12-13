@@ -1,0 +1,519 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	template="/pages/template.xhtml">
+
+
+	<ui:define name="body">
+		<div class="content">
+			<h:form id="orderform" target="mywindow" acceptcharset="utf-8">
+				<p:panel styleClass="gradpanel" id="panel">
+					<div class="innerPanel">
+						<p:dataTable selectionMode="single" rows="10" paginator="true"
+							style="text-align:left" paginatorPosition="top"
+							paginatorAlwaysVisible="false" dynamic="true"
+							value="#{orderserviceController.data.orders}" var="data"
+							id="orderTable" emptyMessage="#{msg.NODATA}"
+							onselectComplete="showitem()" update="orderitemTable"
+							selection="#{orderserviceController.data.selectedOrder}">
+							<p:column sortBy="#{data.sorszam}" style="min-width:100px">
+								<f:facet name="header">
+									<h:outputText value="#{msg.ORDERS_ORDERVIEW_ORDERNUM}" />
+								</f:facet>
+								<h:outputText styleClass="bold" value="#{data.sorszam}" />
+							</p:column>
+							<p:column sortBy="#{data.vnev}" style="min-width:300px">
+								<f:facet name="header">
+									<h:outputText value="#{msg.ORDERS_ORDERVIEW_NAME}" />
+								</f:facet>
+								<h:outputText value="#{data.vnev}" />
+							</p:column>
+							<p:column sortBy="#{data.kelt}" styleClass="centerpos"
+								style="min-width:80px">
+								<f:facet name="header">
+									<h:outputText value="#{msg.ORDERS_ORDERVIEW_DATE}" />
+								</f:facet>
+								<h:outputText value="#{data.kelt!='1900-01-01 00:00:00.0'? data.kelt:'-'}">
+									<f:convertDateTime pattern="#{msg.DATEFORMAT3}"
+										timeZone="Europe/Budapest"  />
+								</h:outputText>
+							</p:column>
+							<p:column sortBy="#{data.statusz}" style="min-width:80px">
+								<f:facet name="header">
+									<h:outputText value="#{msg.ORDERS_ORDERVIEW_STATUS}" />
+								</f:facet>
+								<h:outputText value="#{data.statusz}" />
+							</p:column>
+							<p:column sortBy="#{data.telj}" styleClass="centerpos"
+								style="min-width:80px">
+								<f:facet name="header">
+									<h:outputText value="#{msg.ORDERS_ORDERVIEW_DONE}" />
+								</f:facet>
+								<h:outputText value="#{data.telj!='1900-01-01 00:00:00.0'? data.telj:'-'}">
+									<f:convertDateTime pattern="#{msg.DATEFORMAT3}"
+										timeZone="Europe/Budapest"  />
+								</h:outputText>
+							</p:column>
+							<p:column sortBy="#{data.esedkelt}" styleClass="centerpos"
+								style="min-width:100px">
+								<f:facet name="header">
+									<h:outputText value="#{msg.ORDERS_ORDERVIEW_DEMAND}" />
+								</f:facet>
+								<h:outputText value="#{data.esedkelt!='1900-01-01 00:00:00.0'? data.esedkelt:'-'}">
+									<f:convertDateTime pattern="#{msg.DATEFORMAT3}"
+										timeZone="Europe/Budapest"  />
+								</h:outputText>
+							</p:column>
+							<p:column sortBy="#{data.vfizdat}" styleClass="centerpos"
+								style="min-width:80px">
+								<f:facet name="header">
+									<h:outputText value="FIZETVE" />
+								</f:facet>
+								<h:outputText value="#{data.vfizdat!='1900-01-01 00:00:00.0'? data.vfizdat:'-'}">
+									<f:convertDateTime pattern="#{msg.DATEFORMAT3}"
+										timeZone="Europe/Budapest"  />
+								</h:outputText>
+							</p:column>
+							<p:column sortBy="#{data.dnetto}" styleClass="rightpos"
+								style="min-width:80px">
+								<f:facet name="header">
+									<h:outputText value="#{msg.ORDERS_ORDERVIEW_NET}" />
+								</f:facet>
+								<h:outputText value="#{data.dnetto}">
+									<f:convertNumber pattern="#,##0" />
+								</h:outputText><h:outputText value=" #{data.devnem}"></h:outputText>
+							</p:column>
+							<p:column sortBy="#{data.dbrutto}" styleClass="rightpos"
+								style="min-width:80px">
+								<f:facet name="header">
+									<h:outputText value="#{msg.ORDERS_ORDERVIEW_GRO}" />
+								</f:facet>
+								<h:outputText value="#{data.dbrutto}">
+									<f:convertNumber pattern="#,##0" />
+								</h:outputText><h:outputText value=" #{data.devnem}"></h:outputText>
+							</p:column>
+						</p:dataTable>
+					</div>
+
+
+
+					<div class="summaryPanel">
+						<h:panelGroup id="summaryPanel">
+							<table width="100%" border="0" cellspacing="0" cellpadding="0">
+								<tr>
+									<td width="60%"><label>#{msg.ORDERS_ORDERVIEW_SUMMARY}</label>
+									</td>
+									<td width="20%"><label>#{msg.ORDERS_ORDERVIEW_NET}</label>
+									</td>
+									<td width="20%" class="last"><label>#{msg.ORDERS_ORDERVIEW_GRO}</label>
+									</td>
+								</tr>
+								<tr>
+									<td width="60%"></td>
+									<td width="20%"><h:outputText
+											value="#{orderserviceController.data.netto}">
+											<f:convertNumber pattern="#,##0" />
+										</h:outputText>
+									</td>
+									<td width="20%" class="last"><h:outputText
+											value="#{orderserviceController.data.brutto}">
+											<f:convertNumber pattern="#,##0" />
+										</h:outputText>
+									</td>
+								</tr>
+							</table>
+						</h:panelGroup>
+					</div>
+
+					<div class="bottomFilterBar">
+						<div class="bottomFilterBarFilters">
+							<p:commandButton process="@this" value="Telephelyek"
+								oncomplete="partnerchoosewid2.show()" update="cpp2"
+								rendered="#{orderserviceController.managedPartner!=null and !empty openitemsserviceController.managedStores}"
+								actionListener="#{orderserviceController.showStores}"></p:commandButton>
+						</div>
+						<div class="bottomFilterBarDates">
+							<h:panelGroup id="calendar">
+								<div class="bottomFilterBarDateFilter">
+									<p:calendar id="from"
+										value="#{orderserviceController.data.from}"
+										selectListener="#{orderserviceController.orderDateFromChange}"
+										inputStyle="width:100px" pattern="#{msg.DATEFORMAT}">
+									</p:calendar>
+								</div>
+								<div class="bottomFilterBarDateFilter">
+									<label> #{msg.INVOICESTORNFIX_DATEFROM}</label>
+								</div>
+								<div class="bottomFilterBarDateFilter">
+									<p:calendar id="to" value="#{orderserviceController.data.to}"
+										selectListener="#{orderserviceController.orderDateToChange}"
+										pattern="#{msg.DATEFORMAT}" inputStyle="width:100px">
+									</p:calendar>
+								</div>
+								<div class="bottomFilterBarDateFilter">
+									<label> #{msg.INVOICESTORNFIX_DATETO}</label>
+								</div>
+
+								<p:commandButton process="@this" value="Szűrés"
+									update="panel,message"
+									actionListener="#{orderserviceController.orderDateChange}"
+									styleClass="filterSubmitButton"></p:commandButton>
+								<p:commandButton update="panel" styleClass="filterResetButton"
+						actionListener="#{orderserviceController.resetAction}"
+						value="reset" process="@this"></p:commandButton>
+							</h:panelGroup>
+						</div>
+					</div>
+					<p:commandButton id="activeButton" process="@this"
+						value="#{orderserviceController.data.allOrder ? 'Aktív mutatása' : 'Összes mutatása'}"
+						action="#{orderserviceController.showAllOrder}"
+						styleClass="commonButton" update="panel,message,activeButton">
+					</p:commandButton>
+					<p:commandButton process="@this"
+						value="#{msg.ORDERS_PRINT_BUTTON1}" styleClass="commonButton"
+						oncomplete="printwid.show()" update="printpanel" rendered="false"
+						action="#{orderserviceController.sendFiles}" />
+					<p:commandButton oncomplete="chartwid.show()" value="#{msg.CHART}" rendered="#{loginserviceController.managedUser.userType!='DM_PARTNER'}"
+						id="chartbutton" update="chart,summaryAll,chartcalendar"
+						action="#{orderserviceController.createDataForChart}"
+						process="@this" styleClass="commonButton" />
+					<p:commandButton value="#{msg.ORDERS_NEWORDER_BUTTON}"
+						styleClass="commonButton" process="@this"
+						rendered="#{orderserviceController.managedUser.userType=='DM_STORE'}"
+						action="#{orderserviceController.newOrderAction}" />
+					<p:commandButton value="#{msg.ORDERS_NEWORDER_BUTTON}"
+						styleClass="commonButton" process="@this"
+						oncomplete="partnerchoosewid.show()" update="cpp"
+						rendered="#{orderserviceController.managedUser.userType=='DM_WORKER'}"
+						action="#{orderserviceController.newOrderAction}" />
+					<p:commandButton value="#{msg.ORDERS_NEWORDER_BUTTON}"
+						styleClass="commonButton" process="@this"
+						oncomplete="partnerchoosewid.show()" update="cpp"
+						rendered="#{orderserviceController.managedUser.userType=='DM_PARTNER'}"
+						action="#{orderserviceController.newOrderAction}" />
+					<div class="clear"></div>
+				</p:panel>
+
+				<p:remoteCommand name="showitem" oncomplete="orderitemwid.show()"
+					update="orderitemTable" global="true" process="@this"
+					actionListener="#{orderserviceController.getOrderItem}"></p:remoteCommand>
+
+
+				<p:dialog modal="false" id="orderItems" widgetVar="orderitemwid"
+					draggable="true" width="980" closable="true"
+					styleClass="commonDialog" header="Rendelés tételei"
+					showEffect="fade" hideEffect="fade">
+					<p:dataTable style="text-align:left;" selectionMode="single"
+						lazy="false" dynamic="true"
+						value="#{orderserviceController.data.orderItems}" var="item"
+						id="orderitemTable" emptyMessage="#{msg.NODATA}">
+						<p:column sortBy="#{item.acikksz}" style="min-width:120px">
+							<f:facet name="header">
+								<h:outputText value="#{msg.NEWORDER_ELEMENTS_SKU}" />
+							</f:facet>
+							<h:outputText value="#{item.acikksz}" styleClass="bold" />
+						</p:column>
+						<p:column sortBy="#{item.amegn}" style="min-width:220px">
+							<f:facet name="header">
+								<h:outputText value="#{msg.NEWORDER_ELEMENTS_NAME}" />
+							</f:facet>
+							<h:outputText value="#{item.amegn}" />
+						</p:column>
+						<p:column sortBy="#{item.aear}" styleClass="rightpos"
+							style="min-width:120px">
+							<f:facet name="header">
+								<h:outputText value="#{msg.NEWORDER_ELEMENTS_PRICE}" />
+							</f:facet>
+							<h:outputText value="#{item.aear}">
+								<f:convertNumber pattern="#,##0" />
+							</h:outputText>
+						</p:column>
+						<p:column sortBy="#{item.amenny}" styleClass="rightpos"
+							style="min-width:80px">
+							<f:facet name="header">
+								<h:outputText value="#{msg.NEWORDER_ELEMENTS_AMOUNT}" />
+							</f:facet>
+							<h:outputText value="#{item.amenny}">
+								<f:convertNumber pattern="#,##0" />
+							</h:outputText>
+						</p:column>
+						<p:column sortBy="#{item.hnertek}" styleClass="rightpos"
+							style="min-width:80px">
+							<f:facet name="header">
+								<h:outputText value="#{msg.NEWORDER_ELEMENTS_NET}" />
+							</f:facet>
+							<h:outputText value="#{item.hnertek}">
+								<f:convertNumber pattern="#,##0" />
+							</h:outputText>
+						</p:column>
+						<p:column sortBy="#{item.hbertek}" styleClass="rightpos"
+							style="min-width:80px">
+							<f:facet name="header">
+								<h:outputText value="#{msg.NEWORDER_ELEMENTS_GRO}" />
+							</f:facet>
+							<h:outputText value="#{item.hbertek}">
+								<f:convertNumber pattern="#,##0" />
+							</h:outputText>
+						</p:column>
+						<p:column sortBy="#{item.vfizhdat}" styleClass="centerpos"
+							style="min-width:100px">
+							<f:facet name="header">
+								<h:outputText value="#{msg.ORDERS_ORDERVIEW_PAYDATE}" />
+							</f:facet>
+							<h:outputText value="#{item.vfizhdat!='1900-01-01 00:00:00.0'? item.vfizhdat:'-'}">
+								<f:convertDateTime pattern="#{msg.DATEFORMAT3}"
+										timeZone="Europe/Budapest"  />
+							</h:outputText>
+						</p:column>
+					</p:dataTable>
+					<br />
+					<div class="clear"></div>
+					<div class="right-float">
+						<br />
+						<p:commandButton value="KOMMENT" styleClass="button"
+							update="editor"
+							rendered="false"
+							action="#{orderserviceController.showCommentForOrder}"
+							oncomplete="showBeuszo()"></p:commandButton>
+						<p:commandButton value="#{msg.ORDERS_MODIFY_BUTTON1}" rendered="false"
+							styleClass="button"
+							action="#{orderserviceController.modifyOrderAction}"></p:commandButton>
+						<p:commandButton value="Utánrendelés" styleClass="button" rendered="false"
+							process="@this" action="#{orderserviceController.reOrderAction}"></p:commandButton>
+						<p:commandButton onclick="newWindow()" process="@this"
+							value="#{msg.ORDERS_PRINT_BUTTON1}" styleClass="button"
+							action="#{orderserviceController.print}">
+						</p:commandButton>
+					</div>
+				</p:dialog>
+
+				<p:dialog id="chartdialog" modal="false" widgetVar="chartwid"
+					closable="true" styleClass="commonDialog" draggable="true"
+					width="720" header="Grafikon">
+					<br />
+					<p:lineChart value="#{orderserviceController.data.chartVOList}"
+						id="chart" var="data" xfield="#{data[1]}" width="700px">
+						<p:chartSeries label="Bejovo" value="#{data[2]}" />
+					</p:lineChart>
+					<div class="chartSummaryPanel">
+						<div class="summaryPanel">
+							<h:panelGroup id="summaryAll">
+								<table width="100%" border="0" cellspacing="0" cellpadding="0">
+									<tr>
+										<td width="20%"><label>#{msg.ORDERIN_TITLE}</label>
+										</td>
+										<td width="20%"><label>#{msg.ALL}:</label>
+										</td>
+										<td width="20%"><label>#{msg.SIDEBAR_DEBITTEXT_TITLE}</label>
+										</td>
+										<td width="20%"><label>#{msg.PAYED}:</label>
+										</td>
+										<td width="20%" class="last"><label>#{msg.EXPIRED}:</label>
+										</td>
+									</tr>
+									<tr>
+										<td></td>
+										<td width="20%"><h:outputText
+												value="#{orderserviceController.data.sumIn}"
+												style="color:#e6c44c">
+												<f:convertNumber pattern="#,##0" />
+											</h:outputText>
+										</td>
+										<td width="20%"><h:outputText
+												value="#{orderserviceController.data.debitIn}"
+												style="color:#e6c44c">
+												<f:convertNumber pattern="#,##0" />
+											</h:outputText>
+										</td>
+										<td width="20%"><h:outputText
+												value="#{orderserviceController.data.payedIn}"
+												style="color:#e6c44c">
+												<f:convertNumber pattern="#,##0" />
+											</h:outputText>
+										</td>
+										<td width="20%" class="last"><h:outputText
+												value="#{orderserviceController.data.expiredIn}"
+												style="color:#e6c44c">
+												<f:convertNumber pattern="#,##0" />
+											</h:outputText>
+										</td>
+									</tr>
+								</table>
+							</h:panelGroup>
+						</div>
+					</div>
+					<br />
+					<h:panelGroup id="chartcalendar">
+						<div
+							style="margin-right: 20px; float: left; display: inline-block;">
+							<p:calendar id="chartFrom"
+								value="#{orderserviceController.data.chartFrom}"
+								selectListener="#{orderserviceController.orderChartFromDateChange}"
+								onSelectUpdate="chart" pattern="#{msg.DATEFORMAT}"
+								inputStyle="width:100px">
+							</p:calendar>
+							<label class="textcolor4">
+								#{msg.INVOICESTORNFIX_DATEFROM}</label>
+						</div>
+						<div style="margin-right: 30px; display: inline-block;">
+							<p:calendar id="chartTo"
+								value="#{orderserviceController.data.chartTo}"
+								selectListener="#{orderserviceController.orderChartDateToChange}"
+								onSelectUpdate="chart" pattern="#{msg.DATEFORMAT}"
+								inputStyle="width:100px">
+							</p:calendar>
+							<label class="textcolor4"> #{msg.INVOICESTORNFIX_DATETO}</label>
+						</div>
+					</h:panelGroup>
+				</p:dialog>
+
+				<p:dialog modal="false" id="print" widgetVar="printwid"
+					header="Nyomtatás" closable="true" styleClass="smallDialog"
+					draggable="true">
+					<h:panelGroup id="printpanel">
+						<center>
+							<h:panelGroup
+								rendered="#{empty orderserviceController.data.orders}"
+								style="text-align:center">
+								<span>#{msg.ORDERS_LIST_EMPTY}</span>
+								<br />
+								<br />
+								<p:commandButton value="OK" styleClass="textcolor4 button"
+									oncomplete="printwid.hide()"></p:commandButton>
+							</h:panelGroup>
+							<h:panelGroup
+								rendered="#{!empty orderserviceController.data.orders}">
+								<label class="textcolor4">#{msg.PRINT_THISMAIL}</label>
+								<br />
+								<h:inputText style="width: 200px"
+									value="#{orderserviceController.data.mailTo}"></h:inputText>
+								<br />
+								<br />
+								<h:panelGrid columns="2">
+									<p:commandButton styleClass="logout textcolor4 button"
+										value="#{msg.PRINT_PDF}" update="message"
+										actionListener="#{orderserviceController.sendEmailWidthPDFFiles}" />
+									<p:commandButton styleClass="logout textcolor4 button"
+										value="#{msg.PRINT_EXCEL}" update="message"
+										actionListener="#{orderserviceController.sendEmailWidthXLSFiles}" />
+								</h:panelGrid>
+							</h:panelGroup>
+						</center>
+					</h:panelGroup>
+				</p:dialog>
+
+
+				<p:dialog widgetVar="partnerchoosewid" modal="false" closable="true"
+					styleClass="commonDialog" draggable="true"
+					header="Válassza ki a partnert" resizable="false">
+					<h:panelGroup id="cpp">
+						<div class="choosepartner-sales-form">
+							<div class="partnerSearchList"
+								style="width: 265px; height: 410px; overflow-x: hidden; overflow-y: scroll; border: 1px solid #ccc; padding: 5px; margin-bottom: 20px; background: #eee;">
+								<ui:repeat value="#{orderserviceController.data.allPartner}"
+									var="data" id="partners">
+									<p:commandLink value="#{data[0]}"
+										action="#{orderserviceController.submitChoosePartner}"
+										oncomplete="partnerchoosewid.hide()">
+										<f:setPropertyActionListener value="#{data[1]}"
+											target="#{orderserviceController.data.selectedPartnerId}" />
+									</p:commandLink>
+									<br />
+								</ui:repeat>
+							</div>
+						</div>
+					</h:panelGroup>
+				</p:dialog>
+
+				<p:dialog widgetVar="partnerchoosewid2" modal="false"
+					closable="true" styleClass="commonDialog" draggable="true"
+					header="Válassza ki a partnert" resizable="false">
+					<h:panelGroup id="cpp2">
+						<div class="choosepartner-sales-form">
+							<div class="popupSearch">
+								<h:inputText styleClass="input"
+									value="#{orderserviceController.data.partnerSearchText}"></h:inputText>
+								<p:commandButton value="Keresés" update="cpp"
+									styleClass="popupSearchButton"
+									action="#{orderserviceController.searchPartnerAction}" />
+							</div>
+							<div class="partnerSearchList"
+								style="width: 265px; height: 410px; overflow-x: hidden; overflow-y: scroll; border: 1px solid #ccc; padding: 5px; margin-bottom: 20px; background: #eee;">
+								<ui:repeat value="#{orderserviceController.data.allPartner}"
+									var="data">
+									<p:commandLink value="#{data[0]}" update="panel"
+										process="@this" oncomplete="showstore()">
+										<f:setPropertyActionListener value="#{data[1]}"
+											target="#{orderserviceController.data.selectedPartnerId}" />
+									</p:commandLink>
+									<br />
+								</ui:repeat>
+							</div>
+						</div>
+					</h:panelGroup>
+				</p:dialog>
+
+				<p:remoteCommand name="showstore" 
+					action="#{orderserviceController.submitChooseStore}"
+					oncomplete="partnerchoosewid2.hide()" update="panel" process="@this"></p:remoteCommand>
+
+				<p:growl id="message" showDetail="true" sticky="false" life="4000"
+					showSummary="true" />
+
+				<!--			<script type="text/javascript">-->
+				<!--					function newWindow(){-->
+				<!--					window.open('','mywindow','width=1000,height=700');-->
+				<!--					return false;}-->
+				<!--				</script>-->
+
+
+			</h:form>
+		</div>
+		
+		<div class="helpContent" onclick="RemoveHelp();"
+			id="help">
+			<div class="headerHelp"></div>
+			<div class="menuHelp">
+				<div class="helpBubble"
+					style="top: 100px; left: 250px; border-top-left-radius: 0; -moz-border-radius-topleft: 0; -webkit-border-top-left-radius: 0;">
+					A <strong>RENDELÉS</strong> menüpontban van, itt láthatja
+					telephelye(i) rendeléseit, illetve megnézheti azok részleteit,
+					egyes időszakokra összegzést.<br /> <strong>Új rendelést
+						a lista alatt jobboldalon található gomb megnyomásával
+						kezdeményezhet.</strong>
+				</div>
+			</div>
+			<div class="contentHelp">
+				<div class="helpBubble"
+					style="top: 300px; left: 250px; border-top-right-radius: 0; -moz-border-radius-topright: 0; -webkit-border-top-right-radius: 0;">
+					Ebben a listában láthatja a dátum szűrés eredményét, <strong>egy
+						adott időszakon belüli rendeléseinek listáját.</strong>
+				</div>
+			</div>
+			<div class="contentHelp">
+				<div class="helpBubble"
+					style="top: 550px; left: 160px; border-bottom-left-radius: 0; -moz-border-radius-bottomleft: 0; -webkit-border-bottom-left-radius: 0;">
+					A dátumok beállításával meghatározhatja melyik időszak rendeléseit
+					szeretné megtekinteni</div>
+			</div>
+			<div class="footerHelp">
+				<div class="helpBubble"
+					style="top: 525px; right: 350px; border-bottom-right-radius: 0; -moz-border-radius-bottomright: 0; -webkit-border-bottom-right-radius: 0;">
+					Válthat éppen aktív és összes megrendelése között az <strong>AKTÍV/ÖSSZES
+						MUTATÁSA</strong> gombbal, ki<strong>NYOMTAT</strong>hatja az éppen látható
+					listát, illetve megtekintheti az elmúlt egy év havi összegzéseit <strong>GRAFIKON</strong>on.
+				</div>
+				<div class="helpBubble"
+					style="top: 565px; right: 80px; border-bottom-right-radius: 0; -moz-border-radius-bottomright: 0; -webkit-border-bottom-right-radius: 0;">
+					Új rendelés leadásához, kérem nyomja meg az <strong>ÚJ
+						RENDELÉS</strong> gombot!
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

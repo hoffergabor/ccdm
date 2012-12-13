@@ -1,0 +1,92 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	template="/pages/template.xhtml">
+
+
+	<ui:define name="body">
+		<div class="content">
+			<h:form id="mainPage">
+				<div class="mainPageLeft">
+					<h2>Bemutatkozás</h2>
+					<p>
+						Az <strong>AGRIA DRINK C+C</strong> az általa forgalmazott
+						jövedéki és italtermékekkel jól kiegészíti az Agria Market Kft.
+						C+C élelmiszer, vegyi- és papíráru választékát, így egy
+						telephelyen belül teljes körű kiszolgálás valósul meg.
+					</p>
+					<p>Az itt látható webes felület partnereink számára lehetővé
+						teszi, hogy gyorsabban rendelhessenek, illetve bármikor
+						hozzáférjenek rendeléseik, szállításaik, illetve számláik
+						adataihoz.</p>
+					<p>Ha a felülettel kapcsolatban bármilyen észrevétele van,
+						esetleg hibát tapasztalt, kérjük jelezze a <a href="mailto:titkarsag@agriadrink.hu">titkarsag@agriadrink.hu</a>
+						email címen, vagy telefonon.</p>
+					<p>Bízunk benne, hogy ezzel is könnyebbé tehetjük partnereink
+						életét.</p>
+				</div>
+				<div class="mainPageRight">
+					<h2>Akciós újság</h2>
+					<a href="http://agriadrink.hu/pics/agria_akcios_katalogus.pdf" target="_blank">Az akciós újságot ezen a linken tekintheti meg</a>
+					<h2>Hirdetés</h2>
+					<a href="http://agriadrink.hu/pics/agria_akcios_katalogus.pdf" target="_blank"><img src="http://ccteszt2.iboard.hu/agria/hirdetes.jpg" /></a>
+					<h2>Használati útmutató</h2>
+					A SEGÍTSÉG gomb megnyomásával kaphat információkat az éppen megjelenő oldalról.
+				</div>
+				<div class="mainPageShipping">
+					<h2>Túranapok</h2>
+					<ui:repeat value="#{mainpageController.data.avaibleDates}"
+						var="data">
+						<p>
+							<h:outputText value="#{data}">
+								<f:convertDateTime pattern="#{msg.DATEFORMAT}" />
+							</h:outputText>
+						</p>
+					</ui:repeat>
+				</div>
+			</h:form>
+			<div class="clear"></div>
+		</div>
+		<div class="helpContent" onclick="RemoveHelp();"
+			id="help">
+			<div class="headerHelp">
+				<div class="helpBubble"
+					style="top: 40px; right: 100px; border-top-right-radius: 0; -moz-border-radius-topright: 0; -webkit-border-top-right-radius: 0;">
+					Ezzel a gombbal tud kilépni a rendszerből.<br />Ugyan a felület
+					egy kis idő múltán automatikusan kilép, javasoljuk, hogy ha nem
+					használja, <strong>biztonsági okokból lépjen ki!</strong>
+				</div>
+			</div>
+			<div class="menuHelp">
+				<div class="helpBubble"
+					style="top: 100px; left: 100px; border-top-left-radius: 0; -moz-border-radius-topleft: 0; -webkit-border-top-left-radius: 0;">
+					A menüpontok között megtalálja rendeléseit, számláit,
+					szállítóleveleit. Megtekintheti rögzített adatait, illetve <strong>adhat
+						le új rendelést!</strong>
+				</div>
+			</div>
+			<div class="contentHelp">
+				<div class="helpBubble"
+					style="top: 200px; left: 500px; border-top-right-radius: 0; -moz-border-radius-topright: 0; -webkit-border-top-right-radius: 0;">
+					A főoldalon megtalálja <strong>soron következő túranapjait</strong>,
+					valamint egy rövid használati utasítást a rendszerhez.
+				</div>
+			</div>
+			<div class="footerHelp">
+				<div class="helpBubble"
+					style="top: 395px; right: 350px; border-bottom-right-radius: 0; -moz-border-radius-bottomright: 0; -webkit-border-bottom-right-radius: 0;">
+					A felület közvetetten kapcsolódik az Agria Drink ügyviteli
+					rendszeréhez, így <strong>rendelése azonnal feldolgozásra
+						kerül.</strong> Ha bármilyen kérdése vagy észrevétele van ez ügyben, kérem
+					keresse fel telesales-es kollégáinkat.<br />( 30/343-8657 ,
+					36/517-577 )
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,68 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<f:view contentType="text/html" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	locale="#{localeSelector.selectedLocale}">
+
+	<f:loadBundle
+		basename="hu.iboard.coandco.datamagic.resources.MessageResources_hu"
+		var="msg" />
+	<html>
+	<h:head>
+		<title>DataMagic Web Interface</title>
+
+		<meta http-equiv="Pragma" content="no-cache" />
+
+		<meta http-equiv="expires" content="0" />
+
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="Content-Language" content="hungarian" />
+		<meta name="copyright"
+			content="Copyright - Datamagic, Co and Co Communication - 2010" />
+		<meta name="author"
+			content="Co and Co Communication Kft - www.coandco.cc" />
+		<meta name="publisher"
+			content="Co and Co Communication Kft - www.coandco.cc" />
+		<meta name="made" content="dev@coandco.cc" />
+		<meta name="reply-to" content="dev@coandco.cc" />
+		<meta name="page-type" content="DataMagic Web Interface" />
+		<meta name="robots" content="noindex, nofollow" />
+
+		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+		<link rel="icon" href="animated_favicon1.gif" type="image/gif" />
+
+		<link rel="stylesheet" type="text/css" href="../css/overcast/skin.css"
+			media="screen" />
+
+		<link rel="stylesheet" type="text/css"
+			href="../css/styleNewDesign.css" media="screen" />
+		<link rel="stylesheet" type="text/css" href="css/styleNewDesign.css"
+			media="screen" />	
+		<script type="text/javascript">
+			function ShowHelp(){
+				document.getElementById( "help" ).style.display = "block";
+			}
+			function RemoveHelp(){
+				document.getElementById( "help" ).style.display = "none"; 
+			}
+		</script>
+	</h:head>
+
+	<h:body class="portrait">
+		<div class="wrapper100"><f:subview id="menu">
+			<ui:include src="/pages/menu.xhtml" />
+		</f:subview>
+		<div class="wrapper"><f:subview id="page">
+			<ui:insert name="body" />
+		</f:subview></div>
+		<div class="wrapper contentWrapper"><f:subview id="footer">
+			<ui:include src="/pages/footerinside.xhtml" />
+		</f:subview></div>
+		</div>
+	</h:body>
+	</html>
+</f:view>

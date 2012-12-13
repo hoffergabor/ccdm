@@ -1,0 +1,208 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	template="/pages/template.xhtml">
+
+	<script type="text/javascript" src="../js/mobile.js"></script>
+
+	<ui:define name="body">
+		<div class="content textcolor1 backgroundcolor3"><h:form
+			id="productlistform">
+			<p:panel styleClass="gradpanel" id="panel">
+				<h1>#{msg.PRODUCT}</h1>
+				<table>
+					<tr>
+						<td><label>#{msg.ORDERS_ORDERVIEW_SKU}</label></td>
+						<td><label>#{msg.NEWORDER_NAME} </label></td>
+						<td><label>#{msg.CIKKCSOPORTOK}</label></td>
+					</tr>
+					<tr>
+						<td><h:inputText id="sku"
+							value="#{productserviceController.data.sku}"></h:inputText></td>
+						<td><h:inputText id="productname"
+							value="#{productserviceController.data.productName}"></h:inputText></td>
+						<!--						<td>-->
+						<!--						<h:selectOneMenu styleClass="select" id="cikkcsop"-->
+						<!--							value="#{productserviceController.data.selectedCikkcsopId}">-->
+						<!--							<f:selectItem itemLabel="#{msg.NEWORDER_PICK}" itemValue="" />-->
+						<!--							<f:selectItems-->
+						<!--								value="#{productserviceController.data.cikkcsopItems}" />-->
+						<!--							<p:ajax event="change"-->
+						<!--								update="productTable" />-->
+						<!--						</h:selectOneMenu></td>-->
+						<td><p:commandButton style="margin-top:10px;"
+							value="#{msg.NEWORDER_SEARCH_BUTTON1}" styleClass="button"
+							type="submit"
+							action="#{productserviceController.productSearchAction}"
+							update="productTable,productname,sku" /></td>
+					</tr>
+				</table>
+
+				<div class="advanced">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0">
+					<tr>
+						<td><h:outputLabel styleClass="textcolor4" value="Típus" /></td>
+						<td><h:outputLabel styleClass="textcolor4"
+							value="Anyag típus" /></td>
+						<td><h:outputLabel styleClass="textcolor4"
+							value="Felület típus" /></td>
+						<td><h:outputLabel styleClass="textcolor4"
+							value="Szemcsenagyság" /></td>
+						<td><h:outputLabel styleClass="textcolor4" value="Kiszerelés" /></td>
+						<td><h:outputLabel styleClass="textcolor4"
+							value="Bázis megjelölés" /></td>
+					</tr>
+					<tr>
+						<td><h:selectOneMenu styleClass="select"
+							value="#{productserviceController.data.tipus}">
+							<f:selectItem itemLabel="#{msg.NEWORDER_PICK}" itemValue="" />
+							<f:selectItem itemLabel="Neo" itemValue="n" />
+							<f:selectItem itemLabel="Vario" itemValue="v" />
+							<f:selectItem itemLabel="Félkész" itemValue="f" />
+							<p:ajax event="change" process="@this" global="false" />
+						</h:selectOneMenu></td>
+						<td><h:selectOneMenu styleClass="select"
+							value="#{productserviceController.data.anyagTipus}">
+							<f:selectItem itemLabel="#{msg.NEWORDER_PICK}" itemValue="0" />
+							<f:selectItem itemLabel="Festék" itemValue="1" />
+							<f:selectItem itemLabel="Vakolat" itemValue="2" />
+							<p:ajax event="change" process="@this" global="false"
+								update="feluletTipus,szemcse"
+								actionListener="#{productserviceController.showFeluletTipus}" />
+						</h:selectOneMenu></td>
+						<td><h:selectOneMenu styleClass="select" id="feluletTipus"
+							value="#{productserviceController.data.feluletTipus}">
+							<f:selectItem itemLabel="#{msg.NEWORDER_PICK}" itemValue="10" />
+							<f:selectItems
+								value="#{productserviceController.data.feluletTipusok}" />
+							<p:ajax event="change" process="@this" global="false"
+								update="szemcse"
+								actionListener="#{productserviceController.showSzemcseMeret}" />
+						</h:selectOneMenu></td>
+						<td><h:selectOneMenu styleClass="select" id="szemcse"
+							value="#{productserviceController.data.szemcseMeret}">
+							<f:selectItem itemLabel="#{msg.NEWORDER_PICK}" itemValue="0" />
+							<f:selectItems
+								value="#{productserviceController.data.szemcseMeretek}" />
+							<p:ajax event="change" process="@this" global="false" />
+						</h:selectOneMenu></td>
+						<td><h:selectOneMenu styleClass="select"
+							value="#{productserviceController.data.kiszereles}">
+							<f:selectItem itemLabel="#{msg.NEWORDER_PICK}" itemValue="0" />
+							<f:selectItem itemValue="2"
+								itemLabel="Kis vödör (2,5 liter, 3,75kg)" />
+							<f:selectItem itemValue="3" itemLabel="Közepes (5 liter, 7,5kg)" />
+							<f:selectItem itemValue="4" itemLabel="Standard (10 liter, 15kg)" />
+							<f:selectItem itemValue="5"
+								itemLabel="Nagy vödör (15 liter, 24kg)" />
+							<p:ajax event="change" process="@this" global="false" />
+						</h:selectOneMenu></td>
+						<td><h:selectOneMenu styleClass="select"
+							value="#{productserviceController.data.bazis}">
+							<f:selectItem itemLabel="#{msg.NEWORDER_PICK}" itemValue="" />
+							<f:selectItem itemValue="b1" itemLabel="B1" />
+							<f:selectItem itemValue="b2" itemLabel="B2" />
+							<f:selectItem itemValue="b3" itemLabel="B3" />
+							<p:ajax event="change" process="@this" global="false" />
+						</h:selectOneMenu></td>
+					</tr>
+				</table>
+				</div>
+				<p:commandButton value="Keresés"
+					actionListener="#{productserviceController.searchAdvanced}"
+					process="@this" update="panel"></p:commandButton>
+				<div class="clear">&nbsp;</div>
+				<div style="width: 100%; height: 550px; overflow: scroll"><p:dataTable
+					style="text-align:left;" selectionMode="single" loadingMessage=""
+					emptyMessage="#{msg.NODATA}" dynamic="true" lazy="true"
+					value="#{productserviceController.data.products}" var="data"
+					id="productTable" rows="10" paginatorAlwaysVisible="false"
+					paginator="true" paginatorPosition="top">
+					<f:facet name="header">
+						<h:outputText value="#{msg.PRODUCTS}" />
+					</f:facet>
+					<p:column sortBy="#{data.cikkszam}"
+						filterBy="#{data.cikkszam}" width="150">
+						<f:facet name="header">
+							<h:outputText value="#{msg.NEWORDER_ELEMENTS_SKU}" />
+						</f:facet>
+						<h:outputText value="#{data.cikkszam}" styleClass="bold" />
+					</p:column>
+					<p:column sortBy="#{data.megn}"
+						filterBy="#{data.megn}">
+						<f:facet name="header">
+							<h:outputText value="#{msg.NEWORDER_ELEMENTS_NAME}" />
+						</f:facet>
+						<h:outputText value="#{data.megn}" />
+					</p:column>
+					<p:column sortBy="#{data.ear}"
+						style="text-align: right">
+						<f:facet name="header">
+							<h:outputText value="#{msg.NEWORDER_ELEMENTS_PRICE}" />
+						</f:facet>
+						<h:outputText value="#{data.ear}">
+							<f:convertNumber pattern="#,##0" />
+						</h:outputText>
+					</p:column>
+					<p:column sortBy="#{data.menny}"
+						style="text-align: right">
+						<f:facet name="header">
+							<h:outputText value="MENNYISEG" />
+						</f:facet>
+						<h:outputText value="#{data.menny}">
+							<f:convertNumber pattern="#,##0" />
+						</h:outputText>
+					</p:column>
+					<p:column sortBy="#{data.meegys}"
+						style="text-align: left">
+						<f:facet name="header">
+							<h:outputText value="MENNYISEG EGYSEG" />
+						</f:facet>
+						<h:outputText value="#{data.meegys}" />
+					</p:column>
+					<p:column sortBy="#{data.devnem}"
+						style="text-align: left" width="95">
+						<f:facet name="header">
+							<h:outputText value="#{msg.DEVIZA}" />
+						</f:facet>
+						<h:outputText value="#{data.devnem}" />
+					</p:column>
+				</p:dataTable></div>
+
+				<p:commandButton value="#{msg.SIDEBAR_LOGOUT_BUTTON}"
+					styleClass="button" process="@this" style="margin-top: 15px;"
+					global="false"
+					onclick="document.getElementById('page:productlistform:panel').style.display='none'" />
+			</p:panel>
+		</h:form></div>
+
+		<div id="loader" class="loader"><p:ajaxStatus id="stat">
+			<f:facet name="start">
+				<h:panelGroup>
+					<table align="center" class="loadertable">
+						<tr>
+							<td
+								style="padding-bottom: 10px; padding-left: 10px; padding-right: 10px; padding-top: 10px;"><h:graphicImage
+								value="../img/loader.gif"></h:graphicImage></td>
+						</tr>
+						<tr>
+							<td
+								style="padding-bottom: 10px; padding-left: 10px; padding-right: 10px;"><h:outputText
+								value="#{msg.PROGRESS_MSG}"
+								style="color: #fff;font-weight: bold;font-size: 12px;"></h:outputText></td>
+						</tr>
+					</table>
+				</h:panelGroup>
+			</f:facet>
+			<f:facet name="complete">
+				<p></p>
+			</f:facet>
+		</p:ajaxStatus></div>
+
+	</ui:define>
+</ui:composition>

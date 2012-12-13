@@ -1,0 +1,196 @@
+<pretty-config xmlns="http://ocpsoft.com/prettyfaces/3.2.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://ocpsoft.com/prettyfaces/3.2.0 http://ocpsoft.com/xml/ns/prettyfaces/ocpsoft-pretty-faces-3.2.0.xsd">
+
+
+	<url-mapping id="index">
+		<pattern value="/index" />
+		<view-id value="/index.jsf"></view-id>
+	</url-mapping>
+	
+	<url-mapping id="index_a">
+		<pattern value="/index_a" />
+		<view-id value="/index_a.jsf"></view-id>
+	</url-mapping>
+
+	<url-mapping id="news">
+		<pattern value="/hirek" />
+		<view-id value="/news.jsf"></view-id>
+	</url-mapping>
+
+	<url-mapping id="profile">
+		<pattern value="/profile" />
+		<view-id value="/profile.jsf"></view-id>
+	</url-mapping>
+
+	<url-mapping id="product">
+		<pattern value="/termekek" />
+		<view-id value="/products.jsf"></view-id>
+	</url-mapping>
+
+	<url-mapping id="registration">
+		<pattern value="/regisztracio" />
+		<view-id value="/registration.jsf"></view-id>
+	</url-mapping>
+
+	<url-mapping id="productlevel1">
+		<pattern value="/termekek/kategoria/#{productsController.data.categoryId}/" />
+		<view-id value="/products.jsf"></view-id>
+		<action onPostback="false">#{productsController.showProducts}</action>
+	</url-mapping>
+
+	<url-mapping id="productlevel2">
+		<pattern
+			value="/termekek/kategoria/#{productsController.data.categoryId}/#{productsController.data.category2Id}/" />
+		<view-id value="/products.jsf"></view-id>
+		<action onPostback="false">#{productsController.showProductsLevel2}</action>
+	</url-mapping>
+
+	<url-mapping id="productlevel3">
+		<pattern
+			value="/termekek/kategoria/#{productsController.data.categoryId}/#{productsController.data.category2Id}/#{productsController.data.category3Id}/" />
+		<view-id value="/products.jsf"></view-id>
+		<action onPostback="false">#{productsController.showProductsLevel3}</action>
+	</url-mapping>
+
+	<url-mapping id="productlevel4">
+		<pattern
+			value="/termekek/kategoria/#{productsController.data.categoryId}/#{productsController.data.category2Id}/#{productsController.data.category3Id}/#{productsController.data.category4Id}/" />
+			<view-id value="/products.jsf"></view-id>
+		<action onPostback="false">#{productsController.showProductsLevel4}</action>
+	</url-mapping>
+
+	<url-mapping id="product3">
+		<pattern value="/termekek/kereses/#{productsController.data.searchCikkcsop}/" />
+		<view-id value="/products.jsf"></view-id>
+		<action onPostback="false">#{productsController.searchProductByCikkcsop}</action>
+	</url-mapping>
+
+	<url-mapping id="product4">
+		<pattern value="/termek/#{productController.data.productId}/" />
+		<view-id value="/product.jsf"></view-id>
+		<action>#{productController.showSelectedProduct}</action>
+	</url-mapping>
+
+
+	<url-mapping id="cart" onPostback="true">
+		<pattern value="/kosar" />
+		<view-id value="/cart.jsf"></view-id>
+	</url-mapping>
+
+	<url-mapping id="forgottenpassword">
+		<pattern value="/elfelejtettjelszo" />
+		<view-id value="/forgottenpassword.jsf"></view-id>
+	</url-mapping>
+
+	<url-mapping id="order">
+		<pattern value="/rendeles" />
+		<view-id value="/order.jsf"></view-id>
+	</url-mapping>
+
+	<url-mapping id="orderlist">
+		<pattern value="/rendelesek" />
+		<view-id value="/orderlist.jsf"></view-id>
+	</url-mapping>
+
+
+	<url-mapping id="login">
+		<pattern value="/bejelentkezes" />
+		<view-id value="/login.jsf"></view-id>
+	</url-mapping>
+
+	<url-mapping id="admin">
+		<pattern value="/admin" />
+		<view-id value="/admin.jsf"></view-id>
+	</url-mapping>
+
+	<url-mapping id="impressum">
+		<pattern value="/impresszum" />
+		<view-id value="/impressum.jsf"></view-id>
+	</url-mapping>
+
+	<url-mapping id="shoppingcontract">
+		<pattern value="/vasarlasiszerzodes" />
+		<view-id value="/shoppingcontract.jsf"></view-id>
+	</url-mapping>
+
+	<url-mapping id="companyinfo">
+		<pattern value="/cegismerteto" />
+		<view-id value="/companyinfo.jsf"></view-id>
+	</url-mapping>
+
+	<url-mapping id="shipping">
+		<pattern value="/hazhozszallitas" />
+		<view-id value="/shipping.jsf"></view-id>
+	</url-mapping>
+
+	<url-mapping id="termsofpayment">
+		<pattern value="/fizetesifeltetelek" />
+		<view-id value="/termsofpayment.jsf"></view-id>
+	</url-mapping>
+
+	<url-mapping id="tender">
+		<pattern value="/palyazat" />
+		<view-id value="/tender.jsf"></view-id>
+	</url-mapping>
+
+	<url-mapping id="contact">
+		<pattern value="/elerhetoseg" />
+		<view-id value="/contact.jsf"></view-id>
+	</url-mapping>
+
+	<url-mapping id="help">
+		<pattern value="/segitseg" />
+		<view-id value="/help.jsf"></view-id>
+	</url-mapping>
+
+	<url-mapping id="aboutus">
+		<pattern value="/rolunkirtak" />
+		<view-id value="/aboutus.jsf"></view-id>
+	</url-mapping>
+
+	<url-mapping id="career">
+		<pattern value="/allasajanlat" />
+		<view-id value="/career.jsf"></view-id>
+	</url-mapping>
+
+	<url-mapping id="faq">
+		<pattern value="/tudnivalok" />
+		<view-id value="/faq.jsf"></view-id>
+	</url-mapping>
+
+	<url-mapping id="sitemap">
+		<pattern value="/oldalterkep" />
+		<view-id value="/sitemap.jsf"></view-id>
+	</url-mapping>
+
+	<url-mapping id="datasecuritypolicy">
+		<pattern value="/adatvedelem" />
+		<view-id value="/datasecuritypolicy.jsf"></view-id>
+	</url-mapping>
+	
+	<url-mapping id="successregistration">
+		<pattern value="/sikeresregisztracio" />
+		<view-id value="/successregistration.jsf"></view-id>
+	</url-mapping>
+	
+	<url-mapping id="failedregistration">
+		<pattern value="/sikertelenregisztracio" />
+		<view-id value="/failedregistration.jsf"></view-id>
+	</url-mapping>
+	
+	<url-mapping id="successorder">
+		<pattern value="/sikeresrendeles" />
+		<view-id value="/successorder.jsf"></view-id>
+	</url-mapping>
+	
+	<url-mapping id="failedorder">
+		<pattern value="/sikertelenrendeles" />
+		<view-id value="/failedorder.jsf"></view-id>
+	</url-mapping>
+	
+	<url-mapping id="gyik">
+		<pattern value="/gyik" />
+		<view-id value="/gyik.jsf"></view-id>
+	</url-mapping>
+</pretty-config>

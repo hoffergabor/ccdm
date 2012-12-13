@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<f:view contentType="text/html" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	locale="#{localeSelector.selectedLocale}">
+
+	<f:loadBundle
+		basename="hu.iboard.coandco.datamagic.resources.MessageResources_hu"
+		var="msg" />
+
+	<html>
+	<h:head>
+		<title>Agria Drink - DataMagic Web Interface</title>
+
+		<meta http-equiv="Pragma" content="no-cache" />
+
+		<meta http-equiv="expires" content="0" />
+
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="Content-Language" content="hungarian" />
+		<meta name="copyright"
+			content="Copyright - Datamagic, Co and Co Communication - 2010" />
+		<meta name="author"
+			content="Co and Co Communication Kft - www.coandco.cc" />
+		<meta name="publisher"
+			content="Co and Co Communication Kft - www.coandco.cc" />
+		<meta name="made" content="dev@coandco.cc" />
+		<meta name="reply-to" content="dev@coandco.cc" />
+		<meta name="page-type" content="DataMagic Web Interface" />
+		<meta name="robots" content="noindex, nofollow" />
+
+		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+		<link rel="icon" href="animated_favicon1.gif" type="image/gif" />
+
+		<link rel="stylesheet" type="text/css"
+			href="../css/styleNewDesign.css" media="screen" />
+		<link rel="stylesheet" type="text/css" href="css/styleNewDesign.css"
+			media="screen" />
+		<!--<link rel="stylesheet" type="text/css" href="css/overcast/skin.css"
+			media="screen" />-->
+		<script type="text/javascript" src="js/browserDetect.js"></script>
+			
+
+	</h:head>
+
+	<h:body>
+
+		<h:form id="login">
+			<div class="wrapper100"><p:panel styleClass="loginForm">
+				<h:selectOneMenu id="country" immediate="true"
+					valueChangeListener="#{localeSelector.setLocale}"
+					value="#{localeSelector.lang}" style="width: 90px;">
+					<f:selectItem itemValue="hu" itemLabel="#{msg.hu_HU}" />
+					<f:selectItem itemValue="en" itemLabel="#{msg.en_US}" />
+					<p:ajax event="change" action="#{localeSelector.select}"
+						oncomplete="submit();"></p:ajax>
+				</h:selectOneMenu>
+				<img src="img/newDesign/loginLogo.png" class="loginLogo" />
+				<div class="inputFields"><p:focus for="userTextBox" /> <label
+					class="label">#{msg.LOGIN_USER} <h:inputText maxlength="40"
+					required="true" id="userTextBox"
+					value="#{loginserviceController.data.userName}" styleClass="input"
+					requiredMessage="Felhasználónév megadása kötelező!">
+					<f:validateLength maximum="40" />
+				</h:inputText></label><br />
+				<label class="label">#{msg.LOGIN_PASS} <h:inputSecret
+					id="password" maxlength="40" required="true"
+					requiredMessage="Jelszó megadása kötelező"
+					value="#{loginserviceController.data.password}"
+					styleClass="input password">
+					<f:validateLength maximum="40" />
+				</h:inputSecret></label></div>
+
+			</p:panel></div>
+			<div class="loginSubmit"><p:commandButton value="LOGIN"
+				update="message" styleClass="submit" id="loginbutton"
+				action="#{loginserviceController.login}" /> <br />
+			<br />
+			<p:commandLink action="registration" value="REGISZTRACIO"
+				rendered="false"></p:commandLink>
+			
+			
+			<p:ajaxStatus id="stat">
+			<f:facet name="start">
+				<div class="loginLoader"><img class="loaderImg"
+					src="img/newDesign/loader.gif" /></div>
+			</f:facet>
+			<f:facet name="complete">
+				<h:outputText value="" />
+			</f:facet>
+		</p:ajaxStatus>
+			</div>
+
+		</h:form>
+
+		<p:growl id="message" showDetail="true" sticky="false" life="4000"
+			showSummary="false" />
+
+		<f:subview id="footer">
+			<ui:include src="/pages/footer.xhtml" />
+		</f:subview>
+		
+			<div class="loginAdditional">
+			<br />
+			Ha nem tud belépni a felületre, vagy elfelejtette jelszavát, kérem jelezze a <a href='mailto:titkarsag@agriadrink.hu'>titkarsag@agriadrink.hu</a> email címen.<br />
+			Ha még nincs jelszava a kereskedelmi felülethez, azt személyesen, illetve telefonon igényelhet.<br />
+			</div>
+			
+		<h:panelGroup id="browserdetect">
+		
+		
+		<script type="text/javascript"> 
+<!--
+document.write("<div width=\"400\" style=\"color:#999\\; float: left\; top:10px\; left:20px\; position: fixed\; \">");
+		
+document.write('<p style=\"color:#666\" class="accent">Az Ön böngészője: ' + BrowserDetect.browser + ' ' + BrowserDetect.version + ' - ' + BrowserDetect.OS + '</p>');
+if (BrowserDetect.browser == "Explorer" && BrowserDetect.version != "8") {
+	document.write("<br /><b style=\"color:#999\">Ezt a böngészőt a rendszer nem támogatja.</b><br />");
+	document.write("<br /><b style=\"color:#999\">Kérjük használja az alábbiak egyikét.</b><br /><br />");
+	document.write("<table width=\"400\"><tr>");
+	document.write("<td width=\"20%\" align=\"left\"><a href=\"http://www.google.com/chrome\" target=\"_blank\"><img src=\"img/browsers/chrome.png\" height=\"50\" /></a></td>");
+	document.write("<td width=\"20%\" align=\"left\"><a href=\"http://www.mozilla-europe.org/hu/firefox/\" target=\"_blank\"><img src=\"img/browsers/firefox.png\" height=\"50\" /></a></td>");
+	document.write("<td width=\"20%\" align=\"left\"><a href=\"http://www.apple.com/safari/\" target=\"_blank\"><img src=\"img/browsers/safari.png\" height=\"50\" /></a></td>");
+	document.write("<td width=\"20%\" align=\"left\"><a href=\"http://www.opera.com/\" target=\"_blank\"><img src=\"img/browsers/opera.png\" height=\"50\" /></a></td>");
+	document.write("<td width=\"20%\" align=\"left\"><a href=\"http://windows.microsoft.com/ie9\" target=\"_blank\"><img src=\"img/browsers/IE9.png\" height=\"50\" /></a></td>");
+	document.write("</tr><tr>");
+	document.write("<td align=\"left\">Chrome 11</td>");
+	document.write("<td align=\"left\">Firefox 3.6</td>");
+	document.write("<td align=\"left\">Safari 5</td>");
+	document.write("<td align=\"left\">Opera 10.6</td>");
+	document.write("<td align=\"left\">Explorer 9</td>");
+	document.write("</tr></table>");
+}
+else {
+	document.write("<b style=\"color:#666\">Ezt a böngészőt a rendszer támogatja.</b>");
+}
+document.write("</div>");
+// -->
+</script></h:panelGroup>
+
+	</h:body>
+	</html>
+</f:view>
+

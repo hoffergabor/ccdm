@@ -1,0 +1,141 @@
+<faces-config xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
+	version="2.0">
+
+	<application>
+		<variable-resolver>
+			org.springframework.web.jsf.DelegatingVariableResolver</variable-resolver>
+	</application>
+
+	<application>
+		<locale-config>
+			<default-locale>hu</default-locale>
+			<supported-locale>en</supported-locale>
+		</locale-config>
+		<message-bundle>
+			hu.iboard.coandco.datamagic.retail.agria.resources.ValidationMessages</message-bundle>
+	</application>
+
+	<validator>
+		<validator-id>emailValidator</validator-id>
+		<validator-class>
+			hu.iboard.coandco.datamagic.retail.agria.presentation.util.EmailValidator</validator-class>
+	</validator>
+
+	<navigation-rule>
+		<navigation-case>
+			<from-outcome>registration</from-outcome>
+			<to-view-id>/registration.xhtml</to-view-id>
+			<redirect></redirect>
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>index</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+			<redirect></redirect>
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>profile</from-outcome>
+			<to-view-id>/profile.xhtml</to-view-id>
+			<redirect></redirect>
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>admin</from-outcome>
+			<to-view-id>/admin.xhtml</to-view-id>
+			<redirect></redirect>
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>news</from-outcome>
+			<to-view-id>/news.xhtml</to-view-id>
+			<redirect></redirect>
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>products</from-outcome>
+			<to-view-id>/products.xhtml</to-view-id>
+			<redirect></redirect>
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>forgottenpassword</from-outcome>
+			<to-view-id>/forgottenpassword.xhtml</to-view-id>
+			<redirect></redirect>
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>order</from-outcome>
+			<to-view-id>/order.xhtml</to-view-id>
+			<redirect></redirect>
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>orderlist</from-outcome>
+			<to-view-id>/orderlist.xhtml</to-view-id>
+			<redirect></redirect>
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>login</from-outcome>
+			<to-view-id>/login.xhtml</to-view-id>
+			<redirect></redirect>
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>wishlist</from-outcome>
+			<to-view-id>/wishlist.xhtml</to-view-id>
+			<redirect></redirect>
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>adminmanager</from-outcome>
+			<to-view-id>/adminmanager.xhtml</to-view-id>
+			<redirect></redirect>
+		</navigation-case>
+		
+		<navigation-case>
+			<from-outcome>successregistration</from-outcome>
+			<to-view-id>/successregistration.xhtml</to-view-id>
+			<redirect></redirect>
+		</navigation-case>
+		
+		<navigation-case>
+			<from-outcome>failedregistration</from-outcome>
+			<to-view-id>/failedregistration.xhtml</to-view-id>
+			<redirect></redirect>
+		</navigation-case>
+		
+		<navigation-case>
+			<from-outcome>successorder</from-outcome>
+			<to-view-id>/successorder.xhtml</to-view-id>
+			<redirect></redirect>
+		</navigation-case>
+		
+		<navigation-case>
+			<from-outcome>failedorder</from-outcome>
+			<to-view-id>/failedorder.xhtml</to-view-id>
+			<redirect></redirect>
+		</navigation-case>
+		
+		<navigation-case>
+			<from-outcome>cart</from-outcome>
+			<to-view-id>/cart.xhtml</to-view-id>
+			<redirect></redirect>
+		</navigation-case>
+		
+		<navigation-case>
+			<from-outcome>gyik</from-outcome>
+			<to-view-id>/gyik.xhtml</to-view-id>
+			<redirect></redirect>
+		</navigation-case>
+
+
+		<navigation-case>
+			<to-view-id>/error.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+</faces-config>

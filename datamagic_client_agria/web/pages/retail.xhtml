@@ -1,0 +1,216 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j" template="/pages/template.xhtml"
+	locale="#{localeSelector.selectedLocale}">
+
+	<script type="text/javascript" src="../js/mobile.js"></script>
+
+	<ui:define name="body">
+		<div class="content textcolor1 backgroundcolor3"><h:form
+			id="productlistform">
+			<rich:panel styleClass="gradpanel" id="panel">
+				<h1>#{msg.PRODUCT}</h1>
+				<div class="manageorder">
+				<div class="search"><label class="textcolor4">#{msg.ORDERS_ORDERVIEW_SKU}
+				<h:inputText value="#{productserviceController.sku}"></h:inputText></label>
+				<label class="textcolor4">#{msg.NEWORDER_NAME} <h:inputText
+					value="#{productserviceController.productName}"></h:inputText></label> <label
+					class="textcolor4">#{msg.CIKKCSOPORTOK}<h:selectOneMenu
+					styleClass="select" id="cikkcsop"
+					value="#{productserviceController.selectedCikkcsopId}">
+					<f:selectItem itemLabel="#{msg.NEWORDER_PICK}" itemValue="" />
+					<f:selectItems value="#{productserviceController.cikkcsopItems}" />
+				</h:selectOneMenu></label></div>
+				<div class="searchButton"><a4j:commandButton type="submit"
+					style="margin-top:10px" value="#{msg.NEWORDER_SEARCH_BUTTON1}"
+					styleClass="button"
+					action="#{productserviceController.productSearchAction}"
+					reRender="retailTable"></a4j:commandButton></div>
+
+				<div class="advanced">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0">
+					<tr>
+						<td><h:outputLabel styleClass="textcolor4"
+							value="#{productserviceController.azon3megn}" /></td>
+						<td><h:outputLabel styleClass="textcolor4"
+							value="#{productserviceController.azon4megn}" /></td>
+						<td><h:outputLabel styleClass="textcolor4"
+							value="#{productserviceController.azon5megn}" /></td>
+						<td><h:outputLabel styleClass="textcolor4"
+							value="#{productserviceController.azon6megn}" /></td>
+						<td><h:outputLabel styleClass="textcolor4"
+							value="#{productserviceController.azon7megn}" /></td>
+					</tr>
+					<tr>
+						<td><h:selectOneMenu styleClass="select" id="azon3"
+							rendered="#{productserviceController.azon3megn!=''}"
+							valueChangeListener="#{productserviceController.changeAzon}">
+							<f:selectItem itemLabel="#{msg.NEWORDER_PICK}" itemValue="" />
+							<f:selectItems value="#{productserviceController.azon3ItemList}" />
+							<a4j:support event="onchange" reRender="productTable" />
+						</h:selectOneMenu></td>
+						<td><h:selectOneMenu styleClass="select" id="azon4"
+							rendered="#{productserviceController.azon4megn!=''}"
+							valueChangeListener="#{productserviceController.changeAzon}">
+							<f:selectItem itemLabel="#{msg.NEWORDER_PICK}" itemValue="" />
+							<f:selectItems value="#{productserviceController.azon4ItemList}" />
+							<a4j:support event="onchange" reRender="productTable" />
+						</h:selectOneMenu></td>
+						<td><h:selectOneMenu styleClass="select" id="azon5"
+							rendered="#{productserviceController.azon5megn!=''}"
+							valueChangeListener="#{productserviceController.changeAzon}">
+							<f:selectItem itemLabel="#{msg.NEWORDER_PICK}" itemValue="" />
+							<f:selectItems value="#{productserviceController.azon5ItemList}" />
+							<a4j:support event="onchange" reRender="productTable" />
+						</h:selectOneMenu></td>
+						<td><h:selectOneMenu styleClass="select" id="azon6"
+							rendered="#{productserviceController.azon6megn!=''}"
+							valueChangeListener="#{productserviceController.changeAzon}">
+							<f:selectItem itemLabel="#{msg.NEWORDER_PICK}" itemValue="" />
+							<f:selectItems value="#{productserviceController.azon6ItemList}" />
+							<a4j:support event="onchange" reRender="productTable" />
+						</h:selectOneMenu></td>
+						<td><h:selectOneMenu styleClass="select" id="azon7"
+							rendered="#{productserviceController.azon7megn!=''}"
+							valueChangeListener="#{productserviceController.changeAzon}">
+							<f:selectItem itemLabel="#{msg.NEWORDER_PICK}" itemValue="" />
+							<f:selectItems value="#{productserviceController.azon7ItemList}" />
+							<a4j:support event="onchange" reRender="productTable" />
+						</h:selectOneMenu></td>
+					</tr>
+					<tr>
+						<td><h:outputLabel styleClass="textcolor4"
+							value="#{productserviceController.azon8megn}" /></td>
+						<td><h:outputLabel styleClass="textcolor4"
+							value="#{productserviceController.azon9megn}" /></td>
+						<td><h:outputLabel styleClass="textcolor4"
+							value="#{productserviceController.azon10megn}" /></td>
+						<td><h:outputLabel styleClass="textcolor4"
+							value="#{productserviceController.azon11megn}" /></td>
+						<td><h:outputLabel styleClass="textcolor4"
+							value="#{productserviceController.azon12megn}" /></td>
+					</tr>
+					<tr>
+						<td><h:selectOneMenu styleClass="select" id="azon8"
+							rendered="#{productserviceController.azon8megn!=''}"
+							valueChangeListener="#{productserviceController.changeAzon}">
+							<f:selectItem itemLabel="#{msg.NEWORDER_PICK}" itemValue="" />
+							<f:selectItems value="#{productserviceController.azon8ItemList}" />
+							<a4j:support event="onchange" reRender="productTable" />
+						</h:selectOneMenu></td>
+						<td><h:selectOneMenu styleClass="select" id="azon9"
+							rendered="#{productserviceController.azon9megn!=''}"
+							valueChangeListener="#{productserviceController.changeAzon}">
+							<f:selectItem itemLabel="#{msg.NEWORDER_PICK}" itemValue="" />
+							<f:selectItems value="#{productserviceController.azon9ItemList}" />
+							<a4j:support event="onchange" reRender="productTable" />
+						</h:selectOneMenu></td>
+						<td><h:selectOneMenu styleClass="select" id="azon10"
+							rendered="#{productserviceController.azon10megn!=''}"
+							valueChangeListener="#{productserviceController.changeAzon}">
+							<f:selectItem itemLabel="#{msg.NEWORDER_PICK}" itemValue="" />
+							<f:selectItems value="#{productserviceController.azon10ItemList}" />
+							<a4j:support event="onchange" reRender="productTable" />
+						</h:selectOneMenu></td>
+						<td><h:selectOneMenu styleClass="select" id="azon11"
+							rendered="#{productserviceController.azon11megn!=''}"
+							valueChangeListener="#{productserviceController.changeAzon}">
+							<f:selectItem itemLabel="#{msg.NEWORDER_PICK}" itemValue="" />
+							<f:selectItems value="#{productserviceController.azon11ItemList}" />
+							<a4j:support event="onchange" reRender="productTable" />
+						</h:selectOneMenu></td>
+						<td><h:selectOneMenu styleClass="select" id="azon12"
+							rendered="#{productserviceController.azon12megn!=''}"
+							valueChangeListener="#{productserviceController.changeAzon}">
+							<f:selectItem itemLabel="#{msg.NEWORDER_PICK}" itemValue="" />
+							<f:selectItems value="#{productserviceController.azon12ItemList}" />
+							<a4j:support event="onchange" reRender="productTable" />
+						</h:selectOneMenu></td>
+					</tr>
+				</table>
+				</div>
+				</div>
+				<div class="clear"><br />
+				</div>
+				<rich:dataTable align="center" style="text-align:left;"
+					sortMode="single" selectionMode="single" rows="5"
+					styleClass="retailTable"
+					value="#{productserviceController.products}" var="data"
+					id="retailTable" noDataLabel="#{msg.NODATA}">
+					<rich:column sortable="true" width="140">
+						<h:graphicImage url="../img/product.jpg" width="80"
+							style="padding-left:20px;"></h:graphicImage>
+					</rich:column>
+					<rich:column sortable="true" sortBy="#{data.cikkszam}"
+						label="#{msg.NEWORDER_ELEMENTS_SKU}" width="200">
+						<f:facet name="header">
+							<h:outputText value="#{msg.NEWORDER_ELEMENTS_SKU}" />
+						</f:facet>
+						<h:outputText value="#{data.cikkszam}" styleClass="bold" />
+					</rich:column>
+					<rich:column sortable="true" sortBy="#{data.megn}"
+						label="#{msg.NEWORDER_ELEMENTS_NAME}" width="200">
+						<f:facet name="header">
+							<h:outputText value="#{msg.NEWORDER_ELEMENTS_NAME}" />
+						</f:facet>
+						<h:outputText value="#{data.megn}" />
+					</rich:column>
+					<rich:column sortable="true" sortBy="#{data.ear}" width="140"
+						label="#{msg.NEWORDER_ELEMENTS_PRICE}" style="text-align: center">
+						<f:facet name="header">
+							<h:outputText value="#{msg.NEWORDER_ELEMENTS_PRICE}"
+								style="text-align: center;" />
+						</f:facet>
+						<h:outputText value="#{data.ear}">
+							<f:convertNumber pattern="#,##0" />
+						</h:outputText>
+						<h:outputText value=" #{data.devnem}" />
+					</rich:column>
+					<rich:column sortable="true" sortBy="#{data.menny}"
+						label="MENNYISEG" width="140" style="text-align: center">
+						<f:facet name="header">
+							<h:outputText value="MENNYISEG" />
+						</f:facet>
+						<h:outputText value="#{data.menny}">
+							<f:convertNumber pattern="#,##0" />
+						</h:outputText>
+						<h:outputText value=" #{data.meegys}" />
+					</rich:column>
+					<f:facet name="footer">
+						<rich:datascroller renderIfSinglePage="false"/>
+					</f:facet>
+				</rich:dataTable>
+
+
+				<a4j:commandButton value="#{msg.SIDEBAR_LOGOUT_BUTTON}"
+					styleClass="button"
+					onclick="document.getElementById('page:productlistform:panel').style.visibility='hidden'" />
+			</rich:panel>
+		</h:form></div>
+		<div id="loader" class="loader"><a4j:status>
+			<f:facet name="start">
+				<h:panelGroup>
+					<table align="center" class="loadertable">
+						<tr>
+							<td
+								style="padding-bottom: 10px; padding-left: 10px; padding-right: 10px; padding-top: 10px;"><h:graphicImage
+								value="../img/loader.gif"></h:graphicImage></td>
+						</tr>
+						<tr>
+							<td
+								style="padding-bottom: 10px; padding-left: 10px; padding-right: 10px;"><h:outputText
+								value="#{msg.PROGRESS_MSG}"
+								style="color: #fff;font-weight: bold;font-size: 12px;"></h:outputText></td>
+						</tr>
+					</table>
+				</h:panelGroup>
+			</f:facet>
+		</a4j:status></div>
+	</ui:define>
+</ui:composition>

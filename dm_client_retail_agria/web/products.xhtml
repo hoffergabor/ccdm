@@ -1,0 +1,336 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui" template="template.xhtml">
+
+
+	<ui:define name="body">
+		<script type="text/javascript">
+			
+		</script>
+		<div class="wrapper100 mainContent">
+			<div class="wrapper">
+				<h:form id="productsform">
+					<p:remoteCommand name="updateTables" process="@this"
+						update="productTable,productTableList">
+					</p:remoteCommand>
+					<div class="mainContentLeft">
+						<div class="leftMenuHeader">
+							<h:outputText value="#{productsController.data.mainMenuLabel}"></h:outputText>
+						</div>
+						<div class="leftMenu">
+							<h:outputText value="#{productsController.data.menu}"
+								escape="false"></h:outputText>
+						</div>
+					</div>
+					<div class="mainContentCenter">
+						<div class="productGridOrder">
+							<h:panelGroup id="orderlinks"
+								rendered="#{!empty productsController.data.products}">
+
+								<p:commandLink value="#{msg.MISC_SORTNAME}" id="namelink"
+									title="Rendezés név szerint növekvő sorrendben"
+									update="productTable,productTableList"
+									styleClass="nameAscending inactiveOrdering"
+									style="display:none;"
+									actionListener="#{productsController.sortListByNameAsc}"
+									onclick="document.getElementById('page:productsform:pricelink').style.display='inline-block';
+					document.getElementById('page:productsform:nameAscButton').style.display='inline-block';
+					document.getElementById('page:productsform:namelink').style.display='none';
+					document.getElementById('page:productsform:priceAscButton').style.display='none';
+					document.getElementById('page:productsform:priceDescButton').style.display='none';"></p:commandLink>
+
+								<p:commandLink id="nameAscButton" style="display:inline-block"
+									title="Rendezés név szerint növekvő sorrendben"
+									styleClass="nameAscending" value="#{msg.MISC_SORTNAME}"
+									update="productTable,productTableList"
+									onclick="document.getElementById('page:productsform:nameAscButton').style.display='none';
+						document.getElementById('page:productsform:nameDescButton').style.display='inline-block';"
+									actionListener="#{productsController.sortListByNameDesc}"></p:commandLink>
+								<p:commandLink value="#{msg.MISC_SORTNAME}"
+									update="productTable,productTableList"
+									styleClass="nameDescending" id="nameDescButton"
+									style="display:none"
+									title="Rendezés név szerint csökkenő sorrendben"
+									onclick="document.getElementById('page:productsform:nameDescButton').style.display='none';
+						document.getElementById('page:productsform:nameAscButton').style.display='inline-block';"
+									actionListener="#{productsController.sortListByNameAsc}"></p:commandLink>
+
+								<p:commandLink value="#{msg.MISC_SORTPRICE}" id="pricelink"
+									update="productTable,productTableList"
+									title="Rendezés ár szerint növekvő sorrendben"
+									styleClass="priceAscending inactiveOrdering"
+									actionListener="#{productsController.sortListByPriceAsc}"
+									onclick="document.getElementById('page:productsform:pricelink').style.display='none';
+						document.getElementById('page:productsform:priceAscButton').style.display='inline-block';
+						document.getElementById('page:productsform:namelink').style.display='inline-block';
+						document.getElementById('page:productsform:nameAscButton').style.display='none';
+						document.getElementById('page:productsform:nameDescButton').style.display='none';"></p:commandLink>
+								<p:commandLink id="priceAscButton" style="display:none"
+									styleClass="priceAscending" value="#{msg.MISC_SORTPRICE}"
+									update="productTable,productTableList"
+									title="Rendezés ár szerint növekvő sorrendben"
+									onclick="document.getElementById('page:productsform:priceDescButton').style.display='inline-block';
+						document.getElementById('page:productsform:priceAscButton').style.display='none';"
+									actionListener="#{productsController.sortListByPriceDesc}" />
+								<p:commandLink value="#{msg.MISC_SORTPRICE}"
+									update="productTable,productTableList,priceDescButton"
+									styleClass="priceDescending" id="priceDescButton"
+									style="display:none"
+									title="Rendezés név szerint csökkenő sorrendben"
+									onclick="document.getElementById('page:productsform:priceDescButton').style.display='none';
+						document.getElementById('page:productsform:priceAscButton').style.display='inline-block';"
+									actionListener="#{productsController.sortListByPriceAsc}" />
+								<p:commandLink styleClass="listUp"
+									oncomplete="document.getElementById('page:productsform:listButton').setAttribute('class', 'listUpActive');
+					document.getElementById('page:productsform:gridButton').setAttribute('class', 'gridUp');"
+									id="listButton" update="productsform"
+									actionListener="#{productsController.showProductList}" />
+								<p:commandLink styleClass="gridUpActive" id="gridButton"
+									update="productsform"
+									actionListener="#{productsController.showProductGrid}"
+									oncomplete="document.getElementById('page:productsform:listButton').setAttribute('class', 'listUp');
+					document.getElementById('page:productsform:gridButton').setAttribute('class', 'gridUpActive');" />
+							</h:panelGroup>
+						</div>
+						<h:outputText rendered="#{empty productsController.data.products}"
+							value="Nincs megjelenítendő termék!"></h:outputText>
+						<p:dataGrid var="data" value="#{productsController.data.products}"
+							styleClass="productGrid" columns="5" rows="10" paginator="true"
+							effect="true" id="productTable" paginatorAlwaysVisible="false"
+							effectSpeed="fast"
+							rendered="#{productsController.data.showProductGrid}"
+							currentPageReportTemplate="{currentPage} / {totalPages}"
+							paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} termék / lap"
+							rowsPerPageTemplate="10,20,30">
+							<p:column>
+								<h:panelGroup id="panel">
+									<div class="productGridElement">
+
+										<p:commandLink style="text-decoration: none;" process="@this"
+											oncomplete="showpopup()">
+											<f:setPropertyActionListener value="#{data}"
+												target="#{productsController.data.selectedProduct}" />
+											<div class="productGridPicture">
+												<table>
+													<tr>
+														<td align="center" valign="middle"><div
+																style="width: 500px; margin-left: -186px;">
+																<img
+																	onerror="this.src='${facesContext.externalContext.requestContextPath}/img/placeholder.png'"
+																	src="http://agriadrink.hu/pics/#{data.cikkszam}.jpg"
+																	alt="#{data.megn}" title="#{data.megn}" />
+															</div>
+														</td>
+													</tr>
+												</table>
+											</div>
+											<div class="productGridName">
+												<h:outputText value="#{data.megn}" />
+											</div>
+
+											<div class="productGridPrice">
+												#{msg.MISC_NET}:
+												<h:outputText value="#{data.ear} Ft">
+													<f:convertNumber type="number" maxFractionDigits="2"/>
+												</h:outputText>
+											</div>
+											<div class="productGridGrossPrice">
+												#{msg.MISC_GROSS}: <strong><h:outputText
+														value="#{data.brutto}">
+														<f:convertNumber type="number" maxFractionDigits="0" />
+													</h:outputText> </strong> Ft
+											</div>
+										#{data.menny==0?msg.MISC_NOTSTOCK:msg.MISC_STOCK}<br />
+										</p:commandLink>
+										<div class="productGridCart">
+											<div class="productGridCounter">
+												<h:inputText value="#{cartController.data.menny}" id="menny"
+													maxlength="4"
+													onkeydown="if(event.keyCode == 13) {return false;}">
+													<f:validateLongRange maximum="9999" />
+													<p:ajax event="change" update="header:headerform"></p:ajax>
+												</h:inputText>
+												#{msg.MISC_PIECE}
+											</div>
+											<p:commandLink styleClass="productGridCartButton"
+												update="message,menny,header:headerform" process="@this"
+												actionListener="#{cartController.addProductToCart}">
+												<f:param name="arukod" value="#{data.arukod}" />
+											</p:commandLink>
+										</div>
+									</div>
+								</h:panelGroup>
+							</p:column>
+						</p:dataGrid>
+						<p:dataGrid var="data" value="#{productsController.data.products}"
+							styleClass="productList" rows="10" columns="1" paginator="true"
+							effect="true" id="productTableList"
+							paginatorAlwaysVisible="false" effectSpeed="fast"
+							rendered="#{productsController.data.showProductList}"
+							currentPageReportTemplate="{currentPage} / {totalPages}"
+							paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} termék / lap"
+							rowsPerPageTemplate="10,20,30">
+							<p:column>
+								<h:panelGroup id="panel2">
+									<div class="productListElement">
+										<p:commandLink style="text-decoration: none;" process="@this"
+											oncomplete="showpopup()">
+											<f:setPropertyActionListener value="#{data}"
+												target="#{productsController.data.selectedProduct}" />
+											<div class="productListPicture">
+												<center>
+													<img
+														onerror="this.src='${facesContext.externalContext.requestContextPath}/img/placeholder.png'"
+														src="http://agriadrink.hu/pics/#{data.cikkszam}.jpg"
+														height="50" alt="#{data.megn}" title="#{data.megn}" />
+												</center>
+											</div>
+											<div class="productListName">
+												<table>
+													<tr>
+														<td style="" valign="middle" height="52"><h:outputText
+																value="#{data.megn}" /></td>
+													</tr>
+												</table>
+											</div>
+										</p:commandLink>
+										<div class="productListPrice">
+											<h:outputText value="#{data.ear} Ft">
+												<f:convertNumber type="number" maxFractionDigits="2" />
+											</h:outputText>
+										</div>
+										<div class="productListGrossPrice">
+											<strong><h:outputText value="#{data.brutto}">
+													<f:convertNumber type="number" maxFractionDigits="0" />
+												</h:outputText> </strong> Ft
+										</div>
+										<div class="productListCart">
+											<div class="productListCounter">
+												<h:inputText value="#{cartController.data.menny}"
+													id="menny2" maxlength="4">
+													<f:validateLongRange maximum="9999" />
+													<p:ajax event="change" update="header:headerform"></p:ajax>
+												</h:inputText>
+												#{msg.MISC_PIECE}
+											</div>
+											<p:commandLink styleClass="productListCartButton"
+												update="message,menny2,header:headerform" process="@this"
+												actionListener="#{cartController.addProductToCart}">
+												<f:param name="arukod" value="#{data.arukod}" />
+											</p:commandLink>
+										</div>
+
+									</div>
+								</h:panelGroup>
+							</p:column>
+						</p:dataGrid>
+
+					</div>
+
+					<div class="clear"></div>
+
+
+
+				</h:form>
+
+				<p:dialog modal="false" widgetVar="productitemwid" draggable="true"
+					width="820" closable="true" styleClass="commonDialog"
+					header="Termék" id="productitem">
+					<h:form id="productitemgroup">
+						<p:remoteCommand oncomplete="productitemwid.show()"
+							name="showpopup" immediate="true" update="productitemgroup"
+							actionListener="#{productsController.showProductItem}"></p:remoteCommand>
+						<div class="mainContentCenter">
+							<div class="productView">
+								<div class="productViewPicture">
+									<table>
+										<tr>
+											<td align="center" valign="middle"><div
+													style="width: 600px; margin-left: -150px;">
+													<img
+														onerror="this.src='${facesContext.externalContext.requestContextPath}/img/placeholderLarge.png'"
+														src="http://agriadrink.hu/pics/#{productsController.data.selectedProduct.cikkszam}.jpg"
+														alt="#{data.megn}"
+														title="#{productsController.data.selectedProduct.megn}" />
+												</div></td>
+										</tr>
+									</table>
+								</div>
+								<div class="productViewNameBox productViewNameBoxShort">
+									<h:outputText
+										value="#{productsController.data.selectedProduct.megn}"
+										styleClass="productViewName" />
+									<div
+										class="addthis_toolbox addthis_32x32_style addthis_default_style">
+										<a class="addthis_button_facebook"></a> <a
+											class="addthis_button_twitter"></a> <a
+											class="addthis_button_email"></a> <a
+											class="addthis_button_google"></a> <a
+											class="addthis_button_compact"></a>
+									</div>
+								</div>
+								<div class="productViewCart">
+									<div class="productViewPrice">
+										#{msg.MISC_NET}:
+										<h:outputText id="earrr"
+											value="#{productsController.data.selectedProduct.ear}">
+											<f:convertNumber type="number" maxFractionDigits="2" minFractionDigits="2" />
+										</h:outputText>
+										Ft
+									</div>
+									<div class="productViewGrossPrice">
+										#{msg.MISC_GROSS}:
+										<h:outputText
+											value="#{productsController.data.selectedProduct.brutto}">
+											<f:convertNumber type="number" maxFractionDigits="0" />
+										</h:outputText>
+										Ft
+									</div>
+
+									<div class="productViewCounter">
+										<small>#{productController.data.product.menny==0?msg.MISC_NOTSTOCK:msg.MISC_STOCK}</small>&nbsp;
+										<h:inputText value="#{cartController.data.menny}" id="menny"
+											maxlength="4"
+											onkeydown="if(event.keyCode == 13) {return false;}">
+											<f:validateLongRange maximum="9999" />
+											<p:ajax event="change" update="header:headerform"></p:ajax>
+										</h:inputText>
+										#{msg.MISC_PIECE}
+									</div>
+									<p:commandLink styleClass="productViewCartButton"
+										update="menny,header:headerform" process="@this"
+										actionListener="#{cartController.addProductToCart}">
+										<f:param name="arukod"
+											value="#{productsController.data.selectedProduct.arukod}" />
+									</p:commandLink>
+								</div>
+
+								<div class="spacerDashesShort"></div>
+								<div class="productViewDetailsShort">
+									<h:outputText escape="false"
+										value="#{productsController.data.productBizkomment.bizmegj}" />
+									<br /> <br /> <a
+										href="${facesContext.externalContext.requestContextPath}/termek/#{productsController.data.selectedProduct.arukod}/">#{msg.MISC_TOPRODUCT}</a>
+								</div>
+
+
+								<p:growl id="message" showDetail="true" sticky="false"
+									life="4000" showSummary="false" />
+							</div>
+						</div>
+						<div class="clear"></div>
+					</h:form>
+				</p:dialog>
+
+
+			</div>
+			<p:growl id="message" showDetail="true" sticky="false" life="4000"
+				showSummary="false" />
+		</div>
+	</ui:define>
+</ui:composition>

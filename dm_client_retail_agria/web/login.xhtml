@@ -1,0 +1,45 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui" template="template.xhtml">
+
+	<ui:define name="body">
+		<h:form>
+			<div class="wrapper100 registrationContent">
+			<div class="wrapper">
+
+			<div class="registrationContentLeft">
+			<h3>Fontos információ</h3>
+			<div class="innerText"><img src="img/asterisk.png"
+				class="infoIcon" />
+			<p>Ezt a funkciót csak bejelentkezés után használhatja. Kérjük
+			regisztráljon.</p>
+			</div>
+			</div>
+			<div class="registrationContentCenter">
+			<h1>Bejelentkezés</h1>
+			<div class="spacerDashes"></div>
+			<h2 class="regSzemelyesAdatok"><strong>Személyes</strong> adatok</h2>
+			<label>Felhasználónév<h:inputText id="username"
+				value="#{loginController.data.userName}"></h:inputText><p:watermark
+				value="Felhasználónév" for="username" /><p:commandButton
+				action="registration" value="Regisztráció" immediate="true"
+				rendered="#{loginController.managedCustomer==null}"
+				styleClass="addShippingAddress"></p:commandButton> </label> <label>Jelszó<h:inputSecret
+				id="pass" value="#{loginController.data.password}"></h:inputSecret><p:watermark
+				value="Jelszó" for="pass" /><p:commandButton
+				action="forgottenpassword" value="Elfelejtett jelszó"
+				immediate="true" rendered="#{loginController.managedCustomer==null}"
+				styleClass="addShippingAddress"></p:commandButton> </label></div>
+			<p:commandButton action="#{loginController.login}" value="OK"
+				update="message,menuform" styleClass="registrationButton"></p:commandButton>
+			<div class="clear"></div>
+			</div>
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>

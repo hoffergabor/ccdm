@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf12977792620150" configfile="/dm_client_retail_agria/web/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="*" x="122" y="2290" id="pf129785835206221" outlinks="pf129785835206222 pf129785835206223 pf129785835206224 pf129785835206225 pf129785835206226 pf129785835206227 pf129785835206228 pf129785835206229 pf129785835206230 pf129785835206231 pf129785835206232 pf129785835206233 pf12983709196560" path="*"/>
+  <nodes xsi:type="pageflow:PFPage" name="registration" x="338" y="178" id="pf129785835206234" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf129785835206222" path="/registration.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="index" x="338" y="562" id="pf129785835206235" referenceLink="//@navigationRule.0/@navigationCase.1/@toViewId|" inlinks="pf129785835206223" path="/index.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="profile" x="338" y="946" id="pf129785835206236" referenceLink="//@navigationRule.0/@navigationCase.2/@toViewId|" inlinks="pf129785835206224" path="/profile.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="admin" x="338" y="1330" id="pf129785835206237" referenceLink="//@navigationRule.0/@navigationCase.11/@toViewId|" inlinks="pf129785835206225" path="/admin.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="news" x="338" y="1714" id="pf129785835206238" referenceLink="//@navigationRule.0/@navigationCase.4/@toViewId|" inlinks="pf129785835206226" path="/news.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="products" x="338" y="2098" id="pf129785835206239" referenceLink="//@navigationRule.0/@navigationCase.5/@toViewId|" inlinks="pf129785835206227" path="/products.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="forgottenpassword" x="338" y="2482" id="pf129785835206240" referenceLink="//@navigationRule.0/@navigationCase.6/@toViewId|" inlinks="pf129785835206228" path="/forgottenpassword.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="order" x="338" y="2866" id="pf129785835206241" referenceLink="//@navigationRule.0/@navigationCase.7/@toViewId|" inlinks="pf129785835206229" path="/order.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="orderlist" x="338" y="3250" id="pf129785835206242" referenceLink="//@navigationRule.0/@navigationCase.8/@toViewId|" inlinks="pf129785835206230" path="/orderlist.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="login" x="338" y="3634" id="pf129785835206243" referenceLink="//@navigationRule.0/@navigationCase.9/@toViewId|" inlinks="pf129785835206231" path="/login.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="wishlist" x="338" y="4018" id="pf129785835206244" referenceLink="//@navigationRule.0/@navigationCase.11/@toViewId|" inlinks="pf129785835206232" path="/wishlist.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="error" x="338" y="4402" id="pf129785835206245" referenceLink="//@navigationRule.0/@navigationCase.11/@toViewId|" inlinks="pf129785835206233" path="/error.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="adminmanager" id="pf12983709196561" referenceLink="//@navigationRule.0/@navigationCase.11/@toViewId|" inlinks="pf12983709196560" path="/adminmanager.xhtml"/>
+  <links id="pf129785835206222" target="pf129785835206234" source="pf129785835206221" outcome="registration" redirect="true"/>
+  <links id="pf129785835206223" target="pf129785835206235" source="pf129785835206221" outcome="index" redirect="true"/>
+  <links id="pf129785835206224" target="pf129785835206236" source="pf129785835206221" outcome="profile" redirect="true"/>
+  <links id="pf129785835206225" target="pf129785835206237" source="pf129785835206221" outcome="admin" redirect="true"/>
+  <links id="pf129785835206226" target="pf129785835206238" source="pf129785835206221" outcome="news" redirect="true"/>
+  <links id="pf129785835206227" target="pf129785835206239" source="pf129785835206221" outcome="products" redirect="true"/>
+  <links id="pf129785835206228" target="pf129785835206240" source="pf129785835206221" outcome="forgottenpassword" redirect="true"/>
+  <links id="pf129785835206229" target="pf129785835206241" source="pf129785835206221" outcome="order" redirect="true"/>
+  <links id="pf129785835206230" target="pf129785835206242" source="pf129785835206221" outcome="orderlist" redirect="true"/>
+  <links id="pf129785835206231" target="pf129785835206243" source="pf129785835206221" outcome="login" redirect="true"/>
+  <links id="pf129785835206232" target="pf129785835206244" source="pf129785835206221" outcome="wishlist" redirect="true"/>
+  <links id="pf129785835206233" target="pf129785835206245" source="pf129785835206221"/>
+  <links id="pf12983709196560" target="pf12983709196561" source="pf129785835206221" outcome="adminmanager" redirect="true"/>
+</pageflow:Pageflow>
