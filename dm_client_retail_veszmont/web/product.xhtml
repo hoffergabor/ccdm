@@ -1,0 +1,123 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.prime.com.tr/ui" template="template.xhtml">
+
+	<ui:define name="body">
+		<div class="wrapper100 mainContent productContent">
+			<div class="wrapper">
+				<h:form>
+					<p:tooltip global="true" targetPosition="bottomLeft"
+						showEffectLength="300" />
+
+					<div class="mainContentCenter">
+						<div class="productView">
+							<div class="productViewPicture">
+								<center>
+									<img
+										onerror="this.src='${facesContext.externalContext.requestContextPath}/img/placeholderLarge.png'"
+										src="http://coandco.iboard.hu/veszmont/#{fn:substring(productController.data.product.cikkszam, 0, 4)}.jpg"
+										height="378" alt="#{data.megn}"
+										title="#{productController.data.product.megn}" />
+								</center>
+							</div>
+							<div class="productViewNameBox">
+								<h:outputText value="#{productController.data.product.megn} / #{productController.data.product.cikkszam}"
+									styleClass="productViewName" />
+								<div
+									class="addthis_toolbox addthis_32x32_style addthis_default_style">
+									<a class="addthis_button_facebook"></a> <a
+										class="addthis_button_twitter"></a> <a
+										class="addthis_button_email"></a> <a
+										class="addthis_button_google"></a> <a
+										class="addthis_button_compact"></a>
+								</div>
+							</div>
+							<div class="productViewCart">
+								<div class="productViewPrice">
+									Nettó:
+									<h:outputText value="#{productController.data.product.ear} €" />
+								</div>
+								<div class="productViewGrossPrice">
+									Bruttó:
+									<h:outputText value="#{productController.data.product.brutto}">
+										<f:convertNumber type="number" maxFractionDigits="2" />
+									</h:outputText>
+									€
+								</div>
+
+								<div class="productViewCounter">
+									<small>#{productController.data.product.menny==0?'Nincs':'Van'}
+										raktáron</small>&nbsp;
+									<h:inputText value="#{cartController.data.menny}" id="menny"
+										maxlength="4">
+										<f:validateLongRange maximum="9999" />
+										<p:ajax event="change" update="header:headerform"></p:ajax>
+									</h:inputText>
+									db
+								</div>
+								<p:commandLink styleClass="productViewCartButton"
+									rendered="#{productController.data.product.brutto>0}"
+									update="menny,header:headerform" process="@this"
+									actionListener="#{cartController.addProductToCart}">
+									<f:param name="arukod"
+										value="#{productController.data.product.arukod}" />
+								</p:commandLink>
+								<p:commandLink value="Ajánlat"
+									rendered="#{1>productController.data.product.brutto}"
+									actionListener="#{productController.showRequestPopup}"
+									oncomplete="requestpopup.show()" process="@this"
+									update="requestgp2">
+									<f:param name="arukod"
+										value="#{productController.data.product.arukod}" />
+								</p:commandLink>
+							</div>
+
+							<div class="spacerDashes"></div>
+							<div class="productViewDetails">
+								<h:outputText escape="false"
+									value="#{productController.data.productBizkomment.bizmegj}" />
+							</div>
+
+							<p:growl id="message" showDetail="true" sticky="false"
+								life="4000" showSummary="false" />
+						</div>
+					</div>
+					<div class="clear"></div>
+					
+					<p:dialog widgetVar="requestpopup" modal="false" draggable="false"
+						closable="true" width="400" header="Ajánlat kérés"
+						id="requestpopup">
+						<h:panelGroup id="requestgp2">
+							<center>
+								Név:
+								<h:inputText value="#{productController.data.requestName}"
+									required="true" />
+								<br /> Email:
+								<h:inputText value="#{productController.data.requestEmail}"
+									required="true" />
+								<br /> Megjegyzés:
+								<h:inputTextarea
+									value="#{productController.data.requestComment}" />
+								<br /> <br />
+								<p:commandButton value="Küldés"
+									actionListener="#{productController.sendRequest}"
+									oncomplete="requestpopup.hide();" update="message" />
+								<p:commandButton value="Mégse" onclick="requestpopup.hide();"
+									immediate="true" />
+								<br /> <br />
+							</center>
+						</h:panelGroup>
+					</p:dialog>
+					
+
+				</h:form>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

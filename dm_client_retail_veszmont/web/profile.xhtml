@@ -1,0 +1,115 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui" template="template.xhtml">
+
+	<ui:define name="body">
+		<div class="wrapper100 registrationContent">
+		<div class="wrapper">
+		<div class="registrationContentLeft">
+		<h3>Fontos információ</h3>
+		<div class="innerText"><img src="img/asterisk.png"
+			class="infoIcon" />
+		<p>Adatvédelmi nyiltkozat</p>
+		<p>Vásárlási szerződés</p>
+		</div>
+		</div>
+		<h:form id="profileform">
+			<h:panelGroup id="data">
+				<div class="registrationContentCenter">
+				<h2 class="regSzemelyesAdatok"><strong>Személyes</strong>
+				adatok</h2>
+				<h:panelGroup rendered="#{profileController.managedPartner!=null}">
+					<label>Név:<h:inputText required="true" id="name"
+						requiredMessage="Név megadása kötelező!"
+						value="#{profileController.data.partner.nev}" /> <p:message
+						for="name" display="text" /> </label>
+					<label>E-mail / Felhasználónév:<h:inputText required="true"
+						requiredMessage="Email megadása kötelező!" id="email"
+						value="#{profileController.data.partner.weblogin}">
+						<f:validator validatorId="emailValidator" />
+					</h:inputText><p:message for="email" display="text" /> </label>
+					<label>Telefon:<h:inputText required="true"
+						requiredMessage="Telefonszám megadása kötelező!"
+						value="#{profileController.data.partner.tel1}" id="tel" /><p:message
+						for="tel" display="text" /></label>
+				</h:panelGroup></div>
+				<div class="clear"></div>
+				<div class="registrationContentLeft">
+				<h3>Hány szállítási címem lehet?</h3>
+				<div class="innerText">
+				<p>akárhány... de egyet muszáj megadnod.</p>
+				</div>
+				</div>
+				<div class="registrationContentCenter">
+				<h2 class="regSzallitasiAdatok"><strong>Szállítási</strong>
+				címek</h2>
+				<label>Szállítási cím:<h:selectOneMenu id="addresses"
+					value="#{profileController.data.shippingAddressId}">
+					<f:selectItems value="#{profileController.data.shippingAddresses}"
+						var="data" itemValue="#{data.shippingId}" itemLabel="#{data.name}" />
+					<p:ajax actionListener="#{profileController.changeShippingAddress}"
+						event="change" update="addresses,data" />
+				</h:selectOneMenu><p:commandButton value="Új szállítási cím hozzáadása" update="data"
+					styleClass="addShippingAddress"
+					actionListener="#{profileController.addNewShippingAddress}"></p:commandButton></label>
+
+
+				<label>Név:<h:inputText required="true"
+					requiredMessage="Szállítás neve megadása kötelező!"
+					id="shippingname"
+					value="#{profileController.data.shippingAddress.name}" /><p:message
+					for="shippingname" display="text" /></label> <label>Irányítószám:<h:inputText
+					maxlength="4" size="2" required="true"
+					requiredMessage="Irányítószám megadása kötelező!" id="zipcode"
+					value="#{profileController.data.shippingAddress.zipCode}" /><p:message
+					for="zipcode" display="text" /></label> <label>Település:<p:autoComplete
+					id="town" required="true" queryDelay="0"
+					requiredMessage="Település megadása kötelező!"
+					completeMethod="#{profileController.completeTown}"
+					value="#{profileController.data.shippingAddress.townShip}"></p:autoComplete><p:message
+					for="town" display="text" /></label> <label>Cím:<h:inputText
+					id="address" required="true"
+					requiredMessage="Cím megadása kötelező!"
+					value="#{profileController.data.shippingAddress.address}" /><p:message
+					for="address" display="text" /></label> <label>Árut átvevő személy
+				neve:<h:inputText
+					value="#{profileController.data.shippingAddress.contactName}" /></label> <label>Megjegyzés:<h:inputTextarea
+					rows="5" cols="30"
+					value="#{profileController.data.shippingAddress.comment}" /></label></div>
+				<div class="clear"></div>
+				<h:panelGroup>
+					<div class="registrationContentCenter">
+					<h2 class="regSzallitasiAdatok"><strong>Számlázási</strong>
+					adatok</h2>
+					<label>Számlázási név: <h:inputText maxlength="50"
+						value="#{profileController.data.partner.nev}"></h:inputText></label> <label>Irányítószám:<h:inputText
+						maxlength="4" size="2" required="true"
+						requiredMessage="Irányítószám megadása kötelező!" id="zipcode2"
+						value="#{profileController.data.partner.irsz}" /><p:message
+						for="zipcode2" display="text" /></label> <label>Település:<p:autoComplete
+						id="town2" required="true" queryDelay="0" maxlength="30"
+						requiredMessage="Település megadása kötelező!"
+						completeMethod="#{profileController.completeTown}"
+						value="#{profileController.data.partner.varos}"></p:autoComplete><p:message
+						for="town2" display="text" /></label> <label>Cím:<h:inputText
+						id="address2" required="true"
+						requiredMessage="Cím megadása kötelező!" maxlength="50"
+						value="#{profileController.data.partner.cim}" /><p:message
+						for="address2" display="text" /></label></div>
+				</h:panelGroup>
+				<p:commandButton value="Mentés" update="message,data"
+					actionListener="#{profileController.saveUserDatas}"
+					styleClass="registrationButton"></p:commandButton>
+				<p:growl id="message" showDetail="true" sticky="false" life="4000"
+					showSummary="false" globalOnly="true" />
+			</h:panelGroup>
+			<div class="clear"></div>
+		</h:form></div>
+		</div>
+	</ui:define>
+</ui:composition>

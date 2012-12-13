@@ -1,0 +1,210 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	template="/pages/template.xhtml">
+
+
+	<ui:define name="body">
+		<h:form id="logisticsform">
+			<input type="hidden" name="hidden1" value="" id="hidden1" />
+			<script type="text/javascript">
+
+			var map = null;
+			var point = null;
+			var delay = 10000;
+			var markersArray = [];
+		
+			function initGmapForVehicles() {
+				 var myOptions = {
+			     	zoom: 8,
+			     	mapTypeId: google.maps.MapTypeId.ROADMAP,
+			     	panControl: true,
+			     	zoomControl: true,
+			     	scaleControl: true,
+			    };
+			  	map = new google.maps.Map(document.getElementById("map"),myOptions);
+			    map.setCenter(new google.maps.LatLng(47.16731,19.319458));
+	            initMarker();
+			}
+			
+			function initMarkers(xhr, status, args) {
+				if(!args.validationFailed) {  
+					moveMarker(args);
+				}
+			  	setTimeout("getPosition()", delay);
+			}
+		 
+			function moveVehicles(xhr, status, args) {
+				if (markersArray) {
+			        for (i in markersArray) {
+			        	markersArray[i].setMap(null);
+			      	}
+				}
+				if(!args.validationFailed) {  
+					moveMarker(args);
+					setTimeout("getPosition()", delay);
+				}	
+			}
+			
+			function moveMarker(args){
+				var vehicles = eval('(' + args.vehicles + ')');
+				for(i in vehicles){
+					var icon = new google.maps.MarkerImage(vehicles[i].icon);
+					var point = new google.maps.LatLng(vehicles[i].lat, vehicles[i].lng);
+				  	var vehicleMarker = new google.maps.Marker(point);
+				  	var marker = new google.maps.Marker({
+				        position: point,
+				        map: map,
+				        icon: icon,
+				        title:vehicles[i].name,
+				        id: vehicles[i].id
+				    });
+				  	markersArray.push(marker);
+				  	attachMessage(marker,vehicles[i].name);
+				}
+			}
+			
+			function attachMessage(marker, message) {
+				var infowindow = new google.maps.InfoWindow(
+			      { content: message,
+			        size: new google.maps.Size(30,30)
+			      });
+			  	google.maps.event.addListener(marker, 'click', function() {
+			  		document.getElementById('hidden1').value = marker.id; 
+			    	//infowindow.open(map,marker);
+			  		showPopup();
+			  	});
+			}
+				
+				
+			
+    </script>
+			<p:remoteCommand
+				actionListener="#{logisticsserviceController.initMarkers}"
+				name="initMarker" process="@this"
+				oncomplete="initMarkers(xhr, status, args)"></p:remoteCommand>
+			<p:remoteCommand
+				actionListener="#{logisticsserviceController.getPositions}"
+				name="getPosition" process="@this"
+				oncomplete="moveVehicles(xhr, status, args)"></p:remoteCommand>
+
+			<table class="logisticsTable">
+				<tr>
+					<td width="179" class="logisticsLeft"><p:tabView>
+							<p:tab title="Járművek">
+								<h3>Elérhető járművek a térképen</h3>
+								<div class="logisticsDetails">
+									<div class="innerPanel">
+										<p:dataTable style="text-align:left" selectionMode="single"
+											rows="10" paginator="true" paginatorPosition="top"
+											paginatorAlwaysVisible="false" emptyMessage="#{msg.NODATA}"
+											dynamic="true"
+											value="#{openitemsserviceController.data.openItemList}"
+											var="data" id="logisticsActualTable">
+										</p:dataTable>
+									</div>
+								</div>
+								<div class="logisticsVehicleDetails"></div>
+							</p:tab>
+							<p:tab title="Keresés">
+								<label class="label">Irányítószám szerint <h:inputText
+										maxlength="40" required="true" id="licencePlateNumber"
+										value="" styleClass="input" requiredMessage=""></h:inputText>
+								</label>
+								<label class="label">Sofőr neve szerint <h:inputText
+										maxlength="40" required="true" id="driverName" value=""
+										styleClass="input" requiredMessage=""></h:inputText> </label>
+								<label class="label">Jármű típusa szerint <h:inputText
+										maxlength="40" required="true" id="vehicleType" value=""
+										styleClass="input" requiredMessage=""></h:inputText> </label>
+								<p:button outcome="searchVehicle" value="Keresés"
+									styleClass="commonButton logisticsSearchButton"></p:button>
+								<hr />
+								<h3>Keresés eredményei</h3>
+								<div class="logisticsDetails">
+									<div class="innerPanel">
+										<p:dataTable style="text-align:left" selectionMode="single"
+											rows="10" paginator="true" paginatorPosition="top"
+											paginatorAlwaysVisible="false" emptyMessage="#{msg.NODATA}"
+											dynamic="true"
+											value="#{openitemsserviceController.data.openItemList}"
+											var="data" id="logisticsSearchTable">
+										</p:dataTable>
+									</div>
+								</div>
+							</p:tab>
+						</p:tabView>
+					</td>
+
+					<td class="logisticsRight"><div id="map"
+							style="width: 100%; height: 100%"></div>
+					</td>
+				</tr>
+			</table>
+			<p:growl id="growl" showDetail="true" />
+
+			<p:remoteCommand name="showPopup" process="@this"
+				oncomplete="vehiclePopup.show()" update="popupgp"
+				actionListener="#{logisticsserviceController.showVehicle}">
+			</p:remoteCommand>
+
+			<p:dialog widgetVar="vehiclePopup" closable="true" width="600" styleClass="commonDialog"
+				header="A jármű adatai">
+				<h:panelGroup id="popupgp" styleClass="vehicleDataPopup">
+					<div class="top">
+						<div class="left">
+						<h3>Alapadatok</h3>
+						<p><strong>Id:</strong> #{logisticsserviceController.data.selectedVehicle.id}</p>
+						<p><strong>Rendszám:</strong> #{logisticsserviceController.data.selectedVehicle.name}</p>
+						<p><strong>Sofőr:</strong> Kovács József</p>
+						<p><strong>Típus:</strong> Tartálykocsi</p>
+						</div>
+						<div class="right">
+						<h3>Műveletek</h3>
+						<div class="logisticsIcons">
+									<p:button outcome="" image="sensor" value="Szenzor"
+										title="Jelzések"
+										styleClass="logisticsButton logisticsButtonActive logisticsButtonSensor" />
+									<p:button outcome="" image="message" value="Üzenet"
+										title="Üzenetek"
+										styleClass="logisticsButton logisticsButtonMessage" />
+									<p:button outcome="" image="follow" value="Követés"
+										title="Követés"
+										styleClass="logisticsButton logisticsButtonFollow" />
+									<p:button outcome="" image="path" value="Útvonal"
+										title="Útvonal"
+										styleClass="logisticsButton logisticsButtonPath" />
+								</div>
+						</div>
+						<div class="clear"></div>
+					</div>
+					<div class="datas">
+						<div class="left">
+							<h3>Szenzoradatok</h3>
+							<p>ide jönnek a szenzoradatok felsorolva</p>
+						</div>
+						<div class="right">
+							<h3>Üzenet küldés</h3>
+							<label>Cím:<h:inputText /></label>
+							<label>Üzenet:<h:inputTextarea cols="40" rows="6" /></label>
+							<label>Prioritás:
+							<h:selectOneRadio>
+								<f:selectItem itemLabel="1" itemValue="1" />
+								<f:selectItem itemLabel="2" itemValue="2" />
+								<f:selectItem itemLabel="3" itemValue="3" />
+							</h:selectOneRadio>
+							</label><br />
+							<hr />
+							<p:commandButton value="Üzenet elküldése" />
+						</div>
+					</div>
+				</h:panelGroup>
+			</p:dialog>
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,244 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui" template="template.xhtml">
+
+	<ui:define name="body">
+		<div class="wrapper100 registrationContent">
+			<div class="wrapper">
+				<div class="registrationContentLeft">
+					<h3>Fontos információ</h3>
+					<div class="innerText">
+						<img src="img/asterisk.png" class="infoIcon" />
+						<p>
+							<a href="/veszmontkisker/adatvedelem">Adatvédelmi nyiltkozat</a>
+						</p>
+						<p>
+							<a href="/veszmontkisker/vasarlasiszerzodes">Vásárlási szerződés</a>
+						</p>
+					</div>
+				</div>
+				<h:form id="regform">
+					<h:panelGroup id="datas">
+						<div class="registrationContentCenter">
+							<h1>Regisztráció*</h1>
+							<small>A csillaggal (*) jelölt mezők kitöltése kötelező.</small>
+							<br />
+							<div class="spacerDashes"></div>
+							<h2 class="regSzemelyesAdatok">
+								<strong>Személyes</strong> adatok
+							</h2>
+							<label>Név:<h:inputText required="true" id="name"
+									requiredMessage="Név megadása kötelező!" maxlength="50"
+									value="#{registrationController.data.partner.nev}">
+									<p:ajax event="change"></p:ajax>
+								</h:inputText> <p:message for="name" display="text" /> </label> <label>E-mail
+								/ Felhasználónév:<h:inputText required="true" maxlength="40"
+									requiredMessage="Email megadása kötelező!" id="email"
+									value="#{registrationController.data.partner.weblogin}">
+									<f:validator validatorId="emailValidator" />
+								</h:inputText> <p:message for="email" display="text" /> </label> <label>Jelszó:<h:inputSecret
+									required="true" id="pass1" maxlength="40"
+									requiredMessage="Jelszó megadása kötelező!"
+									value="#{registrationController.data.password1}" /> <p:message
+									for="pass1" display="text" /> </label> <label>Jelszó újra:<h:inputSecret
+									required="true" id="pass2" maxlength="40"
+									requiredMessage="Jelszó megadása kötelező!"
+									value="#{registrationController.data.password2}" /> <p:message
+									for="pass2" display="text" /> </label> <label>Telefon:<h:inputText
+									maxlength="30" required="true"
+									requiredMessage="Telefonszám megadása kötelező!"
+									value="#{registrationController.data.partner.tel1}" id="tel" />
+								<p:message for="tel" display="text" /> </label>
+						</div>
+
+						<div class="registrationContentLeft">
+							<div class="innerText">
+								<p>Aliquam vulputate sollicitudin nisl, eget dapibus urna
+									faucibus vel. Suspendisse potenti. Proin commodo diam quis erat
+									euismod at dapibus sapien volutpat. Integer vulputate placerat
+									orci nec suscipit. Duis tempus auctor erat, in ornare nulla
+									blandit quis. Donec sagittis leo non risus eleifend rutrum.
+									Nulla facilisi. Nunc cursus fermentum lobortis. Vestibulum
+									luctus erat at risus malesuada tempor. In blandit metus a magna
+									tristique sit amet commodo nisl tincidunt.</p>
+							</div>
+						</div>
+						<div class="clear"></div>
+
+						<div class="registrationContentLeft">
+							<div class="innerText">
+								<p>Értesülhet akcióinkról, promóciós katalógusunkat
+									díjmentesen megkapja, és mindig naprakész lehet az
+									újdonságokból.</p>
+							</div>
+						</div>
+						<div class="registrationContentCenter">
+							<h2 class="regHirlevelFeliratkozas">
+								<strong>Hírlevél</strong> feliratkozás
+							</h2>
+							<label> <h:selectOneRadio
+									value="#{registrationController.data.activateNewsLetter}">
+									<f:selectItem itemLabel="Nem" itemValue="0" />
+									<f:selectItem itemLabel="Igen" itemValue="1" />
+								</h:selectOneRadio> </label>
+						</div>
+						<div class="clear"></div>
+						<div class="registrationContentLeft">
+							<h3>Fontos információ</h3>
+							<div class="innerText">
+								<p>Itt kell megadnia első szállítási címét, ezt később
+									megváltoztatja, illetve bejelentkezés után a profil menüpontban
+									lehetősége van több szállítási cím felvételére is.</p>
+							</div>
+						</div>
+						<div class="registrationContentCenter">
+							<h2 class="regSzallitasiAdatok">
+								<strong>Szállítási</strong> cím
+							</h2>
+							<label>Megnevezés:<h:inputText required="true"
+									requiredMessage="Szállítás neve megadása kötelező!"
+									id="shippingname" maxlength="50"
+									value="#{registrationController.data.shippingAddress.name}" />
+								<p:message for="shippingname" display="text" /> </label> <label>Irányítószám:<h:inputText
+									maxlength="6" size="2" required="true"
+									requiredMessage="Irányítószám megadása kötelező!" id="zipcode"
+									value="#{registrationController.data.shippingAddress.zipCode}">
+									<p:ajax event="change"></p:ajax>
+								</h:inputText> <p:message for="zipcode" display="text" /> </label> <label>Település:<p:autoComplete
+									id="town" required="true" queryDelay="0" forceSelection="false"
+									requiredMessage="Település megadása kötelező!"
+									completeMethod="#{registrationController.completeTown}"
+									value="#{registrationController.data.shippingAddress.townShip}">
+									<p:ajax event="blur"></p:ajax>
+								</p:autoComplete> <p:message for="town" display="text" /> </label> <label>Cím:<h:inputText
+									id="address" required="true" maxlength="100"
+									requiredMessage="Cím megadása kötelező!"
+									value="#{registrationController.data.shippingAddress.address}">
+									<p:ajax event="change"></p:ajax>
+								</h:inputText> <p:message for="address" display="text" /> </label> <label>Árut
+								átvevő személy neve:<h:inputText maxlength="60"
+									value="#{registrationController.data.shippingAddress.contactName}" />
+							</label> <label>Megjegyzés:<h:inputTextarea rows="5" cols="30"
+									value="#{registrationController.data.shippingAddress.comment}" />
+							</label>
+						</div>
+						<div class="clear"></div>
+						<div class="registrationContentLeft">
+							<h3>Fontos információ</h3>
+							<div class="innerText">
+								<p>Számlázási adatait csak akkor kell megadnia, ha többnyire
+									fog számlát kérni rendeléseiről. Amennyiben csak időnként
+									kérne, úgy rendeléskor is megadhatja számlázási adatait.</p>
+							</div>
+						</div>
+						<h:panelGroup id="invoicepanel">
+							<div class="registrationContentCenter">
+								<h2 class="regSzallitasiAdatok">
+									<strong>Számlázási</strong> adatok
+								</h2>
+								<label>Kér számlát: <span class="withLabel">
+
+								<h:selectOneRadio
+											immediate="true"
+											value="#{registrationController.data.activateInvoice}">
+											<f:selectItem itemLabel="Nem" itemValue="false" />
+											<f:selectItem itemLabel="Igen" itemValue="true" />
+											<p:ajax event="change" update="invoicepanel"
+												actionListener="#{registrationController.activateInvoice}" />
+										</h:selectOneRadio>
+
+<!-- 									<h:selectBooleanCheckbox immediate="true"  -->
+<!-- 										value="#{registrationController.data.activateInvoice}"> -->
+<!-- 										<p:ajax event="change" update="invoicepanel"/> -->
+<!-- 									</h:selectBooleanCheckbox> -->
+
+
+
+										 </span> </label>
+								<h:panelGroup id="invoicepanel2"
+									rendered="#{registrationController.data.activateInvoice=='true'}">
+									<label>Számlázási név: <h:inputText maxlength="50"
+											value="#{registrationController.data.partner.nev}"></h:inputText>
+										<p:commandButton value="Szállítási cím másolása"
+											update="invoicepanel" immediate="true" process="@this"
+											action="#{registrationController.copyDatas}"
+											styleClass="addShippingAddress"></p:commandButton> </label>
+									<label>Irányítószám:<h:inputText maxlength="4" size="2"
+											required="true"
+											requiredMessage="Irányítószám megadása kötelező!"
+											id="zipcode2"
+											value="#{registrationController.data.partner.irsz}" /> <p:message
+											for="zipcode2" display="text" /> </label>
+									<label>Település:<p:autoComplete id="town2"
+											required="true" queryDelay="0" maxlength="30"
+											requiredMessage="Település megadása kötelező!"
+											completeMethod="#{registrationController.completeTown}"
+											value="#{registrationController.data.partner.varos}"></p:autoComplete>
+										<p:message for="town2" display="text" /> </label>
+									<label>Cím:<h:inputText id="address2" required="true"
+											requiredMessage="Cím megadása kötelező!" maxlength="50"
+											value="#{registrationController.data.partner.cim}" /> <p:message
+											for="address2" display="text" /> </label>
+								</h:panelGroup>
+							</div>
+
+						</h:panelGroup>
+						<div class="clear"></div>
+						<div class="registrationContentLeft">
+							<h3>CAPTCHA? Az meg micsoda?</h3>
+							<div class="innerText">
+								<p>Azért van rá szükség, mert különben gépek is tudnának
+									regisztrálni...</p>
+							</div>
+						</div>
+					</h:panelGroup>
+					<div class="registrationContentCenter">
+						<label><p:captcha label="Captcha" theme="white"
+								language="hu" id="captcha" required="true"
+								value="#{registrationController.data.captcha}"
+								requiredMessage="Kérem írja be a biztonsági kódot!" /> <span
+							class="captchaValidationMessage"><p:message for="captcha"
+									display="text" id="cp_msg" /> </span> </label>
+					</div>
+					<div class="clear"></div>
+
+					<div class="clear"></div>
+					<div class="registrationContentLeft">
+						<h3>Vásárlási feltételek</h3>
+						<div class="innerText">
+							<p>
+								Bővebben a <a href="/agria/vasarlasiszerzodes">vásárlási
+									szerződés</a> menüpontban olvashat róla
+							</p>
+						</div>
+					</div>
+					<div class="registrationContentCenter">
+						<h2 class="regSzemelyesAdatok">
+							<strong>Vásárlási</strong> feltételek
+						</h2>
+						<label><h:selectBooleanCheckbox
+								value="#{registrationController.data.rules}" /> A vásárlási
+							feltételeket elfogadom!</label>
+					</div>
+					<p:commandButton value="Regisztáció"
+						update="message,datas,captcha,cp_msg"
+						action="#{registrationController.registration}"
+						styleClass="registrationButton"></p:commandButton>
+					<p:growl id="message" showDetail="true" sticky="false" life="4000"
+						showSummary="false" globalOnly="true" />
+
+					<p:remoteCommand></p:remoteCommand>
+
+				</h:form>
+
+				<div class="clear"></div>
+			</div>
+		</div>
+
+	</ui:define>
+</ui:composition>

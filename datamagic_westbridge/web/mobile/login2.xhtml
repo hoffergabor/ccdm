@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<f:view contentType="text/html" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:i="http://primefaces.prime.com.tr/touch"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	locale="#{localeSelector.selectedLocale}">
+
+
+	<i:application theme="dark">
+		<i:view id="login" title="Login">
+			<f:facet name="rightNavBar">
+				<i:navBarControl label="Info" effect="slideup" type="button" />
+			</f:facet>
+			<h:form prependId="false">
+				<i:tableView id="loginpanel">
+					<i:rowGroup>
+						<i:rowItem>
+							<h:selectOneMenu id="country" immediate="true"
+								valueChangeListener="#{localeSelector.setLocale}"
+								value="#{localeSelector.lang}" style="width: 150px;">
+								<f:selectItem itemValue="hu" itemLabel="#{msg.hu_HU}" />
+								<f:selectItem itemValue="en" itemLabel="#{msg.en_US}" />
+								<p:ajax event="change" action="#{localeSelector.select}"
+									oncomplete="submit();"></p:ajax>
+							</h:selectOneMenu>
+						</i:rowItem>
+					</i:rowGroup>
+					<i:rowGroup title="Felhasználnév">
+						<i:rowItem>
+							<h:inputText maxlength="20" id="userTextBox" required="true"
+								binding="#{loginserviceController.userTextBox}"
+								value="#{loginserviceController.data.userName}"
+								requiredMessage="Felhasznalonev megadasa kotelezo!">
+								<f:validateLength maximum="20" />
+							</h:inputText>
+						</i:rowItem>
+					</i:rowGroup>
+					<i:rowGroup title="Jelszó">
+						<i:rowItem>
+							<h:inputSecret id="password" maxlength="20" required="true"
+								value="#{loginserviceController.data.password}"
+								binding="#{loginserviceController.passwordTextBox}">
+								<f:validateLength maximum="20" />
+							</h:inputSecret>
+						</i:rowItem>
+					</i:rowGroup>
+					<i:rowGroup>
+						<center><i:rowItem value="Bejelentkezés" type="submit"
+							update="loginpanel" view="s"
+							action="#{loginserviceController.loginMobileCDH}">
+						</i:rowItem></center>
+					</i:rowGroup>
+				</i:tableView>
+			</h:form>
+		</i:view>
+
+	</i:application>
+
+</f:view>
+

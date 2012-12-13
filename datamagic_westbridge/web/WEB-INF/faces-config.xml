@@ -1,0 +1,220 @@
+<faces-config xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
+	version="2.0">
+
+	<application>
+		<variable-resolver>
+			org.springframework.web.jsf.DelegatingVariableResolver</variable-resolver>
+	</application>
+
+	<lifecycle>
+		<phase-listener>
+			hu.iboard.coandco.datamagic.westbridge.presentation.util.CommonPhaseListener</phase-listener>
+	</lifecycle>
+
+	<application>
+		<locale-config>
+			<default-locale>hu</default-locale>
+			<supported-locale>en</supported-locale>
+			<supported-locale>jp</supported-locale>
+		</locale-config>
+		<!--		<view-handler>-->
+		<!--
+			hu.iboard.coandco.datamagic.presentation.util.DataMagicViewHandler</view-handler>
+		-->
+		<message-bundle>
+			hu.iboard.coandco.datamagic.westbridge.resources.ValidationMessages</message-bundle>
+	</application>
+
+	<validator>
+		<validator-id>emailValidator</validator-id>
+		<validator-class>
+			hu.iboard.coandco.datamagic.westbridge.presentation.util.EmailValidator</validator-class>
+	</validator>
+
+	<navigation-rule>
+
+		<navigation-case>
+			<from-outcome>login</from-outcome>
+			<to-view-id>/login.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>login_cdh</from-outcome>
+			<to-view-id>/login_cdh.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>mainpage</from-outcome>
+			<to-view-id>/pages/mainpage.jsp</to-view-id>
+			<redirect />
+		</navigation-case>
+		
+		<navigation-case>
+			<from-outcome>mainpage_page</from-outcome>
+			<to-view-id>/pages/mainpage.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		
+		<navigation-case>
+			<from-outcome>logistics</from-outcome>
+			<to-view-id>/pages/logistics.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		
+		
+		<navigation-case>
+			<from-outcome>choosepartner</from-outcome>
+			<to-view-id>/pages/choosepartner.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+
+		<navigation-case>
+			<from-outcome>logout</from-outcome>
+			<to-view-id>/login.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>orderlist</from-outcome>
+			<to-view-id>/pages/orderlist.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>productlist</from-outcome>
+			<to-view-id>/pages/productlist.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>manageorder</from-outcome>
+			<to-view-id>/pages/manageorder.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>invoicelist</from-outcome>
+			<to-view-id>/pages/invoicelist.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>realtyinvoicelist</from-outcome>
+			<to-view-id>/pages/realtyinvoicelist.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>openitemslist</from-outcome>
+			<to-view-id>/pages/openitemslist.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>shippinglist</from-outcome>
+			<to-view-id>/pages/shippinglist.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>partnerdataupdate</from-outcome>
+			<to-view-id>/pages/partnerdataupdate.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>workerdataupdate</from-outcome>
+			<to-view-id>/pages/workerdataupdate.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>realtyarrangementlist</from-outcome>
+			<to-view-id>/pages/realtyarrangementlist.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>bizkomment</from-outcome>
+			<to-view-id>/pages/bizkomment.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>retail</from-outcome>
+			<to-view-id>/pages/retail.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>managenotification</from-outcome>
+			<to-view-id>/pages/managenotification.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>notificationlist</from-outcome>
+			<to-view-id>/pages/notificationlist.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>managefiles</from-outcome>
+			<to-view-id>/pages/managefiles.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>registration</from-outcome>
+			<to-view-id>/registration/registration.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>mobilepage</from-outcome>
+			<to-view-id>/mobile/pages/mobilepage.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>mobilepartnerdataupdate</from-outcome>
+			<to-view-id>/mobile/pages/mobilepartnerdataupdate.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>mobileinvoicelist</from-outcome>
+			<to-view-id>/mobile/pages/mobileinvoicelist.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>mobilenotificationlist</from-outcome>
+			<to-view-id>/mobile/pages/mobilenotificationlist.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		
+		<navigation-case>
+			<from-outcome>mobilerealtyarrangementlist</from-outcome>
+			<to-view-id>/mobile/pages/mobilerealtyarrangementlist.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		
+		<navigation-case>
+			<from-outcome>mobilerealtyinvoicelist</from-outcome>
+			<to-view-id>/mobile/pages/mobilerealtyinvoicelist.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case>
+			<to-view-id>/error.xhtml</to-view-id>
+		</navigation-case>
+
+	</navigation-rule>
+
+</faces-config>

@@ -1,0 +1,300 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<f:view contentType="text/html" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	locale="#{localeSelector.selectedLocale}">
+
+	<f:loadBundle
+		basename="hu.iboard.coandco.datamagic.retail.veszmont.resources.MessageResources_hu"
+		var="msg" />
+	<html>
+	<h:head>
+		<title>Agria Drink, Agria Market ADMIN</title>
+
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="description" content="Agria Drink, Agria Market" />
+		<meta name="keywords" content="Agria Drink, Agria Market" />
+		<meta name="robots" content="all" />
+		<meta name="copyright"
+			content="Copyright (c) 2010 Agria Drink, Agria Market" />
+		<link rel="shortcut icon" type="image/x-icon" href="img/favico.ico" />
+
+		<link rel="stylesheet" type="text/css" media="screen"
+			href="${facesContext.externalContext.requestContextPath}/css/style.css"
+			title="style" />
+
+		<link rel="stylesheet" type="text/css" media="all"
+			href="${facesContext.externalContext.requestContextPath}/css/aristo/skin.css" />
+
+		<!--[if IE]><link rel="stylesheet" type="text/css" media="screen" href="css/ie.css" title="style"/><![endif]-->
+		<!--[if IE 7]><link rel="stylesheet" type="text/css" media="screen" href="css/ie7.css" title="style"/><![endif]-->
+		<!--[if IE 8]><link rel="stylesheet" type="text/css" media="screen" href="css/ie8.css" title="style"/><![endif]-->
+
+	</h:head>
+	<h:body>
+		<div class="wrapper100">
+		<div class="wrapper"><h:form enctype="multipart/form-data">
+			<p:commandButton actionListener="#{loginController.logoutAdmin}"
+				value="Kijelentkezés" action="admin" immediate="true"
+				rendered="#{loginController.managedAdmin!=null}" />
+			<p:tabView tabChangeListener="#{adminController.onTabChange}"
+				onTabChangeUpdate="contentpanel,userpanel,produccatalogpanel">
+				<p:tab title="Tartalom" id="contenttab">
+					<h:panelGroup id="contentpanel">
+						<label>Oldal neve: <p:selectOneMenu id="pagenames"
+							value="#{adminController.data.content.pageName}">
+							<f:selectItem itemValue="news" itemLabel="Hírek" />
+							<p:ajax event="change" update="contentpanel"
+								actionListener="#{adminController.changeContentParam}"></p:ajax>
+						</p:selectOneMenu></label>
+						<label>Nyelve: <p:selectOneMenu 
+							value="#{adminController.data.content.language}">
+							<f:selectItem itemValue="hu" itemLabel="Magyar" />
+							<f:selectItem itemValue="en" itemLabel="English" />
+							<f:selectItem itemValue="de" itemLabel="Deutsch" />
+							<p:ajax event="change" update="contentpanel"
+								actionListener="#{adminController.changeContentParam}"></p:ajax>
+						</p:selectOneMenu></label>
+						<br />
+						<br />
+						<p:dataTable selectionMode="single" width="300"
+							update="contentpanel" rows="10"
+							onselectComplete="selectContent()" paginator="true"
+							paginatorPosition="bottom" paginatorAlwaysVisible="false"
+							value="#{adminController.data.contentList}" var="data"
+							id="contentTable" emptyMessage="#{msg.NODATA}" lazy="false"
+							dynamic="true"
+							selection="#{adminController.data.selectedContent}">
+							<f:facet name="header">
+								<h:outputText value="Tartalom" />
+							</f:facet>
+							<p:column sortBy="#{data.title}" width="200">
+								<f:facet name="header">
+									<h:outputText value="Cím" />
+								</f:facet>
+								<h:outputText value="#{data.title}" />
+							</p:column>
+							<p:column sortBy="#{data.visible}" width="100">
+								<f:facet name="header">
+									<h:outputText value="Látható" />
+								</f:facet>
+								<p:selectBooleanCheckbox value="#{data.visible}" disabled="true" />
+							</p:column>
+							<p:column sortBy="#{data.language}" width="100">
+								<f:facet name="header">
+									<h:outputText value="Nyelv" />
+								</f:facet>
+								<h:outputText value="#{data.language}" />
+							</p:column>
+							<p:column sortBy="#{data.sequence}" width="100">
+								<f:facet name="header">
+									<h:outputText value="Sorrend" />
+								</f:facet>
+								<h:outputText value="#{data.sequence}" />
+							</p:column>
+							<p:column sortBy="#{data.modified}" width="100">
+								<f:facet name="header">
+									<h:outputText value="Módosítva" />
+								</f:facet>
+								<h:outputText value="#{data.modified}">
+									<f:convertDateTime pattern="MM/dd/yyyy" />
+								</h:outputText>
+							</p:column>
+							<p:column sortBy="#{data.admin.name}" width="100">
+								<f:facet name="header">
+									<h:outputText value="Módosította" />
+								</f:facet>
+								<h:outputText value="#{data.admin.name}" />
+							</p:column>
+						</p:dataTable>
+
+						<br />
+						<p:commandButton value="Új tartalom" update="contentpanel"
+							actionListener="#{adminController.addNewContent}"></p:commandButton>
+						<br />
+						<br />
+						<h:panelGroup id="contentgp"
+							rendered="#{adminController.data.visiblePanel}">
+							<label>Látható: <p:selectBooleanCheckbox
+								value="#{adminController.data.content.visible}">
+								<p:ajax event="change"></p:ajax>
+							</p:selectBooleanCheckbox></label>
+							<label>Sorrend:</label>
+							<h:inputText size="1"
+								value="#{adminController.data.content.sequence}">
+								<f:validateLength maximum="2" />
+							</h:inputText>
+							<br />
+							<label>Rövid cím: <h:inputText required="true"
+								requiredMessage="Cím megadása kötelező!"
+								value="#{adminController.data.content.title}"></h:inputText></label>
+							<br />
+							<label>Tartalom : <p:editor widgetVar="editorcontent"
+								required="true" requiredMessage="Tartalom megadása kötelező"
+								value="#{adminController.data.content.content}"></p:editor></label>
+							<br />
+							<label>Kiegészítés : <p:editor
+								widgetVar="editorexpansion"
+								value="#{adminController.data.content.expansion}" /></label>
+							<br />
+							<br />
+						</h:panelGroup>
+						<p:commandButton value="Mentés" update="message,contentpanel"
+							rendered="#{adminController.data.visiblePanel}"
+							oncomplete="editorexpansion.clear(),editorcontent.clear()"
+							actionListener="#{adminController.saveContent}"></p:commandButton>
+					</h:panelGroup>
+
+				</p:tab>
+				<p:tab title="Felhasználók" id="usertab"
+					onTabChangeUpdate="userpanel">
+					<h:panelGroup id="userpanel">
+						<p:dataTable selectionMode="single" width="300" update="userpanel"
+							rows="10" onselectComplete="selectAdmin()" paginator="true"
+							paginatorPosition="bottom" paginatorAlwaysVisible="false"
+							value="#{adminController.data.admins}" var="data" id="userTable"
+							emptyMessage="#{msg.NODATA}" dynamic="true"
+							selection="#{adminController.data.selectedAdmin}">
+							<f:facet name="header">
+								<h:outputText value="Felhasználók" />
+							</f:facet>
+							<p:column sortBy="#{data.name}" width="200">
+								<f:facet name="header">
+									<h:outputText value="Név" />
+								</f:facet>
+								<h:outputText value="#{data.name}" />
+							</p:column>
+							<p:column sortBy="#{data.active}" width="100">
+								<f:facet name="header">
+									<h:outputText value="Aktív" />
+								</f:facet>
+								<p:selectBooleanCheckbox value="#{data.active}" disabled="true" />
+							</p:column>
+						</p:dataTable>
+						<br />
+						<br />
+
+						<p:commandButton value="Új felhasználó" update="userpanel"
+							actionListener="#{adminController.addNewAdmin}"></p:commandButton>
+						<br />
+						<br />
+
+						<h:panelGroup id="userdatas"
+							rendered="#{adminController.data.visibleAdminPanel}">
+							<label>Név: <h:inputText
+								value="#{adminController.data.admin.name}" /></label>
+							<br />
+							<label>Felhasználónév / Email: <h:inputText
+								value="#{adminController.data.admin.email}" /></label>
+							<br />
+							<label>Aktív: <p:selectBooleanCheckbox
+								value="#{adminController.data.admin.active}" /> </label>
+						</h:panelGroup>
+						<br />
+						<br />
+						<p:commandButton value="Mentés" update="message,adminpanel"
+							rendered="#{adminController.data.visibleAdminPanel}"
+							actionListener="#{adminController.saveAdmin}"></p:commandButton>
+					</h:panelGroup>
+				</p:tab>
+				<p:tab title="Hírlevél">
+					<label>Tárgy: <h:inputText></h:inputText></label>
+					<br />
+					<label>Tartalom: <p:editor></p:editor></label>
+					<br />
+					<p:commandButton value="Küldés"></p:commandButton>
+				</p:tab>
+				<p:tab title="Feltöltés">
+					<p:fileUpload allowTypes="pdf,xls" mode="advanced" update="message"
+						id="ul" auto="false" sizeLimit="10000000" uploadLabel="Feltöltés"
+						cancelLabel="Mégse" dragDropSupport="true"
+						invalidFileMessage="Helytelen fájl formátum!" label="Feltöltés"
+						fileUploadListener="#{adminController.handleFileUpload}"></p:fileUpload>
+					<br />
+				</p:tab>
+				<p:tab title="Főoldal manager" id="mainpagemanagertab"
+					onTabChangeUpdate="produccatalogpanel">
+					<h:panelGroup id="produccatalogpanel">
+						<p:dataGrid width="500" rows="10" paginator="true" columns="1"
+							paginatorPosition="bottom" paginatorAlwaysVisible="false"
+							value="#{adminController.data.productCatalogs}" var="data"
+							id="productcatalogTable" emptyMessage="#{msg.NODATA}">
+							<p:column>
+								<h:panelGrid columns="7">
+									<img
+										src="#{facesContext.externalContext.requestContextPath}/files/catalog/#{data.fileName}"
+										alt="#{data.name}" title="#{data.name}" height="40px"
+										width="50px" />
+									#{data.name}
+									#{data.sequence}
+									#{data.modDate}
+									#{data.admin.name}
+									<p:commandLink value="Módosít" process="@this"
+										update="produccatalogpanel,produccatalog,productcatalogTable"
+										immediate="true" oncomplete="selectProductCatalog()">
+										<f:setPropertyActionListener
+											target="#{adminController.data.selectedProductCatalog}"
+											value="#{data}"></f:setPropertyActionListener>
+									</p:commandLink>
+									<p:commandLink value="Törlés" immediate="true" process="@this"
+										update="produccatalogpanel,produccatalog,productcatalogTable"
+										oncomplete="deleteProductCatalog()">
+										<f:setPropertyActionListener
+											target="#{adminController.data.selectedProductCatalog}"
+											value="#{data}"></f:setPropertyActionListener>
+									</p:commandLink>
+									<br />
+								</h:panelGrid>
+							</p:column>
+						</p:dataGrid>
+						<h:panelGroup id="produccatalog">
+							<label>Név: <h:inputText maxlength="60" size="40"
+								required="true" requiredMessage="Név megadása kötelező!"
+								value="#{adminController.data.productCatalog.name}" /></label>
+							<br />
+							<label>Árukód: <h:inputText maxlength="80" size="40"
+								required="true" requiredMessage="Árukód megadása kötelező!"
+								value="#{adminController.data.productCatalog.arukod}" /></label>
+							<br />
+							<label>Sorrend: <h:inputText size="1" maxlength="2"
+								value="#{adminController.data.productCatalog.sequence}" /></label>
+							<br />
+							<p:fileUpload value="#{adminController.data.productCatalogFile}"></p:fileUpload>
+							<br />
+							<br />
+						</h:panelGroup>
+						<p:commandButton value="Mentés"
+							update="produccatalog,productcatalogTable" ajax="false"
+							actionListener="#{adminController.saveProductCatalog}"></p:commandButton>
+						<p:messages showDetail="true" showSummary="false"></p:messages>
+						<br />
+					</h:panelGroup>
+				</p:tab>
+
+			</p:tabView>
+
+			<p:remoteCommand name="selectContent" update="contentpanel"
+				actionListener="#{adminController.selectContentAction}"></p:remoteCommand>
+
+			<p:remoteCommand name="selectAdmin" update="userpanel"
+				actionListener="#{adminController.selectAdminAction}"></p:remoteCommand>
+
+			<p:remoteCommand name="selectProductCatalog" process="@this"
+				update="produccatalogpanel,produccatalog,productcatalogTable,message"
+				immediate="true" action="#{adminController.updateProductCatalog}"></p:remoteCommand>
+
+			<p:remoteCommand name="deleteProductCatalog" process="@this"
+				update="productcatalogTable,message" immediate="true"
+				action="#{adminController.deleteProductCatalog}"></p:remoteCommand>
+
+			<p:growl id="message" showDetail="true" sticky="false" life="4000"
+				showSummary="false" />
+		</h:form></div>
+		</div>
+
+	</h:body>
+	</html>
+</f:view>

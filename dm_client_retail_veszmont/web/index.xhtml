@@ -1,0 +1,74 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.prime.com.tr/ui" template="template.xhtml">
+
+	<ui:define name="body">
+		<div class="wrapper100 advertisingContent">
+		<div class="wrapper">reklámfelület</div>
+		</div>
+		<div class="wrapper100 indexContent">
+		<div class="wrapper">
+		<div class="indexContentCenter">
+					<h1>Kiemelt termékeink</h1>
+					<div class="spacerDashes"></div>
+					<h:form>
+		
+		<p:dataGrid value="#{indexController.data.products}" var="data" columns="6" >
+		
+		<div class="indexContentElement"><p:commandLink
+							style="text-decoration: none;"
+							oncomplete="window.location='${facesContext.externalContext.requestContextPath}/termek/${data.arukod}/'">
+							<div class="productGridPicture">
+							<center><img
+								onerror="this.src='${facesContext.externalContext.requestContextPath}/img/placeholder.png'"
+								src="http://coandco.iboard.hu/veszmont/#{fn:substring(data.cikkszam, 0, 4)}.jpg"
+								height="165" alt="#{data.megn}" title="#{data.megn}" /></center>
+							</div>
+							<div class="productGridName"><h:outputText
+								value="#{data.megn}" /><br /><h:outputText
+								value="#{data.cikkszam}" /></div>
+						</p:commandLink>
+						<div class="productGridPrice">
+											Nettó:
+											<h:outputText value="#{data.ear}">
+													<f:convertNumber type="number" maxFractionDigits="2" />
+												</h:outputText>  €
+										</div>
+										<div class="productGridGrossPrice">
+											Bruttó: <strong><h:outputText value="#{data.brutto}">
+													<f:convertNumber type="number" maxFractionDigits="2" />
+												</h:outputText> </strong> €
+										</div>
+						#{data.menny==0?'Nincs':'Van'} raktáron<br />
+						<div class="productGridCart">
+						<!-- <div class="productGridCounter"><h:inputText
+							value="#{cartController.data.menny}" id="menny" maxlength="4">
+							<f:validateLongRange maximum="9999" />
+							<p:ajax event="change" update="header:headerform"></p:ajax>
+						</h:inputText> db</div> -->
+						<p:commandLink styleClass="productGridCartButton"
+							update="message,menny,header:headerform" process="@this"
+							actionListener="#{cartController.addProductToCart}">
+							<f:param name="arukod" value="#{data.arukod}" />
+						</p:commandLink></div>
+						</div>
+		</p:dataGrid>
+		
+			
+		</h:form>
+		<div class="clear"></div>
+		</div>
+		</div>
+		</div>
+
+		<div class="wrapper100 advertisingContent">
+		<div class="wrapper">reklámfelület</div>
+		</div>
+	</ui:define>
+</ui:composition>

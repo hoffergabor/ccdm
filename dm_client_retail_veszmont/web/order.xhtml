@@ -1,0 +1,267 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.prime.com.tr/ui" template="template.xhtml">
+
+	<ui:define name="body">
+		<div class="wrapper100 registrationContent">
+			<div class="wrapper">
+				<h:form id="orderform">
+
+
+					<div class="registrationContentLeft">
+						<h3>Fontos információ</h3>
+						<div class="innerText">
+							<img src="img/asterisk.png" class="infoIcon" />
+							<p>
+								<a href="/agria/adatvedelem">Adatvédelmi nyiltkozat</a>
+							</p>
+							<p>
+								<a href="/agria/vasarlasiszerzodes">Vásárlási szerződés</a>
+							</p>
+						</div>
+					</div>
+
+					<div class="registrationContentCenter">
+						<p:wizard widgetVar="wiz" backLabel="Vissza" nextLabel="Következő"
+							flowListener="#{orderController.onFlowProcess}">
+							<p:tab id="shipping" title="1. Szállítás">
+								<h:panelGroup id="shippingdata">
+									<div class="orderShippingRadio"></div>
+									<label>Szállítási cím megnevezés: <h:selectOneMenu
+											required="true"
+											value="#{orderController.data.shippingAddressId}">
+											<f:selectItem itemLabel="--- Kérem válasszon! ---"
+												itemValue="" />
+											<f:selectItems
+												value="#{orderController.data.shippingAddresses}" var="data"
+												itemLabel="#{data.name}" itemValue="#{data.shippingId}" />
+											<p:ajax
+												actionListener="#{orderController.changeShippingAddress}"
+												event="change" update="shippingdata,errormsg,message" />
+										</h:selectOneMenu> </label>
+									<label>Név:<h:inputText required="true"
+											requiredMessage="Szállítás neve megadása kötelező!"
+											id="shippingname"
+											value="#{orderController.data.shippingAddress.name}" /> <p:message
+											for="shippingname" display="text" /> </label>
+									<label>Irányítószám:<h:inputText maxlength="4" size="2"
+											required="true"
+											requiredMessage="Irányítószám megadása kötelező!"
+											id="zipcode"
+											value="#{orderController.data.shippingAddress.zipCode}">
+											<p:ajax update="errormsg,shippingdata" event="change"
+												process="@this" global="false"
+												actionListener="#{orderController.changeZipCode}" />
+										</h:inputText> <p:message for="zipcode" display="text" /> </label>
+									<label>Település:<p:autoComplete id="town"
+											required="true" queryDelay="0"
+											requiredMessage="Település megadása kötelező!"
+											completeMethod="#{orderController.completeTown}"
+											value="#{orderController.data.shippingAddress.townShip}"></p:autoComplete>
+										<p:message for="town" display="text" /> </label>
+									<label>Cím:<h:inputText id="address" required="true"
+											requiredMessage="Cím megadása kötelező!"
+											value="#{orderController.data.shippingAddress.address}" /> <p:message
+											for="address" display="text" /> </label>
+									<label>Árut átvevő személy neve:<h:inputText
+											id="shipcontact" required="true"
+											requiredMessage="Árut átvevő személy megadása kötelező!"
+											value="#{orderController.data.shippingAddress.contactName}" />
+										<p:message for="shipcontact" display="text" /> </label>
+									<label>Megjegyzés:<h:inputTextarea rows="5" cols="30"
+											value="#{orderController.data.shippingAddress.comment}" /> </label>
+									<div class="clear"></div>
+									<h:panelGroup
+										rendered="#{orderController.data.shippingPrice!=null}">
+										<div class="cartSummary">
+											<span>Házhozszállítás díja:</span> <b><h:outputText
+													value="#{orderController.data.shippingPrice}" /> €</b>
+										</div>
+									</h:panelGroup>
+									<h:panelGroup
+										rendered="#{orderController.data.shippingDate!=null}">
+										<div class="cartSummary">
+											<span>Szállítás időpontja:</span> <b><h:outputText
+													value="#{orderController.data.shippingDate}">
+													<f:convertDateTime pattern="#{msg.DATEFORMAT}"
+														timeZone="€ope/Budapest" />
+												</h:outputText> </b>
+										</div>
+									</h:panelGroup>
+									<div class="clear"></div>
+									<div class="cartSummary">
+										<b> <h:outputText
+												value="#{orderController.data.errorMessage}" id="errormsg"
+												rendered="#{orderController.data.errorMessage!=null}"></h:outputText>
+										</b>
+									</div>
+									<div class="clear"></div>
+									<p:commandButton value="Vissza a kosárhoz" action="cart"
+										styleClass="backToCart" immediate="true"
+										rendered="#{orderController.data.errorMessage!=null}"></p:commandButton>
+								</h:panelGroup>
+							</p:tab>
+							<p:tab id="pay" title="2. Fizetés">
+								<div class="orderPaymentRadio">
+									<h:selectOneRadio layout="pageDirection" required="true"
+										value="#{orderController.data.payOption}"
+										requiredMessage="Kérjük adja meg a fizetés típusát!"
+										rendered="#{orderController.data.showAtutalas}">
+										<f:selectItem itemValue="Készpénz" itemLabel="Utánvétel" />
+										<f:selectItem itemValue="Átutalás" itemLabel="Előre utalás" />
+										<f:selectItem itemValue="Paypal"
+											itemLabel="Paypal (kártyás fizetés)" />
+										<p:ajax event="change" process="@this" />
+									</h:selectOneRadio>
+									<h:selectOneRadio layout="pageDirection" required="true"
+										value="#{orderController.data.payOption}"
+										requiredMessage="Kérjük adja meg a fizetés típusát!"
+										rendered="#{!orderController.data.showAtutalas}">
+										<f:selectItem itemValue="Készpénz" itemLabel="Utánvétel" />
+										<f:selectItem itemValue="Paypal" itemLabel="Paypal" />
+										<p:ajax event="change" process="@this" />
+									</h:selectOneRadio>
+								</div>
+								<h:panelGroup id="invoicepanel">
+									<label>Kér számlát:<h:selectOneRadio id="invoicecheck"
+											immediate="true"
+											value="#{orderController.data.activateInvoice}">
+											<f:selectItem itemLabel="Nem" itemValue="0" />
+											<f:selectItem itemLabel="Igen" itemValue="1" />
+											<p:ajax event="change" update="invoicepanel" process="@this" />
+										</h:selectOneRadio> </label>
+									<h:panelGroup
+										rendered="#{orderController.data.activateInvoice==1}">
+										<p:commandButton value="Szállítási adatok másolása"
+											immediate="true" update="invoicepanel" process="@this"
+											styleClass="copyShippingAddress"
+											actionListener="#{orderController.copyShippingDatas}"></p:commandButton>
+										<label>Számlázási név: <h:inputText maxlength="50"
+												required="true" id="invoicename"
+												requiredMessage="Számlázási név megadása kötelező!"
+												value="#{orderController.data.invoiceName}"></h:inputText> </label>
+										<label>Irányítószám:<h:inputText maxlength="4"
+												size="2" required="true"
+												requiredMessage="Irányítószám megadása kötelező!"
+												id="zipcode2" value="#{orderController.data.invoiceZipcode}" />
+										</label>
+										<label>Település:<p:autoComplete id="town2"
+												required="true" queryDelay="0" maxlength="30"
+												requiredMessage="Település megadása kötelező!"
+												completeMethod="#{registrationController.completeTown}"
+												value="#{orderController.data.invoiceCity}"></p:autoComplete>
+										</label>
+										<label>Cím:<h:inputText id="address2" required="true"
+												requiredMessage="Cím megadása kötelező!" maxlength="50"
+												value="#{orderController.data.invoiceAddress}" /> </label>
+									</h:panelGroup>
+									<p:messages showDetail="true" showSummary="false"></p:messages>
+								</h:panelGroup>
+							</p:tab>
+							<p:tab id="summary" title="3. Összegzés">
+								<p:dataGrid var="data" value="#{cartController.data.items}"
+									effect="true" id="itemTable" columns="1">
+									<p:column>
+										<div class="cartGridElement">
+											<div class="cartGridPicture">
+												<center>
+													<img
+														onerror="this.src='${facesContext.externalContext.requestContextPath}/img/placeholder.png'"
+														src="http://ccteszt2.iboard.hu/veszmont/#{fn:substring(data.cikkszam, 0, 4)}.jpg"
+														height="50" />
+												</center>
+											</div>
+											<div class="cartGridName">
+												<table>
+													<tr>
+														<td style="" valign="middle" height="52"><h:outputText
+																value="#{data.megn}" />
+														</td>
+													</tr>
+												</table>
+											</div>
+											<div class="cartGridCount">
+												<h:outputText value="#{data.menny}" />
+												db
+											</div>
+											<div class="cartGridPrice">
+												<h:outputText value="#{data.brutto}">
+													<f:convertNumber type="number" maxFractionDigits="2"
+														pattern="#0.00" />
+												</h:outputText>
+												€
+											</div>
+											<div class="cartGridGrossPrice">
+												<h:outputText value="#{data.menny*data.brutto}">
+													<f:convertNumber type="number" maxFractionDigits="2"
+														pattern="#0.00" />
+												</h:outputText>
+												€
+											</div>
+										</div>
+									</p:column>
+								</p:dataGrid>
+
+								<div class="cartSummary">
+									<span>Fizetendő végösszeg:</span><b><h:outputText
+											value="#{cartController.data.allBrutto}">
+											<f:convertNumber type="number" maxFractionDigits="2" />
+										</h:outputText> €</b>
+								</div>
+								<div class="clear"></div>
+								<h:panelGroup>
+									<div class="cartSummary">
+										<span> Házhozszállítás díja:</span> <b><h:outputText
+												rendered="#{orderController.data.shippingPrice!='0'}"
+												value="#{orderController.data.shippingPrice}">
+												<f:convertNumber type="number" maxFractionDigits="0" />
+											</h:outputText>
+											<h:outputText
+												rendered="#{orderController.data.shippingPrice=='0' || orderController.data.shippingPrice==null}"
+												value="0">
+											</h:outputText> €</b>
+									</div>
+									<div class="clear"></div>
+								</h:panelGroup>
+								<div class="cartSummary">
+									<span>Fizetés:</span> <b>#{orderController.data.payOption}</b>
+								</div>
+								<div class="clear"></div>
+								<div class="cartSummaryRules">
+									<h:selectBooleanCheckbox id="rules"
+										value="#{orderController.data.rules}">
+										<p:ajax event="change" update="rules"></p:ajax>
+									</h:selectBooleanCheckbox>
+									Elfogadom a <a
+										href="${facesContext.externalContext.requestContextPath}/vasarlasiszerzodes"
+										target="_blank">vásárlási feltételeket?</a>
+								</div>
+								<div class="clear"></div>
+								<p:commandButton value="Megrendelem" immediate="true"
+									update="message,header:headerform:headercartdatas"
+									action="#{orderController.saveOrder}"
+									rendered="#{orderController.data.payOption!='Paypal'}"></p:commandButton>
+								<p:commandButton immediate="true" ajax="false"
+									styleClass="paypalButton"
+									rendered="#{orderController.data.payOption=='Paypal'}"
+									update="message,header:headerform:headercartdatas"
+									action="#{orderController.saveOrder}">
+								</p:commandButton>
+							</p:tab>
+						</p:wizard>
+					</div>
+
+					<p:growl id="message" showDetail="true" sticky="false" life="4000"
+						showSummary="false" />
+				</h:form>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</ui:define>
+</ui:composition>

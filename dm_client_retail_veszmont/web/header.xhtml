@@ -1,0 +1,212 @@
+﻿<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+	<h:form id="headerform">
+		<div class="wrapper100 header" id="top">
+			<div class="wrapper">
+				<div class="languageChooser">
+					<h:commandLink id="hulink" value="hu" update="headerform"
+						action="#{localeSelector.setLocaleHU}" />
+					<h:commandLink value="en" id="enlink"
+						action="#{localeSelector.setLocaleEN}" update="headerform" />
+					<!-- <a href="#">de</a> <a href="#">sk</a> -->
+				
+				</div>
+
+				<p:ajaxStatus
+					onstart="document.getElementById('header:headerform:tet').style.display='block';"
+					onsuccess="document.getElementById('header:headerform:tet').style.display='none';" />
+				<h:outputText id="tet" value="#{msg.PROGRESS_MSG}"
+					styleClass="headerLoader" style="display:none"></h:outputText>
+				<div class="headerMenu">
+					<p:commandLink action="index" value="#{msg.MENU_1}" immediate="true" process="@this"></p:commandLink>
+					<p:commandLink action="news" value="#{msg.MENU_2}" immediate="true"></p:commandLink>
+					<a
+						href="${facesContext.externalContext.requestContextPath}/cegismerteto">#{msg.MENU_3}</a> <a
+						href="${facesContext.externalContext.requestContextPath}/rolunkirtak">#{msg.MENU_4}</a> <a
+						href="${facesContext.externalContext.requestContextPath}/elerhetoseg">#{msg.MENU_5}</a>
+						<a
+				href="${facesContext.externalContext.requestContextPath}/vasarlasiszerzodes">#{msg.MENU_6}</a>
+						<p:commandLink action="profile" value="#{msg.MENU_8}" immediate="true"
+							rendered="#{loginController.managedPartner!=null}"></p:commandLink>
+						<p:commandLink rendered="#{loginController.managedPartner!=null}"
+							action="orderlist" value="#{msg.MENU_9}" immediate="true"></p:commandLink>
+						<p:commandLink rendered="#{loginController.managedPartner!=null}"
+							action="wishlist" value="#{msg.MENU_10}" immediate="true"></p:commandLink>
+				</div>
+			</div>
+		</div>
+
+		<div class="wrapper100 top">
+			<div class="wrapper">
+				<div class="topLogo">
+					<a href="/veszmontkisker"><img
+						src="${facesContext.externalContext.requestContextPath}/img/ceglogo.png" width="155"/>
+					</a>
+				</div>
+				<div class="topLogin">
+					<h:panelGroup rendered="#{loginController.managedPartner==null}">
+						<label>#{msg.LOGIN_USER}<h:inputText id="username"
+								value="#{loginController.data.userName}"></h:inputText> </label>
+						<label>#{msg.LOGIN_PASS}<h:inputSecret id="pass"
+								value="#{loginController.data.password}"></h:inputSecret> </label>
+						<p:commandButton action="#{loginController.login}" value="#{msg.LOGIN_LOGIN}"
+							update="message,menuform" ></p:commandButton>
+						<br />
+						<label><p:commandLink action="registration"
+								value="#{msg.LOGIN_REGISTER}" immediate="true"
+								rendered="#{loginController.managedPartner==null}"></p:commandLink>
+						</label>
+						<label><p:commandLink action="forgottenpassword"
+								value="#{msg.LOGIN_FORGOT}" immediate="true"
+								rendered="#{loginController.managedPartner==null}"></p:commandLink>
+						</label>
+
+					</h:panelGroup>
+					<h:panelGroup rendered="#{loginController.managedPartner!=null}">
+						<div class="topLoginUser">#{msg.LOGIN_HELLO}
+							#{loginController.managedPartner.nev}</div>
+						<p:commandButton actionListener="#{loginController.logout}"
+							value="Kijelentkezés" process="@this" action="index"
+							rendered="#{loginController.managedPartner!=null}" />
+					</h:panelGroup>
+				</div>
+				<div class="topCart">
+					<a href="${facesContext.externalContext.requestContextPath}/kosar"
+						class="cartImage"></a>
+					<h:panelGroup id="headercartdatas">
+						<div class="cartAmount">#{cartController.data.itemsSize!=null?cartController.data.itemsSize:'0'}
+							#{msg.CART_ITEM}</div>
+						<div class="cartTotal">
+							<h:outputText
+								value="#{cartController.data.allBrutto!=null?cartController.data.allBrutto:'0'}">
+								<f:convertNumber type="number" maxFractionDigits="2" />
+							</h:outputText>
+							Eur
+						</div>
+					</h:panelGroup>
+					<div class="cartLink">
+						<a href="${facesContext.externalContext.requestContextPath}/kosar">#{msg.CART_CART}</a>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<div class="wrapper100 mainMenu">
+			<div class="wrapper">
+				<div class="menuHolder">
+					<h:panelGroup id="menu">
+						<h:outputText escape="false"
+							value="#{productController.data.mainMenu}"></h:outputText>
+
+					</h:panelGroup>
+				</div>
+			</div>
+		</div>
+
+		<div class="wrapper100 contentTop">
+			<div class="wrapper">
+				<div class="contentTopSearch">
+					<p:autoComplete minQueryLength="3" forceSelection="false"
+						selectListener="#{productController.handleSelect}"
+						onSelectUpdate="page:productsform:productTable" maxResults="5"
+						value="#{productController.data.productName}" id="productname"
+						completeMethod="#{productController.complete}" queryDelay="0">
+					</p:autoComplete>
+					<p:watermark value="#{msg.LOGIN_SEARCH_TEXT}" for="productname"></p:watermark>
+					<p:commandButton value="#{msg.LOGIN_SEARCH_TEXT}" type="submit"
+						update="message,menu,page:productsform:productTable"
+						action="#{productController.searchProductByNameAction}" />
+				</div>
+
+				<div class="contentTopButtons">
+					<div class="openHours" href="#">
+						<div class="openHoursForm">
+							<div class="openHoursFormIcon"></div>
+							<div class="openHoursFormInside">
+								<h2>
+									&nbsp;&nbsp;<strong>#{msg.HEADER_OPEN}</strong>
+								</h2>
+								<br />
+								<h3 style="font-size:20px;">&nbsp;<strong>H-P:</strong> 8:00-16:30</h3>
+							</div>
+						</div>
+					</div>
+					
+					<div class="newsLetterSubsribe" href="#">
+						<div class="newsLetterSubscribeForm">
+							<div class="newsLetterSubscribeFormIcon"></div>
+							<div class="newsLetterSubscribeFormInside">
+								<h2>#{msg.HEADER_NEWSLETTER}</h2>
+								<h:inputText value="#{headerController.data.newsLetterEmail}"
+									id="newsletteremail">
+									<f:validateLength maximum="100" />
+									<f:validator validatorId="emailValidator" />
+								</h:inputText>
+								<div class="newsLetterSubscribeFormButton">
+									<p:commandButton update="message,newsletteremail"
+										actionListener="#{headerController.subsciptionToNewsLetter}"
+										value="OK"></p:commandButton>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="shippingSearch" href="#">
+						<div class="shippingSearchForm">
+							<div class="shippingSearchFormIcon"></div>
+							<div class="shippingSearchFormInside">
+								<h2>#{msg.HEADER_SHIPPING}</h2>
+								<h:inputText value="#{headerController.data.zipcode}">
+									<f:validateLength maximum="4" />
+								</h:inputText>
+								<div class="shippingSearchFormButton">
+									<p:commandButton value="#{msg.LOGIN_SEARCH_TEXT}" actionListener="#{headerController.checkZipCode}"
+									update="message"></p:commandButton>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<a class="customerService" href="#"></a>
+					
+					<a class="akciosKatalogus" href="${facesContext.externalContext.requestContextPath}/files/pdf/veszmont_akcios_katalogus.pdf"
+						target="_blank"></a>
+					<a class="faceBookLink" href="https://www.facebook.com/" target="_blank"></a>
+					<!-- <a class="arlista" target="_blank"
+						href="${facesContext.externalContext.requestContextPath}/excel/pdf/veszmont_arlista.xls"></a> -->
+				</div>
+			</div>
+		</div>
+		<p:growl id="message" showDetail="true" sticky="false" life="4000"
+			showSummary="false" />
+	</h:form>
+	<p:dialog resizable="false" widgetVar="idleDialog" modal="true"
+		width="350" closable="false">
+		<h:form>
+			<center>
+				<h:panelGroup id="logoutpanel">
+					<h:outputText
+						value="Munkamenet lejátrt, kérjük jelentkezzen be újra!"
+						style="font-size: 13px" />
+					<br />
+					<br />
+					<h:commandButton action="#{loginController.logout}" value="OK"
+						styleClass="button" type="submit"
+						onclick="window.location.reload()"></h:commandButton>
+				</h:panelGroup>
+			</center>
+			<p:idleMonitor timeout="600000" onidle="idleDialog.show();"
+				idleListener="#{loginController.idleListener}"
+				rendered="#{loginController.managedPartner!=null}" />
+		</h:form>
+	</p:dialog>
+
+</ui:composition>

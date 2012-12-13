@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName">
+			<value>com.mysql.jdbc.Driver</value>
+		</property>
+		 
+		<property name="url"><value>jdbc:mysql://localhost:3306/dm_veszmont</value></property>
+		<property name="username"><value>root</value></property>
+		<property name="password"><value></value></property>
+		
+<!-- 		<property name="url"><value>jdbc:mysql://localhost:3306/DM_Veszmont</value></property> -->
+<!-- 		<property name="username"><value>dm-veszmont</value></property> -->
+<!-- 		<property name="password"><value>dm321</value></property> -->
+	</bean>
+	
+	<bean id="openSessionInViewInterceptor" class="org.springframework.orm.hibernate3.support.OpenSessionInViewInterceptor"> 
+		<property name="sessionFactory"><ref bean="sessionFactory" /></property>
+		<property name="singleSession" value="true"/>
+		<property name="flushModeName">
+		<value>FLUSH_AUTO</value>
+	</property>
+	</bean>
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="annotatedClasses">
+			<list>
+				<value>hu.iboard.coandco.datamagic.model.afakodok.Afakodok
+				</value>
+				<value>hu.iboard.coandco.datamagic.model.arnev.Arnev
+				</value>
+				<value>hu.iboard.coandco.datamagic.model.aru.Aru
+				</value>
+				<value>hu.iboard.coandco.datamagic.model.aru.AruKisker
+				</value>
+				<value>hu.iboard.coandco.datamagic.model.cikkcsop.Cikkcsop
+				</value>
+				<value>hu.iboard.coandco.datamagic.model.content.Content
+				</value>
+				<value>hu.iboard.coandco.datamagic.model.county.County
+				</value>
+				<value>hu.iboard.coandco.datamagic.model.customer.Customer
+				</value>
+				<value>hu.iboard.coandco.datamagic.model.deviza.Deviza
+				</value>
+				<value>hu.iboard.coandco.datamagic.model.dolgozo.Dolgozo
+				</value>
+				<value>hu.iboard.coandco.datamagic.model.newsletteremail.NewsLetterEmail
+				</value>
+				<value>hu.iboard.coandco.datamagic.model.partner.Partner
+				</value>
+				<value>hu.iboard.coandco.datamagic.model.shippingaddress.ShippingAddress
+				</value>
+				<value>hu.iboard.coandco.datamagic.model.szamla.Szamla
+				</value>
+				<value>hu.iboard.coandco.datamagic.model.tetel.Tetel
+				</value>
+				<value>hu.iboard.coandco.datamagic.model.township.TownShip
+				</value>
+				<value>hu.iboard.coandco.datamagic.model.vevocsop.Vevocsop
+				</value>
+				<value>hu.iboard.coandco.datamagic.model.rendel.Rendel
+				</value>
+				<value>hu.iboard.coandco.datamagic.model.rendtet.Rendtet
+				</value>
+				<value>hu.iboard.coandco.datamagic.model.wishlist.Wishlist
+				</value>
+				<value>hu.iboard.coandco.datamagic.model.wishlistitem.WishlistItem
+				</value>
+				<value>hu.iboard.coandco.datamagic.model.admin.Admin
+				</value>
+				<value>hu.iboard.coandco.datamagic.model.productcatalog.ProductCatalog
+				</value>
+				<value>hu.iboard.coandco.datamagic.model.dmvsorsz.DmvSorsz
+				</value>
+				<value>hu.iboard.coandco.datamagic.model.terulet.Terulet
+				</value>
+				<value>hu.iboard.coandco.datamagic.model.teruletcs.Teruletcs
+				</value>
+				<value>hu.iboard.coandco.datamagic.model.bizkomment.Bizkomment
+				</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.connection.autocommit">true</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLInnoDBDialect
+				</prop>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.jdbc.batch_versioned_data">true</prop>
+				<prop key="hibernate.jdbc.use_streams_for_binary">true</prop>
+				<prop key="hibernate.order_updates">true</prop>
+				<prop key="hibernate.max_fetch_depth">5</prop>
+				<prop key="hibernate.default_batch_fetch_size">16</prop>
+				<prop key="hibernate.jdbc.batch_size">25</prop>
+				<prop key="hibernate.jdbc.fetch_size">8</prop>
+				<!--		 Enable Hibernate’s automatic session context management -->
+				<prop key="hibernate.connection.release_mode">auto</prop>
+				<prop key="hibernate.transaction.auto_close_session">true</prop>
+				<prop key="hibernate.connection.autoReconnect">true</prop>
+				<prop key="hibernate.connection.autoReconnectForPools">true</prop>
+				<prop key="hibernate.connection.is-connection-validation-required">false</prop>
+				<prop key="current_session_context_class">thread</prop>
+				<prop key="hibernate.cache.use_second_level_cache">true</prop>
+				<prop key="hibernate.cache.use_query_cache">true</prop>
+				<prop key="hibernate.cache.provider_class">org.hibernate.cache.HashtableCacheProvider
+				</prop>
+				<prop key="hibernate.c3p0.acquire_increment">2</prop>
+				<prop key="hibernate.c3p0.idle_test_period">2</prop>
+				<prop key="hibernate.c3p0.max_size">10</prop>
+				<prop key="hibernate.c3p0.max_statements">100</prop>
+				<prop key="hibernate.c3p0.min_size">5</prop>
+				<prop key="hibernate.c3p0.timeout">180</prop>
+				<prop key="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider
+				</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<bean name="workerDao" class="hu.iboard.coandco.datamagic.dao.worker.WorkerDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean name="partnerDao" class="hu.iboard.coandco.datamagic.dao.partner.PartnerDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean name="townshipDao" class="hu.iboard.coandco.datamagic.dao.township.TownshipDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean name="countyDao" class="hu.iboard.coandco.datamagic.dao.county.CountyDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean name="shippingAddressDao" class="hu.iboard.coandco.datamagic.dao.shippingaddress.ShippingAddressDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean name="newsLetterEmailDao" class="hu.iboard.coandco.datamagic.dao.newsletteremail.NewsLetterEmailDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean name="contentDao" class="hu.iboard.coandco.datamagic.dao.content.ContentDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean name="customerDao" class="hu.iboard.coandco.datamagic.dao.customer.CustomerDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean name="productDao" class="hu.iboard.coandco.datamagic.dao.product.ProductDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean name="cikkcsopDao" class="hu.iboard.coandco.datamagic.dao.cikkcsop.CikkcsopDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean name="orderDao" class="hu.iboard.coandco.datamagic.dao.order.OrderDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean name="wishlistDao" class="hu.iboard.coandco.datamagic.dao.wishlist.WishlistDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean name="adminDao" class="hu.iboard.coandco.datamagic.dao.admin.AdminDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean name="productCatalogDao" class="hu.iboard.coandco.datamagic.dao.productcatalog.ProductCatalogDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean name="dmvSorszDao" class="hu.iboard.coandco.datamagic.dao.dmvsorsz.DmvSorszDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean name="teruletDao" class="hu.iboard.coandco.datamagic.dao.terulet.TeruletDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean name="teruletcsDao" class="hu.iboard.coandco.datamagic.dao.teruletcs.TeruletcsDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean name="bizkommentDao" class="hu.iboard.coandco.datamagic.dao.bizkomment.BizkommentDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+
+
+	<bean id="userService" class="hu.iboard.coandco.datamagic.service.userservice.UserService">
+		<property name="partnerDao" ref="partnerDao" />
+		<property name="workerDao" ref="workerDao" />
+		<property name="customerDao" ref="customerDao" />
+		<property name="adminDao" ref="adminDao" />
+		<property name="dmvSorszDao" ref="dmvSorszDao" />
+	</bean>
+	<bean id="shippingAddressService" class="hu.iboard.coandco.datamagic.service.shippingadressservice.ShippingAddressService">
+		<property name="townshipDao" ref="townshipDao" />
+		<property name="countyDao" ref="countyDao" />
+		<property name="teruletDao" ref="teruletDao" />
+		<property name="teruletcsDao" ref="teruletcsDao" />
+		<property name="shippingAddressDao" ref="shippingAddressDao" />
+	</bean>
+	<bean id="emailService" class="hu.iboard.coandco.datamagic.service.emailservice.EmailService">
+		<property name="newsLetterEmailDao" ref="newsLetterEmailDao" />
+	</bean>
+	<bean id="contentService" class="hu.iboard.coandco.datamagic.service.contentservice.ContentService">
+		<property name="contentDao" ref="contentDao" />
+		<property name="productCatalogDao" ref="productCatalogDao" />
+	</bean>
+	<bean id="productService" class="hu.iboard.coandco.datamagic.service.productservice.ProductService">
+		<property name="productDao" ref="productDao" />
+		<property name="cikkcsopDao" ref="cikkcsopDao" />
+		<property name="bizkommentDao" ref="bizkommentDao" />
+	</bean>
+	<bean id="orderService" class="hu.iboard.coandco.datamagic.service.orderservice.OrderService">
+		<property name="orderDao" ref="orderDao" />
+	</bean>
+	<bean id="wishlistService" class="hu.iboard.coandco.datamagic.service.wishlistservice.WishlistService">
+		<property name="wishlistDao" ref="wishlistDao" />
+	</bean>
+</beans>

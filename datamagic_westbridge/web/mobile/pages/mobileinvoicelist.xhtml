@@ -1,0 +1,62 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<f:view contentType="text/html" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:i="http://primefaces.prime.com.tr/touch"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+	<i:application theme="dark">
+		<i:view id="invoicelist" title="Számlák">
+			<f:facet name="rightNavBar">
+				<i:navBarControl label="Info" effect="flip" type="button" />
+			</f:facet>
+			<h:form prependId="false">
+				<i:tableView id="ip">
+					<i:rowGroup display="edgetoedge">
+						<ui:repeat value="#{invoiceserviceController.data.invoice}"
+							var="data">
+							<i:rowItem>
+								<div style="font-size: 12px; color: white"><p:commandLink
+									actionListener="#{invoiceserviceController.mobileInvoiceClick}"
+									value="#{data.sorszam}"
+									oncomplete="TouchFaces.goTo('s','slide');"></p:commandLink> <h:outputText
+									value="#{data.kelt}" style="float:right">
+									<f:convertDateTime pattern="#{msg.DATEFORMAT}" />
+								</h:outputText> <br />
+								#{data.dnetto} #{data.devnem}</div>
+								<f:param name="selectedInvoice" value="#{data}" />
+							</i:rowItem>
+						</ui:repeat>
+					</i:rowGroup>
+					<i:rowGroup>
+						<i:rowItem>
+							<h:commandLink value="#{msg.ORDERS_PRINT_BUTTON1}"
+								action="#{invoiceserviceController.print}"
+								style="width: 48%;float:left" />
+							<p:commandLink value="#{msg.SIDEBAR_LOGOUT_BUTTON}"
+								style="float:right;width: 48%" process="@this" global="false"
+								action="mobilepage" />
+						</i:rowItem>
+					</i:rowGroup>
+
+				</i:tableView>
+			</h:form>
+		</i:view>
+
+
+		<i:view id="s" title="Számlák">
+			<f:facet name="rightNavBar">
+				<i:navBarControl label="Info" effect="flip" type="button" />
+			</f:facet>
+			<h:form prependId="false">
+				<i:tableView>
+				</i:tableView>
+			</h:form>
+		</i:view>
+
+	</i:application>
+</f:view>

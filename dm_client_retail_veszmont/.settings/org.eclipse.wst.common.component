@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="dm_client_retail_veszmont">
+        <wb-resource deploy-path="/" source-path="/web"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/dm_server"/>
+        <property name="context-root" value="dm_client_retail_veszmont"/>
+        <property name="java-output-path" value="/dm_client_retail_veszmont/build/classes"/>
+    </wb-module>
+</project-modules>

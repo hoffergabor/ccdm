@@ -1,0 +1,565 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	template="/pages/template.xhtml">
+
+	<ui:define name="body">
+		<div class="content">
+			<h:form id="neworderform">
+				<p:panel styleClass="gradpanel" id="panel">
+					<div class="manageNotificationOdd">
+						<div class="manageNotificationStepNumber">1</div>
+						<div class="manageNotificationRow">
+							<div class="manageNotificationRowSubject">Egyszerű keresés</div>
+							<div class="manageNotificationRowForm lessPadding orderSearch">
+								<label>#{msg.ORDERS_ORDERVIEW_SKU}: </label>
+								<h:inputText id="sku" styleClass="manageNotificationTextField"
+									value="#{manageorderserviceController.data.sku}"></h:inputText>
+								<label>#{msg.NEWORDER_NAME} </label>
+								<h:inputText id="productname"
+									value="#{manageorderserviceController.data.productName}"
+									styleClass="manageNotificationTextField"></h:inputText>
+								<p:commandButton style="margin-top:10px;"
+									value="#{msg.NEWORDER_SEARCH_BUTTON1}"
+									styleClass="manageNotificationSelectButton" type="submit"
+									action="#{manageorderserviceController.productSearchAction}"
+									update="productTable,productname,sku,tabPanel" />
+							</div>
+							<div class="clear"></div>
+						</div>
+					</div>
+
+
+					<div class="manageNotificationEven">
+						<div class="manageNotificationStepNumber">2</div>
+						<div class="manageNotificationRow">
+							<div class="manageNotificationRowSubject">
+								Részletes keresés
+								<p:commandButton value="egyénre szabott árak Önnek"
+									rendered="true" update="productTable"
+									styleClass="specialListSelectButton"
+									actionListener="#{manageorderserviceController.getUniquePriceProducts}"></p:commandButton>
+								<p:commandButton value="AKCIÓS ÁRLISTA" rendered="true"
+									update="productTable" styleClass="specialListSelectButton"
+									actionListener="#{manageorderserviceController.getAkcioProducts}"></p:commandButton>
+							</div>
+							<div
+								class="manageNotificationRowForm morePaddingOnlyText orderFilter">
+								<table border="0" cellspacing="0" cellpadding="0">
+									<tr>
+										<td><h:selectOneListbox id="level1" size="8"
+												value="#{manageorderserviceController.data.categoryId1}">
+												<f:selectItem itemValue="1001" itemLabel="Italáruk"></f:selectItem>
+												<f:selectItem itemValue="1002" itemLabel="Dohányáruk"></f:selectItem>
+												<f:selectItem itemValue="1003" itemLabel="Élelmiszer"></f:selectItem>
+												<f:selectItem itemValue="1004"
+													itemLabel="Pipere és Kozmetikum"></f:selectItem>
+												<f:selectItem itemValue="1005"
+													itemLabel="Háztartási és Vegyi áru"></f:selectItem>
+												<f:selectItem itemValue="1008" itemLabel="Állateledel"></f:selectItem>
+												<f:selectItem itemValue="1017"
+													itemLabel="Csemege, mirelit és húsáruk"></f:selectItem>
+												<f:selectItem itemValue="1020" itemLabel="Zöldség, Gyümölcs"></f:selectItem>
+												<!-- <f:selectItem itemValue="1021" itemLabel="Sajtok"></f:selectItem> -->
+												<f:selectItem itemValue="1022" itemLabel="Gasztro termékek"></f:selectItem>
+												<p:ajax event="change"
+													update="level2,productTable,level3,level4"
+													action="#{manageorderserviceController.showProductsLevel1}"></p:ajax>
+											</h:selectOneListbox></td>
+										<td><h:selectOneListbox id="level2" size="8"
+												value="#{manageorderserviceController.data.categoryId2}">
+												<f:selectItems
+													value="#{manageorderserviceController.data.level2}"
+													var="data" itemLabel="#{data[1]}" itemValue="#{data[0]}"></f:selectItems>
+												<p:ajax event="change"
+													update="level2,productTable,level3,level4"
+													action="#{manageorderserviceController.showProductsLevel2}"></p:ajax>
+											</h:selectOneListbox></td>
+										<td><h:selectOneListbox id="level3" size="8"
+												value="#{manageorderserviceController.data.categoryId3}">
+												<f:selectItems
+													value="#{manageorderserviceController.data.level3}"
+													var="data" itemLabel="#{data[1]}" itemValue="#{data[0]}"></f:selectItems>
+												<p:ajax event="change"
+													update="level2,productTable,level3,level4"
+													action="#{manageorderserviceController.showProductsLevel3}"></p:ajax>
+											</h:selectOneListbox></td>
+										<td><h:selectOneListbox id="level4" size="8"
+												value="#{manageorderserviceController.data.categoryId4}">
+												<f:selectItems
+													value="#{manageorderserviceController.data.level4}"
+													var="data" itemLabel="#{data[1]}" itemValue="#{data[0]}"></f:selectItems>
+												<p:ajax event="change"
+													update="level2,productTable,level3,level4"
+													action="#{manageorderserviceController.showProductsLevel4}"></p:ajax>
+											</h:selectOneListbox></td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="clear">&nbsp;</div>
+					<div class="manageNotificationOdd">
+						<div class="manageNotificationStepNumber">3</div>
+						<div class="manageNotificationRow">
+							<div class="manageNotificationRowForm newOrderListTabView">
+								<p:wizard id="wizard" onnext="initsum()" onback="initsum()"
+									flowListener="#{manageorderserviceController.onFlowProcess}"
+									widgetVar="wiz" backLabel="Vissza" nextLabel="Következő">
+									<p:tab title="#{msg.NEWORDER_SEARCH_TITLE}" id="searchTab">
+
+										<div class=""
+											style="width: 49%; float: left; text-align: right;">
+											<strong>KERESÉSI EREDMÉNYEK&nbsp;&nbsp;&nbsp;&nbsp;</strong>
+										</div>
+										<div class=""
+											style="width: 50%; float: right; text-align: right;">
+											<strong>KOSÁR&nbsp;&nbsp;&nbsp;&nbsp;</strong>
+										</div>
+										<div class="clear"></div>
+
+										<div class="innerPanel" style="width: 49%; float: left;">
+											<p:dataTable rows="10" paginator="true"
+												selectionMode="single" paginatorPosition="top"
+												style="text-align: left" paginatorAlwaysVisible="false"
+												value="#{manageorderserviceController.data.products}"
+												var="data" id="productTable" dynamic="true"
+												emptyMessage="#{msg.NODATA}">
+												<p:column sortBy="#{data.cikkszam}">
+													<f:facet name="header">
+														<h:outputText value="#{msg.NEWORDER_ELEMENTS_SKU}" />
+													</f:facet>
+													<h:outputText value="#{data.cikkszam}" styleClass="bold" />
+												</p:column>
+												<p:column sortBy="#{data.megn3}">
+													<f:facet name="header">
+														<h:outputText value="#{msg.NEWORDER_ELEMENTS_NAME}" />
+													</f:facet>
+													<h:outputText value="#{data.megn3}" />
+												</p:column>
+												<p:column sortBy="#{data.ear}">
+													<f:facet name="header">
+														<h:outputText value="Bruttó egységár" />
+													</f:facet>
+													<h:outputText value="#{data.afa*data.ear}">
+														<f:convertNumber pattern="#,##0" />
+													</h:outputText> Ft
+							</p:column>
+												<p:column>
+													<p:commandButton value="+" styleClass="editbutton"
+														oncomplete="additem()" global="false">
+														<f:setPropertyActionListener value="#{data}"
+															target="#{manageorderserviceController.data.selectedProduct}" />
+													</p:commandButton>
+												</p:column>
+											</p:dataTable>
+										</div>
+										<div class="innerPanel" style="width: 50%; float: right;">
+											<p:dataTable style="text-align:left;" selectionMode="single"
+												rows="10" paginatorAlwaysVisible="false"
+												update="orderItemTable" paginatorPosition="top"
+												paginator="true"
+												value="#{manageorderserviceController.data.orderProductList}"
+												var="data" id="orderItemTable" emptyMessage="#{msg.NODATA}"
+												dynamic="true">
+												<p:column sortBy="#{data.cikkszam}">
+													<f:facet name="header">
+														<h:outputText value="#{msg.NEWORDER_ELEMENTS_SKU}" />
+													</f:facet>
+													<h:outputText value="#{data.cikkszam}" styleClass="bold" />
+												</p:column>
+												<p:column sortBy="#{data.megn3}">
+													<f:facet name="header">
+														<h:outputText value="#{msg.NEWORDER_ELEMENTS_NAME}" />
+													</f:facet>
+													<h:outputText value="#{data.megn3}" />
+												</p:column>
+												<p:column sortBy="#{data.mennyiseg}">
+													<f:facet name="header">
+														<h:outputText value="Menny." />
+													</f:facet>
+													<h:inputText value="#{data.mennyiseg}" size="4">
+														<f:convertNumber pattern="#,##0" />
+														<p:ajax event="change" oncomplete="changequantity()" />
+													</h:inputText>
+												</p:column>
+												<p:column sortBy="#{data.ear}">
+													<f:facet name="header">
+														<h:outputText value="Bruttó e.ár" />
+													</f:facet>
+													<h:outputText value="#{data.afa*data.ear}">
+														<f:convertNumber pattern="#,##0" />
+													</h:outputText> Ft
+							</p:column>
+												<p:column sortBy="#{data.netto}">
+													<f:facet name="header">
+														<h:outputText value="#{msg.NEWORDER_ELEMENTS_NET}" />
+													</f:facet>
+													<h:outputText value="#{data.ear*data.mennyiseg}">
+														<f:convertNumber pattern="#,##0" />
+													</h:outputText> Ft
+							</p:column>
+												<p:column sortBy="#{data.brutto}">
+													<f:facet name="header">
+														<h:outputText value="#{msg.NEWORDER_ELEMENTS_GRO}" />
+													</f:facet>
+													<h:outputText value="#{data.ear*data.mennyiseg*data.afa}">
+														<f:convertNumber pattern="#,##0" />
+													</h:outputText> Ft
+							</p:column>
+												<p:column>
+													<p:commandButton value="X" styleClass="editbutton"
+														oncomplete="deleteitem()" global="false" process="@this">
+														<f:setPropertyActionListener value="#{data}"
+															target="#{manageorderserviceController.data.selectedProduct}" />
+													</p:commandButton>
+												</p:column>
+											</p:dataTable>
+										</div>
+										<div class="clear"></div>
+										<p:messages showDetail="true" showSummary="true" />
+									</p:tab>
+
+									<p:tab title="Szállítás" id="shippingTab">
+										<div class="innerPanel">
+											<h:panelGroup id="shippingdata"
+												styleClass="shippingDataUpdate">
+												<div class="left">
+													<div class="orderShippingRadio">
+														<label class="importantData">Ki végzi a
+															szállítást? <span class="rightFloat"><h:selectOneRadio
+																	id="shippingoption"
+																	value="#{manageorderserviceController.data.shippingOption}">
+																	<f:selectItem itemValue="1" itemLabel="Házhozszállítás" />
+																	<f:selectItem itemValue="2"
+																		itemLabel="Telephely átvétel" />
+																	<p:ajax event="change" update="shippingdata"
+																		process="@this" />
+																</h:selectOneRadio> </span> </label>
+													</div>
+												</div>
+												<div class="clear">
+													<br />
+												</div>
+												<p:message for="shippingoption" display="text"></p:message>
+												<h:panelGroup
+													rendered="#{manageorderserviceController.data.shippingOption==1}">
+													<div class="left">
+														<label>Név:<h:inputText required="false"
+																readonly="true"
+																requiredMessage="Szállítás neve megadása kötelező!"
+																id="shippingname"
+																value="#{manageorderserviceController.data.shippingName}" />
+															<p:message for="shippingname" display="text" /> </label> <label>Irányítószám:<h:inputText
+																maxlength="4" size="4" required="false" readonly="true"
+																requiredMessage="Irányítószám megadása kötelező!"
+																id="zipcode"
+																value="#{manageorderserviceController.data.zipCode}" />
+															<p:message for="zipcode" display="text" /> </label> <label>Település:<h:inputText
+																id="town" required="false" readonly="true"
+																requiredMessage="Település megadása kötelező!"
+																value="#{manageorderserviceController.data.city}" /> <p:message
+																for="town" display="text" /> </label> <label>Cím:<h:inputText
+																id="address" required="false" readonly="true"
+																requiredMessage="Cím megadása kötelező!"
+																value="#{manageorderserviceController.data.address}" />
+															<p:message for="address" display="text" /> </label> <label>Árut
+															átvevő személy neve:<h:inputText required="true"
+																requiredMessage="Áru átvevőjének kitöltése kötelező!"
+																value="#{manageorderserviceController.data.contactName}" />
+														</label> <label>Megjegyzés:<h:inputTextarea rows="5"
+																cols="30"
+																value="#{manageorderserviceController.data.comment}" />
+														</label>
+													</div>
+												</h:panelGroup>
+												<h:panelGroup
+													rendered="#{manageorderserviceController.data.shippingOption==2}">
+													<div class="left">
+														<label>Átvevő neve:<h:inputText required="true"
+																requiredMessage="Áru átvevőjének kitöltése kötelező!"></h:inputText>
+														</label>
+													</div>
+												</h:panelGroup>
+												<div class="clear">
+													<br />
+												</div>
+												<div class="left">
+													<div class="orderShippingRadio">
+														<label class="importantData">#{msg.NEWORDER_DEMAND}<span><p:calendar
+																	value="#{manageorderserviceController.data.orderDate}"
+																	mindate="#{manageorderserviceController.data.minDate}"
+																	rendered="#{manageorderserviceController.data.hasFuvDates=='false'}"
+																	selectListener="#{manageorderserviceController.orderDateChange}"
+																	onSelectUpdate="payDate" pattern="#{msg.DATEFORMAT}" />
+																<h:selectOneMenu
+																	value="#{manageorderserviceController.data.selectedFuvDate}"
+																	onchange="submit()" immediate="true"
+																	valueChangeListener="#{manageorderserviceController.orderDateChange2}"
+																	rendered="#{manageorderserviceController.data.hasFuvDates=='true'}">
+																	<f:selectItem itemLabel="-- Kérem válasszon! --"></f:selectItem>
+																	<f:selectItems
+																		value="#{manageorderserviceController.data.fuvDates}"
+																		var="data" itemLabel="#{data[1]}"
+																		itemValue="#{data[0]}"></f:selectItems>
+																	<p:ajax event="click" update="payDate" process="@this"></p:ajax>
+																</h:selectOneMenu> </span> </label> <label>#{msg.ORDERS_ORDERVIEW_PAYDATE}<span
+															class="rightFloat"><h:outputText
+																	value="#{manageorderserviceController.data.payDate}"
+																	id="payDate">
+																	<f:convertDateTime pattern="#{msg.DATEFORMAT}" />
+																</h:outputText> </span> </label>
+													</div>
+												</div>
+											</h:panelGroup>
+										</div>
+										<p:messages showDetail="true" showSummary="false" />
+									</p:tab>
+									<!-- 
+					<p:tab title="Fizetés" id="paymentTab">
+						<div class="innerPanel shippingDataUpdate">
+						<div class="left"><label class="importantData">Fizetési
+						mód? <span class="rightFloat"><h:selectOneRadio
+							layout="pageDirection"
+							value="#{manageorderserviceController.data.payOption}"
+							id="paytypes">
+							<f:selectItem itemValue="1" itemLabel="Utánvétel" />
+							<f:selectItem itemValue="2" itemLabel="Átutalás" />
+							<f:selectItem itemValue="3" itemLabel="Készpénz" />
+							<p:ajax event="change" process="@this" />
+						</h:selectOneRadio> </span> </label></div>
+						<div class="clear"></div>
+						</div>
+						<p:messages showDetail="true" showSummary="false" />
+					</p:tab> -->
+									<p:tab title="Összegzés" id="summaryTab"
+										onTabChangeUpdate="shippingdatasumm,sdp,summaryPanel">
+										<h:panelGroup id="shippingdatasumm">
+											<p:dataTable style="text-align:left;" selectionMode="single"
+												update="orderItemTableSum"
+												rendered="#{!empty manageorderserviceController.data.orderProductList}"
+												value="#{manageorderserviceController.data.orderProductList}"
+												var="data" id="orderItemTableSum"
+												emptyMessage="#{msg.NODATA}" dynamic="true">
+												<p:column sortBy="#{data.cikkszam}">
+													<f:facet name="header">
+														<h:outputText value="#{msg.NEWORDER_ELEMENTS_SKU}" />
+													</f:facet>
+													<h:outputText value="#{data.cikkszam}" styleClass="bold" />
+												</p:column>
+												<p:column sortBy="#{data.megn3}">
+													<f:facet name="header">
+														<h:outputText value="#{msg.NEWORDER_ELEMENTS_NAME}" />
+													</f:facet>
+													<h:outputText value="#{data.megn3}" />
+												</p:column>
+												<p:column sortBy="#{data.mennyiseg}">
+													<f:facet name="header">
+														<h:outputText value="#{msg.NEWORDER_ELEMENTS_AMOUNT}" />
+													</f:facet>
+													<h:outputText value="#{data.mennyiseg}" size="4">
+														<f:convertNumber pattern="#,##0" />
+													</h:outputText>
+												</p:column>
+												<p:column sortBy="#{data.ear}">
+													<f:facet name="header">
+														<h:outputText value="#{msg.NEWORDER_ELEMENTS_PRICE}" />
+													</f:facet>
+													<h:outputText value="#{data.ear}">
+														<f:convertNumber pattern="#,##0" />
+													</h:outputText> Ft
+								</p:column>
+												<p:column sortBy="#{data.netto}">
+													<f:facet name="header">
+														<h:outputText value="#{msg.NEWORDER_ELEMENTS_NET}" />
+													</f:facet>
+													<h:outputText value="#{data.ear*data.mennyiseg}">
+														<f:convertNumber pattern="#,##0" />
+													</h:outputText> Ft
+								</p:column>
+												<p:column sortBy="#{data.brutto}">
+													<f:facet name="header">
+														<h:outputText value="#{msg.NEWORDER_ELEMENTS_GRO}" />
+													</f:facet>
+													<h:outputText value="#{data.ear*data.mennyiseg*data.afa}">
+														<f:convertNumber pattern="#,##0" />
+													</h:outputText> Ft
+								</p:column>
+											</p:dataTable>
+											<br />
+											<div class="innerPanel orderSummary">
+												<div class="left">
+													<label>Fizetés: <span class="rightFloat">#{manageorderserviceController.managedPartner.fizmod}
+															#{manageorderserviceController.managedStore.fizmod}</span> </label> <label>Szállítás:
+														<span class="rightFloat"><h:outputText
+																value="#{manageorderserviceController.data.shippingOption==1?'Házhozszállítás':'Telephely átvétel'}"></h:outputText>
+													</span> </label>
+												</div>
+											</div>
+											<br />
+							Az összegzés tájékoztató jelleggel magában foglalja a göngyölegek várható összegét is, ám azok csak a rendelés visszaigazolásakor kerülnek a rendelés tételei közé.<br /><br />
+										</h:panelGroup>
+									</p:tab>
+								</p:wizard>
+							</div>
+						</div>
+					</div>
+
+
+					<p:remoteCommand name="mode" global="false" process="@this"
+						actionListener="#{manageorderserviceController.sModeAction}"></p:remoteCommand>
+					<p:remoteCommand name="deleteitem" process="@this" global="false"
+						update="orderItemTable, summaryPanel, message"
+						actionListener="#{manageorderserviceController.deleteProductItem}"></p:remoteCommand>
+
+					<p:remoteCommand name="additem" process="@this" global="false"
+						update="orderItemTable, summaryPanel, message"
+						actionListener="#{manageorderserviceController.addProductToOrderAction}"></p:remoteCommand>
+					<p:remoteCommand name="changequantity" process="@this"
+						global="false" update="orderItemTable,summaryPanel"
+						actionListener="#{manageorderserviceController.changeQuantity}"></p:remoteCommand>
+
+					<p:remoteCommand name="initsum" process="@this"
+						oncomplete="initsum2()" global="false"
+						update="orderItemTable,summaryPanel"></p:remoteCommand>
+					<p:remoteCommand name="initsum2" process="@this" global="false"
+						update="orderItemTable,summaryPanel"
+						actionListener="#{manageorderserviceController.changeQuantity}"></p:remoteCommand>
+
+					<div class="summaryPanel">
+						<h:panelGroup id="summaryPanel">
+							<table width="100%" border="0" cellspacing="0" cellpadding="0">
+								<tr>
+									<td width="60%"><label>#{msg.ORDERS_ORDERVIEW_SUMMARY}</label>
+									</td>
+									<td width="20%"><label>#{msg.NEWORDER_ELEMENTS_NET}</label>
+									</td>
+									<td width="20%" class="last"><label>#{msg.NEWORDER_ELEMENTS_GRO}</label>
+									</td>
+								</tr>
+								<tr>
+									<td width="60%"></td>
+									<td width="20%"><h:outputText
+											value="#{manageorderserviceController.data.netto}">
+											<f:convertNumber pattern="#,##0" />
+										</h:outputText> Ft</td>
+									<td width="20%" class="last"><h:outputText
+											value="#{manageorderserviceController.data.brutto}">
+											<f:convertNumber pattern="#,##0" />
+										</h:outputText> Ft</td>
+								</tr>
+							</table>
+						</h:panelGroup>
+					</div>
+
+					<div class="bottomFilterBar">
+						<p:commandButton value="#{msg.NEWORDER_ORDER_BUTTON}"
+							process="@this" styleClass="commonButton" update="savepan"
+							oncomplete="confirmsave.show()" global="false" />
+						<p:commandButton value="#{msg.SIDEBAR_LOGOUT_BUTTON}"
+							process="@this" styleClass="commonButton" update="exit"
+							global="false" oncomplete="confirmation.show()" />
+					</div>
+				</p:panel>
+
+
+				<p:dialog widgetVar="confirmation" modal="false"
+					styleClass="commonDialog" closable="false"
+					header="BIZTOS HOGY KI SZERETNE LÉPNI?">
+					<h:panelGroup id="exit">
+						<center>
+							<p:commandButton value="OK" styleClass="button"
+								action="orderlist" style="width: 70px;text-align: center"
+								global="false" immediate="true" />
+							<p:commandButton style="width: 70px; text-align: center"
+								value="#{msg.NEWORDER_CANCEL_BUTTON}" styleClass="button"
+								immediate="true" onclick="confirmation.hide();return false;"
+								global="false" />
+						</center>
+					</h:panelGroup>
+				</p:dialog>
+
+				<p:dialog widgetVar="confirmsave" modal="false"
+					styleClass="commonDialog" closable="true"
+					header="BIZTOS HOGY LEADJA A RENDELÉST?">
+					<h:panelGroup id="savepan">
+						<center>
+							<p:commandButton value="#{msg.NEWORDER_ORDER_BUTTON}"
+								style="width: 70px;text-align: center" process="@this"
+								styleClass="button" update="message,shippingpanel"
+								oncomplete="confirmsave.hide();return false;"
+								action="#{manageorderserviceController.saveNewOrderaction}" />
+							<p:commandButton style="width: 70px; text-align: center"
+								immediate="true" value="#{msg.NEWORDER_CANCEL_BUTTON}"
+								styleClass="button" onclick="confirmsave.hide();return false;"
+								global="false" />
+						</center>
+					</h:panelGroup>
+				</p:dialog>
+
+
+				<p:growl id="message" sticky="false" life="4000" showSummary="true"
+					showDetail="true"></p:growl>
+
+			</h:form>
+		</div>
+
+		<div class="helpContent" onclick="RemoveHelp();" id="help">
+			<div class="headerHelp"></div>
+			<div class="menuHelp">
+				<div class="helpBubble"
+					style="top: 150px; left: 600px; border-top-right-radius: 0; -moz-border-radius-topright: 0; -webkit-border-top-right-radius: 0;">
+					Itt <strong>CIKKSZÁM</strong> vagy pedig <strong>MEGNEVEZÉS</strong>
+					szerint szabadon kereshet a cikkek között.
+				</div>
+			</div>
+			<div class="contentHelp">
+				<div class="helpBubble"
+					style="top: 245px; left: 500px; border-top-left-radius: 0; -moz-border-radius-topleft: 0; -webkit-border-top-left-radius: 0;">
+					Ezekben a listákban szűkítheti a <strong>CIKKCSOPORTOK</strong>
+					szerint, hogy mely termékek kerüljenek a keresési eredményekbe.
+				</div>
+				<div class="helpBubble"
+					style="top: 245px; left: 160px; border-top-left-radius: 0; -moz-border-radius-topleft: 0; -webkit-border-top-left-radius: 0;">
+					Ezzel a két gombbal az <strong>AKCIÓS</strong> termékeket, illetve
+					az Ön számára szabott <strong>EGYEDI ÁRAS</strong> termékeket
+					kérdezheti le.
+				</div>
+				<div class="helpBubble"
+					style="top: 370px; left: 380px; border-top-left-radius: 0; -moz-border-radius-topleft: 0; -webkit-border-top-left-radius: 0;">
+					Itt láthatja a rendelési folyamatban éppen hol tart. A <strong>PIROSSAL</strong>
+					jelzett fül az éppen aktív, és a tőle jobbra található fülek még
+					kitöltendő információkat tartalmaznak, ami nélkül nem adhatja le a
+					rendelését.
+				</div>
+			</div>
+			<div class="footerHelp">
+				<div class="helpBubble"
+					style="top: 525px; left: 160px; border-bottom-right-radius: 0; -moz-border-radius-bottomright: 0; -webkit-border-bottom-right-radius: 0;">
+					Ebben a listában tekintheti meg az éppen beírt keresőszó, vagy a
+					cikkcsoport szűrés után megjelent <strong>KERESÉSI
+						TALÁLATOKAT</strong>. Amennyiben a listában megjelenő termékek utolsó
+					oszlopában található <strong>+</strong> gombot megnyomja, beteheti
+					a terméket a rendelés tételei közé.
+				</div>
+				<div class="helpBubble"
+					style="top: 525px; right: 100px; border-bottom-right-radius: 0; -moz-border-radius-bottomright: 0; -webkit-border-bottom-right-radius: 0;">
+					Ebben a listában találja a <strong>rendelés tételei</strong> közé
+					felvett termékeket. A mennyiséget a megfelelő rublikába írt számmal
+					és az OK gombbal megváltoztathatja, illetve a jobboldli oszlopban
+					lévő <strong>-</strong> gombbal törölheti a tételt.
+				</div>
+				<div class="helpBubble"
+					style="top: 750px; right: 100px; border-bottom-right-radius: 0; -moz-border-radius-bottomright: 0; -webkit-border-bottom-right-radius: 0;">
+					Ezzel a gombbal léphet tovább a rendelési folyamat <strong>KÖVETKEZŐ</strong>
+					fázisába.
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

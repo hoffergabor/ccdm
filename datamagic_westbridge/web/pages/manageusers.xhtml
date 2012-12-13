@@ -1,0 +1,219 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	template="/templates/template.xhtml">
+
+	<ui:define name="body">
+
+		<a4j:include viewId="sendmessage.xhtml" />
+		<a4j:form id="manageusers" ajaxSingle="true" ajaxSubmit="true">
+			<center><rich:extendedDataTable align="center"
+				style="text-align:center;"
+				onRowMouseOver="this.style.backgroundColor='#FFFFAA'"
+				onRowMouseOut="this.style.backgroundColor='#{a4jSkin.tableBackgroundColor}'"
+				value="#{manageusersController.allUser}" var="user" id="resulttable"
+				width="810px" height="350px" sortMode="single"
+				selectionMode="single">
+				<f:facet name="header">
+					<h:outputText value="#{msg.users}"></h:outputText>
+				</f:facet>
+				<rich:column sortable="true" sortBy="#{user.userName}"
+					filterBy="#{user.userName}" filterEvent="onchange"
+					label="#{msg.username}" width="250">
+					<f:facet name="header">
+						<h:outputText value="#{msg.username}" />
+					</f:facet>
+					<a4j:commandLink value="#{user.userName}" reRender="messagePanel"
+						oncomplete="Richfaces.showModalPanel('messagePanel');"
+						action="#{manageusersController.setRecipientForMessage}">
+						<f:setPropertyActionListener value="#{user}"
+							target="#{manageusersController.selectedUser}" />
+					</a4j:commandLink>
+				</rich:column>
+				<rich:column sortable="true" sortBy="#{user.email}"
+					filterBy="#{user.email}" filterEvent="onchange"
+					label="#{msg.email}" width="250">
+					<f:facet name="header">
+						<h:outputText value="#{msg.email}" />
+					</f:facet>
+					<h:outputText value="#{user.email}" />
+				</rich:column>
+				<rich:column width="100">
+					<f:facet name="header">
+						<h:outputText value="#{msg.view}" />
+					</f:facet>
+					<a4j:commandButton id="viewlink" value="#{msg.view}"
+						styleClass=" icons16"
+						oncomplete="Richfaces.showModalPanel('userProfilePanel');"
+						reRender="userProfilePanel" image="/img/view.png"
+						action="#{manageusersController.showUser}">
+						<f:setPropertyActionListener value="#{user}"
+							target="#{manageusersController.selectedUser}" />
+					</a4j:commandButton>
+				</rich:column>
+				<rich:column width="100">
+					<f:facet name="header">
+						<h:outputText value="#{msg.delete}" />
+					</f:facet>
+					<a4j:commandButton id="deletelink" value="#{msg.delete}"
+						reRender="manageusers" image="/img/delete.png"
+						styleClass=" icons16"
+						onclick="Richfaces.showModalPanel('userDeletePanel');">
+						<f:setPropertyActionListener value="#{user}"
+							target="#{manageusersController.selectedUser}" />
+					</a4j:commandButton>
+				</rich:column>
+				<rich:column width="120">
+					<f:facet name="header">
+						<h:outputText value="#{msg.role}" />
+					</f:facet>
+					<a4j:commandLink id="rolelink"
+						value="#{user.userType==1 ? msg.admin : msg.user}"
+						action="#{manageusersController.changeUserRole}"
+						reRender="manageusers">
+						<f:setPropertyActionListener value="#{user}"
+							target="#{manageusersController.selectedUser}" />
+					</a4j:commandLink>
+				</rich:column>
+			</rich:extendedDataTable></center>
+		</a4j:form>
+
+		<rich:modalPanel id="userDeletePanel" autosized="true"
+			keepVisualState="false">
+			<f:facet name="header">
+				<h:panelGroup>
+					<h:outputText value="#{msg.delete}" />
+				</h:panelGroup>
+			</f:facet>
+			<f:facet name="controls">
+				<h:panelGroup>
+					<span onclick="Richfaces.hideModalPanel('userDeletePanel');"
+						style="cursor: pointer; margin-top: 10px; margin-right: 6px;">
+					<h:outputText value="X" /></span>
+				</h:panelGroup>
+			</f:facet>
+
+			<a4j:form ajaxSingle="true">
+				<table cellpadding="8" align="center" style="text-align: center;">
+					<tr>
+						<td><h:outputLabel value="#{msg.suredelete}"></h:outputLabel></td>
+					</tr>
+					<tr>
+						<td><h:panelGrid columns="4">
+							<a4j:commandButton value="#{msg.ok}" reRender="manageusers"
+								action="#{manageusersController.deleteUser}"
+								oncomplete="Richfaces.hideModalPanel('userDeletePanel');"
+								style="width: 70px;" />
+							<rich:spacer width="10"></rich:spacer>
+							<a4j:commandButton value="#{msg.cancel}"
+								oncomplete="Richfaces.hideModalPanel('userDeletePanel');"
+								style="width: 70px;" />
+						</h:panelGrid></td>
+					</tr>
+
+				</table>
+			</a4j:form>
+		</rich:modalPanel>
+
+		<rich:modalPanel id="userProfilePanel" width="230" height="320"
+			keepVisualState="false" style="opacity:0.85;">
+			<f:facet name="header">
+				<h:panelGroup>
+					<h:outputText value="Felhasznaloi adatok" />
+				</h:panelGroup>
+			</f:facet>
+			<f:facet name="controls">
+				<h:panelGroup>
+					<span onclick="Richfaces.hideModalPanel('userProfilePanel');"
+						style="cursor: pointer; margin-top: 10px; margin-right: 6px;">
+					<h:outputText value="X" /></span>
+				</h:panelGroup>
+			</f:facet>
+
+			<div class="popup"><a4j:form ajaxSingle="true">
+				<h:outputText styleClass="label" value="#{msg.username}: " />
+				<h:outputText styleClass="value" id="username"
+					value="#{manageusersController.selectedUser.userName}" />
+				<h:outputText styleClass="label" value="#{msg.name}: " />
+				<h:outputText styleClass="value" id="name"
+					value="#{manageusersController.selectedUser.firstName} #{manageusersController.selectedUser.lastName}" />
+				<h:outputText styleClass="label" value="#{msg.email}: " />
+				<h:outputText styleClass="value" id="email"
+					value="#{manageusersController.selectedUser.email}" />
+				<h:outputText styleClass="label" value="#{msg.birthday}: " />
+				<h:outputText styleClass="value"
+					value="#{manageusersController.selectedUser.birthday}">
+					<f:convertDateTime type="date" />
+				</h:outputText>
+				<h:outputText styleClass="label" value="#{msg.sex}: " />
+				<h:outputText styleClass="value"
+					value="#{manageusersController.selectedUser.sex==1?msg.boy:msg.girl}"
+					id="sex" />
+				<h:outputText styleClass="label" value="#{msg.registered}: " />
+				<h:outputText styleClass="value" id="registered"
+					value="#{manageusersController.selectedUser.registered}">
+					<f:convertDateTime type="date" />
+				</h:outputText>
+			</a4j:form></div>
+		</rich:modalPanel>
+
+
+		<rich:modalPanel id="messagePanel" autosized="true"
+			keepVisualState="false">
+			<f:facet name="header">
+				<h:panelGroup>
+					<h:outputText value="#{msg.message}" />
+				</h:panelGroup>
+			</f:facet>
+			<f:facet name="controls">
+				<h:panelGroup>
+					<span onclick="Richfaces.hideModalPanel('messagePanel');"
+						style="cursor: pointer; margin-top: 10px; margin-right: 6px;">
+					<h:outputText value="X" /></span>
+				</h:panelGroup>
+			</f:facet>
+
+			<a4j:form ajaxSingle="true">
+				<table cellpadding="10" cellspacing="10" align="left">
+					<tr>
+						<td width="60" style="text-align: right; padding-right: 10px"><h:outputLabel
+							value="#{msg.recipient}" /></td>
+						<td width="300"><h:inputText style="width: 300px"
+							readonly="true"
+							value="#{manageusersController.selectedUser.userName}"></h:inputText>
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align: right; padding-right: 10px"><h:outputLabel
+							value="#{msg.subject}" /></td>
+						<td><h:inputText style="width: 300px"
+							value="#{messagesController.subject}"></h:inputText></td>
+					</tr>
+					<tr>
+						<td style="text-align: right; padding-right: 10px"><h:outputLabel
+							value="#{msg.message}" /></td>
+						<td><h:inputTextarea rows="7" style="width: 300px"
+							value="#{messagesController.body}"></h:inputTextarea></td>
+					</tr>
+					<tr align="right">
+						<td></td>
+						<td><a4j:commandButton value="#{msg.send}"
+							action="#{messagesController.sendMessage}"
+							oncomplete="Richfaces.hideModalPanel('messagePanel');" /><rich:spacer
+							width="5"></rich:spacer> <a4j:commandButton value="#{msg.cancel}"
+							onclick="Richfaces.hideModalPanel('messagePanel');"
+							immediate="true" /></td>
+					</tr>
+
+				</table>
+			</a4j:form>
+		</rich:modalPanel>
+
+	</ui:define>
+</ui:composition>

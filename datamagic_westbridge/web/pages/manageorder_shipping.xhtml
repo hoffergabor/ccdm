@@ -1,0 +1,548 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	template="/pages/template.xhtml">
+
+	<ui:define name="body">
+		<div class="content"><h:form id="neworderform">
+			<p:panel styleClass="gradpanel" id="panel">
+				<div class="manageNotificationOdd">
+				<div class="manageNotificationStepNumber">1</div>
+				<div class="manageNotificationRow">
+				<div class="manageNotificationRowSubject">Egyszerű keresés</div>
+				<div class="manageNotificationRowForm lessPadding orderSearch"><label>#{msg.ORDERS_ORDERVIEW_SKU}:
+				</label> <h:inputText id="sku" styleClass="manageNotificationTextField"
+					value="#{manageorderserviceController.data.sku}"></h:inputText> <label>#{msg.NEWORDER_NAME}
+				</label> <h:inputText id="productname"
+					value="#{manageorderserviceController.data.productName}"
+					styleClass="manageNotificationTextField"></h:inputText> <p:commandButton
+					style="margin-top:10px;" value="#{msg.NEWORDER_SEARCH_BUTTON1}"
+					styleClass="manageNotificationSelectButton" type="submit"
+					action="#{manageorderserviceController.productSearchAction}"
+					update="productTable,productname,sku,tabPanel" /></div>
+				<div class="clear"></div>
+				</div>
+				</div>
+
+
+				<div class="manageNotificationEven">
+				<div class="manageNotificationStepNumber">2</div>
+				<div class="manageNotificationRow">
+				<div class="manageNotificationRowSubject">Részletes keresés</div>
+				<div class="manageNotificationRowForm morePaddingOnlyText orderFilter">
+				<table border="0" cellspacing="0" cellpadding="0">
+					<tr>
+						<td><h:outputLabel value="Típus" /> <h:selectOneMenu styleClass="select"
+							value="#{manageorderserviceController.data.tipus}">
+							<f:selectItem itemLabel="#{msg.NEWORDER_PICK}" itemValue="" />
+							<f:selectItem itemLabel="Neo" itemValue="n" />
+							<f:selectItem itemLabel="Vario" itemValue="v" />
+							<f:selectItem itemLabel="Félkész" itemValue="f" />
+							<p:ajax event="change" process="@this" global="false" />
+						</h:selectOneMenu></td>
+						<td><h:outputLabel value="Anyag" /><h:selectOneMenu styleClass="select"
+							value="#{manageorderserviceController.data.anyagTipus}">
+							<f:selectItem itemLabel="#{msg.NEWORDER_PICK}" itemValue="0" />
+							<f:selectItem itemLabel="Festék" itemValue="1" />
+							<f:selectItem itemLabel="Vakolat" itemValue="2" />
+							<p:ajax event="change" process="@this" global="false"
+								update="feluletTipus,szemcse"
+								actionListener="#{manageorderserviceController.showFeluletTipus}" />
+						</h:selectOneMenu></td>
+						<td><h:outputLabel value="Felület" /><h:selectOneMenu styleClass="select" id="feluletTipus"
+							value="#{manageorderserviceController.data.feluletTipus}">
+							<f:selectItem itemLabel="#{msg.NEWORDER_PICK}" itemValue="10" />
+							<f:selectItems
+								value="#{manageorderserviceController.data.feluletTipusok}" />
+							<p:ajax event="change" process="@this" global="false"
+								update="szemcse"
+								actionListener="#{manageorderserviceController.showSzemcseMeret}" />
+						</h:selectOneMenu></td>
+					</tr>
+					<tr>
+						<td><h:outputLabel value="Szemcseméret" /><h:selectOneMenu styleClass="select" id="szemcse"
+							value="#{manageorderserviceController.data.szemcseMeret}">
+							<f:selectItem itemLabel="#{msg.NEWORDER_PICK}" itemValue="0" />
+							<f:selectItems
+								value="#{manageorderserviceController.data.szemcseMeretek}" />
+							<p:ajax event="change" process="@this" global="false" />
+						</h:selectOneMenu></td>
+						<td><h:outputLabel value="Kiszerelés" /><h:selectOneMenu styleClass="select"
+							value="#{manageorderserviceController.data.kiszereles}">
+							<f:selectItem itemLabel="#{msg.NEWORDER_PICK}" itemValue="0" />
+							<f:selectItem itemValue="2"
+								itemLabel="Kis vödör (2,5 liter, 3,75kg)" />
+							<f:selectItem itemValue="3" itemLabel="Közepes (5 liter, 7,5kg)" />
+							<f:selectItem itemValue="4" itemLabel="Standard (10 liter, 15kg)" />
+							<f:selectItem itemValue="5"
+								itemLabel="Nagy vödör (15 liter, 24kg)" />
+							<p:ajax event="change" process="@this" global="false" />
+						</h:selectOneMenu></td>
+						<td><h:outputLabel value="Bázis" /><h:selectOneMenu styleClass="select"
+							value="#{manageorderserviceController.data.bazis}">
+							<f:selectItem itemLabel="#{msg.NEWORDER_PICK}" itemValue="" />
+							<f:selectItem itemValue="b1" itemLabel="B1" />
+							<f:selectItem itemValue="b2" itemLabel="B2" />
+							<f:selectItem itemValue="b3" itemLabel="B3" />
+							<p:ajax event="change" process="@this" global="false" />
+						</h:selectOneMenu></td>
+					</tr>
+				</table>
+				<p:commandButton value="Keresés"
+					actionListener="#{manageorderserviceController.searchAdvanced}"
+					process="@this" update="panel"
+					styleClass="manageNotificationSelectButton "></p:commandButton>
+				</div>
+				</div>
+				</div>
+				<div class="clear">&nbsp;</div>
+				<div class="manageNotificationOdd">
+				<div class="manageNotificationStepNumber">3</div>
+				<div class="manageNotificationRow">
+				<div class="manageNotificationRowForm newOrderListTabView">
+				<p:tabView dynamic="true" id="tabPanel" cache="false"
+					activeIndex="#{manageorderserviceController.data.selectedTabIndex}">
+					<p:tab title="#{msg.NEWORDER_SEARCH_TITLE}" id="searchTab">
+						<div class="innerPanel"><p:dataTable rows="10"
+							paginator="true" selectionMode="single" paginatorPosition="top"
+							style="text-align: left" paginatorAlwaysVisible="false"
+							value="#{manageorderserviceController.data.products}" var="data"
+							id="productTable" dynamic="true" emptyMessage="#{msg.NODATA}">
+							<p:column sortBy="#{data.cikkszam}">
+								<f:facet name="header">
+									<h:outputText value="#{msg.NEWORDER_ELEMENTS_SKU}" />
+								</f:facet>
+								<h:outputText value="#{data.cikkszam}" styleClass="bold" />
+							</p:column>
+							<p:column sortBy="#{data.megn}">
+								<f:facet name="header">
+									<h:outputText value="#{msg.NEWORDER_ELEMENTS_NAME}" />
+								</f:facet>
+								<h:outputText value="#{data.megn}" />
+							</p:column>
+							<p:column sortBy="#{data.ear}">
+								<f:facet name="header">
+									<h:outputText value="#{msg.NEWORDER_ELEMENTS_PRICE}" />
+								</f:facet>
+								<h:outputText value="#{data.ear}">
+									<f:convertNumber pattern="#,##0" />
+								</h:outputText>
+							</p:column>
+							<p:column sortBy="#{data.devnem}">
+								<f:facet name="header">
+									<h:outputText value="#{msg.DEVIZA}" />
+								</f:facet>
+								<h:outputText value="#{data.devnem}" />
+							</p:column>
+							<p:column>
+								<p:commandButton value="+" styleClass="editbutton"
+									oncomplete="additem()" global="false">
+									<f:setPropertyActionListener value="#{data}"
+										target="#{manageorderserviceController.data.selectedProduct}" />
+								</p:commandButton>
+							</p:column>
+						</p:dataTable></div>
+					</p:tab>
+
+					<p:tab title="#{msg.NEWORDER_ELEMENTS_TITLE}"
+						id="productItemTab">
+						<div class="innerPanel"><p:dataTable
+							style="text-align:left;" selectionMode="single"
+							update="orderItemTable"
+							value="#{manageorderserviceController.data.orderProductList}"
+							var="data" id="orderItemTable" emptyMessage="#{msg.NODATA}"
+							dynamic="true">
+							<p:column sortBy="#{data.cikkszam}">
+								<f:facet name="header">
+									<h:outputText value="#{msg.NEWORDER_ELEMENTS_SKU}" />
+								</f:facet>
+								<h:outputText value="#{data.cikkszam}" styleClass="bold" />
+							</p:column>
+							<p:column sortBy="#{data.megn}">
+								<f:facet name="header">
+									<h:outputText value="#{msg.NEWORDER_ELEMENTS_NAME}" />
+								</f:facet>
+								<h:outputText value="#{data.megn}" />
+							</p:column>
+							<p:column sortBy="#{data.mennyiseg}">
+								<f:facet name="header">
+									<h:outputText value="#{msg.NEWORDER_ELEMENTS_AMOUNT}" />
+								</f:facet>
+								<h:inputText value="#{data.mennyiseg}" size="4">
+									<f:convertNumber pattern="#,##0" />
+									<p:ajax event="change" oncomplete="changequantity()" />
+								</h:inputText>
+							</p:column>
+							<p:column sortBy="#{data.ear}">
+								<f:facet name="header">
+									<h:outputText value="#{msg.NEWORDER_ELEMENTS_PRICE}" />
+								</f:facet>
+								<h:outputText value="#{data.ear}">
+									<f:convertNumber pattern="#,##0" />
+								</h:outputText>
+							</p:column>
+							<p:column sortBy="#{data.netto}">
+								<f:facet name="header">
+									<h:outputText value="#{msg.NEWORDER_ELEMENTS_NET}" />
+								</f:facet>
+								<h:outputText value="#{data.ear*data.mennyiseg}">
+									<f:convertNumber pattern="#,##0" />
+								</h:outputText>
+							</p:column>
+							<p:column sortBy="#{data.brutto}">
+								<f:facet name="header">
+									<h:outputText value="#{msg.NEWORDER_ELEMENTS_GRO}" />
+								</f:facet>
+								<h:outputText value="#{data.ear*data.mennyiseg*data.afa}">
+									<f:convertNumber pattern="#,##0" />
+								</h:outputText>
+							</p:column>
+							<p:column>
+								<p:commandButton value="-" styleClass="editbutton"
+									oncomplete="deleteitem()" global="false">
+									<f:setPropertyActionListener value="#{data}"
+										target="#{manageorderserviceController.data.selectedProduct}" />
+								</p:commandButton>
+							</p:column>
+						</p:dataTable></div>
+					</p:tab>
+					<p:tab title="Szállítás" id="ptt">
+						<h:panelGroup id="shippingpanel">
+							<h:selectOneRadio layout="lineDirection" id="modeSel"
+								value="#{manageorderserviceController.data.shippingMode}">
+								<f:selectItem itemValue="0" itemLabel="SAJÁT szállítás" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<f:selectItem itemValue="1" itemLabel="REVCO szállítás" />
+								<p:ajax event="change" oncomplete="mode()"></p:ajax>
+							</h:selectOneRadio>
+							<table style="text-align: left; margin-top: 15px;"
+								class="shippingTable">
+								<tr>
+									<td></td>
+									<td>Mennyiség</td>
+									<td>Egységár</td>
+									<td></td>
+								</tr>
+								<tr>
+									<td>Teljes raklapok száma</td>
+									<td><p:spinner
+										value="#{manageorderserviceController.data.fullPallet}"></p:spinner></td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td>Töredék raklapok száma</td>
+									<td><p:spinner
+										value="#{manageorderserviceController.data.fragmentPallet}"></p:spinner></td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr style="margin-top: 10px;">
+									<td><h:selectBooleanCheckbox
+										value="#{manageorderserviceController.data.fuvDijCheck}">
+										<p:ajax event="change" oncomplete="fdcheck()" global="false" />
+									</h:selectBooleanCheckbox>Fuvardíj</td>
+									<td><p:spinner id="fuvdijmenny"
+										disabled="#{manageorderserviceController.data.fuvDijCheck}"
+										value="#{manageorderserviceController.data.fuvDijMenny}"
+										onchange="getSummary('fuvdijmenny','fuvdijea','fuvdijsum')">
+									</p:spinner></td>
+									<td><h:inputText id="fuvdijea"
+										disabled="#{manageorderserviceController.data.fuvDijCheck}"
+										onchange="getSummary('fuvdijmenny','fuvdijea','fuvdijsum')">
+									</h:inputText></td>
+									<td><h:inputText id="fuvdijsum" readonly="true"
+										disabled="#{manageorderserviceController.data.fuvDijCheck}"
+										value="#{manageorderserviceController.data.fuvdijsum}"></h:inputText></td>
+								</tr>
+								<tr id="f">
+									<td><h:selectBooleanCheckbox
+										value="#{manageorderserviceController.data.csomDijCheck}">
+										<p:ajax event="change" oncomplete="cscheck()" global="false" />
+									</h:selectBooleanCheckbox>Csomagolási díj</td>
+									<td><p:spinner id="csomdijmenny"
+										disabled="#{manageorderserviceController.data.csomDijCheck}"
+										value="#{manageorderserviceController.data.csomDijMenny}"
+										onchange="getSummary('csomdijmenny','csomdijea','csomdijsum')"></p:spinner></td>
+									<td><h:inputText id="csomdijea"
+										disabled="#{manageorderserviceController.data.csomDijCheck}"
+										onchange="getSummary('csomdijmenny','csomdijea','csomdijsum')"></h:inputText></td>
+									<td><h:inputText id="csomdijsum" readonly="true"
+										disabled="#{manageorderserviceController.data.csomDijCheck}"
+										value="#{manageorderserviceController.data.csomdijsum}"></h:inputText></td>
+								</tr>
+								<tr>
+									<td><h:selectBooleanCheckbox
+										value="#{manageorderserviceController.data.betetDijCheck}">
+										<p:ajax event="change" oncomplete="btcheck()" global="false" />
+									</h:selectBooleanCheckbox>Raklap betéti díj</td>
+									<td><p:spinner id="betdijmenny"
+										disabled="#{manageorderserviceController.data.betetDijCheck}"
+										value="#{manageorderserviceController.data.betetDijMenny}"
+										onchange="getSummary('betdijmenny','betdijea','betdijsum')"></p:spinner></td>
+									<td><h:inputText id="betdijea"
+										disabled="#{manageorderserviceController.data.betetDijCheck}"
+										onchange="getSummary('betdijmenny','betdijea','betdijsum')"></h:inputText></td>
+									<td><h:inputText id="betdijsum" readonly="true"
+										disabled="#{manageorderserviceController.data.betetDijCheck}"
+										value="#{manageorderserviceController.data.betdijsum}"></h:inputText></td>
+								</tr>
+								<tr>
+									<td><h:selectBooleanCheckbox immediate="true"
+										value="#{manageorderserviceController.data.haszDijCheck}">
+										<p:ajax event="change" oncomplete="hszcheck()" global="false" />
+									</h:selectBooleanCheckbox>Raklap használati díj</td>
+									<td><p:spinner id="haszdijmenny"
+										disabled="#{manageorderserviceController.data.haszDijCheck}"
+										value="#{manageorderserviceController.data.haszDijMenny}"
+										onchange="getSummary('haszdijmenny','haszdijea','haszdijsum')"></p:spinner></td>
+									<td><h:inputText id="haszdijea"
+										disabled="#{manageorderserviceController.data.haszDijCheck}"
+										onchange="getSummary('haszdijmenny','haszdijea','haszdijsum')"></h:inputText></td>
+									<td><h:inputText id="haszdijsum" readonly="true"
+										disabled="#{manageorderserviceController.data.haszDijCheck}"
+										value="#{manageorderserviceController.data.haszdijsum}"></h:inputText></td>
+								</tr>
+								<tr>
+									<td><h:selectBooleanCheckbox
+										value="#{manageorderserviceController.data.behajEnCheck}">
+										<p:ajax event="change" oncomplete="hecheck()" global="false" />
+									</h:selectBooleanCheckbox>Behajtási engedély</td>
+									<td><p:spinner id="behenmenny"
+										disabled="#{manageorderserviceController.data.behajEnCheck}"
+										value="#{manageorderserviceController.data.behajEnMenny}"
+										onchange="getSummary('behenmenny','behenea','behensum')"></p:spinner></td>
+									<td><h:inputText id="behenea"
+										disabled="#{manageorderserviceController.data.behajEnCheck}"
+										onchange="getSummary('behenmenny','behenea','behensum')"></h:inputText></td>
+									<td><h:inputText id="behensum" readonly="true"
+										disabled="#{manageorderserviceController.data.behajEnCheck}"
+										value="#{manageorderserviceController.data.behensum}"></h:inputText></td>
+								</tr>
+								<tr>
+									<td><h:selectBooleanCheckbox
+										value="#{manageorderserviceController.data.fagySzallCheck}">
+										<p:ajax event="change" oncomplete="fszcheck()" global="false" />
+									</h:selectBooleanCheckbox>Fagymentes szállítás</td>
+									<td><p:spinner id="fagymenny"
+										disabled="#{manageorderserviceController.data.fagySzallCheck}"
+										value="#{manageorderserviceController.data.fagySzallMenny}"
+										onchange="getSummary('fagymenny','fagyea','fagysum')"></p:spinner></td>
+									<td><h:inputText id="fagyea"
+										disabled="#{manageorderserviceController.data.fagySzallCheck}"
+										onchange="getSummary('fagymenny','fagyea','fagysum')"></h:inputText></td>
+									<td><h:inputText id="fagysum" readonly="true"
+										disabled="#{manageorderserviceController.data.fagySzallCheck}"
+										value="#{manageorderserviceController.data.fagysum}"></h:inputText></td>
+								</tr>
+								<tr>
+									<td><h:selectBooleanCheckbox
+										value="#{manageorderserviceController.data.kcrCheck}">
+										<p:ajax event="change" oncomplete="kcrcheck()" global="false" />
+									</h:selectBooleanCheckbox>KCR</td>
+									<td><p:spinner id="kcrmenny"
+										disabled="#{manageorderserviceController.data.kcrCheck}"
+										value="#{manageorderserviceController.data.kcrMenny}"
+										onchange="getSummary('kcrmenny','kcrea','kcrsum')"></p:spinner></td>
+									<td><h:inputText id="kcrea"
+										disabled="#{manageorderserviceController.data.kcrCheck}"
+										onchange="getSummary('kcrmenny','kcrea','kcrsum')"></h:inputText></td>
+									<td><h:inputText id="kcrsum" readonly="true"
+										disabled="#{manageorderserviceController.data.kcrCheck}"
+										value="#{manageorderserviceController.data.kcrsum}"></h:inputText></td>
+								</tr>
+								<tr>
+									<td><h:selectBooleanCheckbox></h:selectBooleanCheckbox>Soronkívüliség</td>
+									<td><h:selectOneRadio layout="lineDirection">
+										<f:selectItem itemValue="0" itemLabel="NEM" />
+										<f:selectItem itemValue="1" itemLabel="IGEN" />
+									</h:selectOneRadio></td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td><h:selectBooleanCheckbox
+										value="#{manageorderserviceController.data.fuvaVisszaCheck}">
+										<p:ajax event="change" oncomplete="fvcheck()" global="false" />
+									</h:selectBooleanCheckbox>Fuvardíj visszatérítés</td>
+									<td><p:spinner id="visszamenny"
+										disabled="#{manageorderserviceController.data.fuvaVisszaCheck}"
+										value="#{manageorderserviceController.data.fuvaVisszaMenny}"
+										onchange="getSummary('visszamenny','visszaea','visszasum')"></p:spinner></td>
+									<td><h:inputText id="visszaea"
+										disabled="#{manageorderserviceController.data.fuvaVisszaCheck}"
+										onchange="getSummary('visszamenny','visszaea','visszasum')"></h:inputText></td>
+									<td><h:inputText id="visszasum"
+										disabled="#{manageorderserviceController.data.fuvaVisszaCheck}"
+										value="#{manageorderserviceController.data.visszasum}"></h:inputText></td>
+								</tr>
+								<tr class="shippingSummary">
+									<td></td>
+									<td></td>
+									<td>ÖSSZESEN</td>
+									<td><h:inputText id="summary"
+										value="#{manageorderserviceController.data.summary}"></h:inputText></td>
+								</tr>
+							</table>
+						</h:panelGroup>
+
+					</p:tab>
+				</p:tabView>
+				</div>
+				</div>
+				</div>
+
+				<p:remoteCommand name="fdcheck" global="false" process="@this"
+					actionListener="#{manageorderserviceController.fdCheckAction}"></p:remoteCommand>
+				<p:remoteCommand name="cscheck" global="false" process="@this"
+					actionListener="#{manageorderserviceController.csCheckAction}"></p:remoteCommand>
+				<p:remoteCommand name="btcheck" process="@this" global="false"
+					actionListener="#{manageorderserviceController.btCheckAction}"></p:remoteCommand>
+				<p:remoteCommand name="hszcheck" process="@this" global="false"
+					actionListener="#{manageorderserviceController.hszCheckAction}"></p:remoteCommand>
+				<p:remoteCommand name="hecheck" process="@this" global="false"
+					actionListener="#{manageorderserviceController.heCheckAction}"></p:remoteCommand>
+				<p:remoteCommand name="fszcheck" process="@this" global="false"
+					update="shippingpanel"
+					actionListener="#{manageorderserviceController.fszCheckAction}"></p:remoteCommand>
+				<p:remoteCommand name="kcrcheck" process="@this" global="false"
+					actionListener="#{manageorderserviceController.kcrCheckAction}"></p:remoteCommand>
+				<p:remoteCommand name="fvcheck" process="@this" global="false"
+					actionListener="#{manageorderserviceController.fvCheckAction}"></p:remoteCommand>
+
+
+				<p:remoteCommand name="mode" global="false" process="@this"
+					actionListener="#{manageorderserviceController.sModeAction}"></p:remoteCommand>
+				<p:remoteCommand name="deleteitem" process="@this" global="false"
+					update="orderItemTable, summaryPanel, message"
+					actionListener="#{manageorderserviceController.deleteProductItem}"></p:remoteCommand>
+
+				<p:remoteCommand name="additem" process="@this" global="false"
+					update="orderItemTable, summaryPanel, message"
+					actionListener="#{manageorderserviceController.addProductToOrderAction}"></p:remoteCommand>
+				<p:remoteCommand name="changequantity" process="@this"
+					global="false" update="orderItemTable, summaryPanel"
+					actionListener="#{manageorderserviceController.changeQuantity}"></p:remoteCommand>
+
+				<div class="summaryPanel"><h:panelGroup id="summaryPanel">
+					<table width="100%" border="0" cellspacing="0" cellpadding="0">
+						<tr>
+							<td width="60%"><label>#{msg.ORDERS_ORDERVIEW_SUMMARY}</label></td>
+							<td width="20%"><label>#{msg.NEWORDER_ELEMENTS_NET}</label></td>
+							<td width="20%" class="last"><label>#{msg.NEWORDER_ELEMENTS_GRO}</label></td>
+						</tr>
+						<tr>
+							<td width="60%"></td>
+							<td width="20%"><h:outputText
+								value="#{manageorderserviceController.data.netto}">
+								<f:convertNumber pattern="#,##0" />
+							</h:outputText></td>
+							<td width="20%" class="last"><h:outputText
+								value="#{manageorderserviceController.data.brutto}">
+								<f:convertNumber pattern="#,##0" />
+							</h:outputText></td>
+						</tr>
+					</table>
+				</h:panelGroup></div>
+
+				<div class="bottomFilterBar">
+				<div class="bottomFilterBarFilters"></div>
+				<div class="bottomFilterBarDates bottomFilterBarDatesLong">
+				<div class="bottomFilterBarDateFilter"><label>#{msg.NEWORDER_DEMAND}</label></div>
+				<div class="bottomFilterBarDateFilter"><p:calendar
+					value="#{manageorderserviceController.data.orderDate}"
+					selectListener="#{manageorderserviceController.orderDateChange}"
+					onSelectUpdate="payDate" pattern="#{msg.DATEFORMAT}" /></div>
+				<div class="bottomFilterBarDateFilter"><label>#{msg.ORDERS_ORDERVIEW_PAYDATE}:</label></div>
+				<div class="bottomFilterBarDateFilter"><h:outputText
+					value="#{manageorderserviceController.data.payDate}" id="payDate">
+					<f:convertDateTime pattern="#{msg.DATEFORMAT}" />
+				</h:outputText></div>
+				</div>
+
+
+				<p:commandButton value="#{msg.NEWORDER_ORDER_BUTTON}"
+					process="@this" styleClass="commonButton" update="savepan"
+					oncomplete="confirmsave.show()" global="false" /> <p:commandButton
+					value="#{msg.SIDEBAR_LOGOUT_BUTTON}" process="@this"
+					styleClass="commonButton" update="exit" global="false"
+					oncomplete="confirmation.show()" /></div>
+			</p:panel>
+
+
+			<p:dialog widgetVar="confirmation" modal="false" styleClass="dialog3"
+				closable="false">
+				<h:panelGroup id="exit">
+					<p>BIZTOS HOGY KI SZERETNE LEPNI?</p>
+					<br />
+					<p:commandButton value="OK" styleClass="button" action="orderlist"
+						style="width: 70px;text-align: center" global="false" />
+					<p:commandButton style="width: 70px; text-align: center"
+						value="#{msg.NEWORDER_CANCEL_BUTTON}" styleClass="button"
+						onclick="confirmation.hide();return false;" global="false" />
+				</h:panelGroup>
+			</p:dialog>
+
+			<p:dialog widgetVar="confirmsave" modal="false" styleClass="dialog3"
+				closable="true">
+				<h:panelGroup id="savepan">
+					<p>BIZTOS HOGY LEADJA A RENDELÉST?</p>
+					<br />
+					<p:commandButton value="#{msg.NEWORDER_ORDER_BUTTON}"
+						style="width: 70px;text-align: center" process="@this"
+						styleClass="button" update="message,shippingpanel"
+						oncomplete="confirmsave.hide();return false;"
+						action="#{manageorderserviceController.saveNewOrderaction}" />
+					<p:commandButton style="width: 70px; text-align: center"
+						value="#{msg.NEWORDER_CANCEL_BUTTON}" styleClass="button"
+						onclick="confirmsave.hide();return false;" global="false" />
+				</h:panelGroup>
+			</p:dialog>
+
+
+			<p:growl id="message" sticky="false" life="4000" showSummary="true"
+				showDetail="true"></p:growl>
+
+		</h:form></div>
+
+
+
+		<script type="text/javascript">
+	function getSummary(elem1, elem2, elem3) {
+		var quantity = document.getElementById('page:neworderform:' + elem1).value;
+		var price = document.getElementById('page:neworderform:' + elem2).value;
+		document.getElementById('page:neworderform:' + elem3).value = quantity
+				* price;
+		sum();
+	}
+	function sum() {
+		var temp = 0;
+		temp = parseInt(document.getElementById('page:neworderform:fuvdijsum').value);
+		temp = temp
+				+ parseInt(document
+						.getElementById('page:neworderform:csomdijsum').value);
+		temp = temp
+				+ parseInt(document
+						.getElementById('page:neworderform:betdijsum').value);
+		temp = temp
+				+ parseInt(document
+						.getElementById('page:neworderform:haszdijsum').value);
+		temp = temp
+				+ parseInt(document
+						.getElementById('page:neworderform:behensum').value);
+		temp = temp
+				+ parseInt(document.getElementById('page:neworderform:fagysum').value);
+		temp = temp
+				+ parseInt(document.getElementById('page:neworderform:kcrsum').value);
+		temp = temp
+				+ parseInt(document
+						.getElementById('page:neworderform:visszasum').value);
+		document.getElementById('pa
+</script>
+
+	</ui:define>
+</ui:composition>

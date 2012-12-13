@@ -1,0 +1,44 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui" template="template.xhtml">
+
+	<ui:define name="body">
+		<div class="wrapper100 staticContent registrationSuccess">
+			<div class="wrapper">
+				<div class="staticContentCenter">
+					<h1>SIKERES REGISZTRÁCIÓ!</h1>
+					<div class="spacerDashes"></div>
+					<h2 class="regSzemelyesAdatok">
+						<strong>Személyes</strong> adatok
+					</h2>
+					<label>Név: <span><h:outputText
+								value="#{successRegistrationController.data.partner.nev}"></h:outputText>
+					</span> </label> <label>E-mail / Felhasználónév: <span><h:outputText
+								value="#{successRegistrationController.data.partner.weblogin}"></h:outputText>
+					</span> </label> <label>Telefon: <span><h:outputText
+								value="#{successRegistrationController.data.partner.tel1}"></h:outputText>
+					</span> </label>
+					<div class="spacerDashes"></div>
+					<h2 class="regSzallitasiAdatok">
+						<strong>Szállítási</strong> cím
+					</h2>
+					<label>Irányítószám: <span><h:outputText
+								value="#{successRegistrationController.data.shippingAddress.zipCode}"></h:outputText>
+					</span> </label> <label>Város: <span><h:outputText
+								value="#{successRegistrationController.data.shippingAddress.townShip}"></h:outputText>
+					</span> </label> <label>Cím: <span><h:outputText
+								value="#{successRegistrationController.data.shippingAddress.address}"></h:outputText>
+					</span> </label>
+				</div>
+			</div>
+		</div>
+
+
+
+	</ui:define>
+</ui:composition>

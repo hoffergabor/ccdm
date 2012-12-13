@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+
+		<property name="driverClassName">
+			<value>com.mysql.jdbc.Driver</value>
+		</property>
+
+
+<!--		<property name="url"><value>jdbc:mysql://localhost:3306/revco_dmvmaster</value></property>-->
+<!--		<property name="username"><value>dm</value></property>-->
+<!--		<property name="password"><value>dm321</value></property>-->
+
+		<property name="url"><value>jdbc:mysql://88.151.102.56:3306/DM_Ingatlan</value></property>
+		<property name="username"><value>dm-ingatlan</value></property>
+		<property name="password"><value>dm321</value></property>
+
+
+	</bean>
+	
+	<bean id="openSessionInViewInterceptor" class="org.springframework.orm.hibernate3.support.OpenSessionInViewInterceptor"> 
+		<property name="sessionFactory"><ref bean="sessionFactory" /></property>
+		<property name="singleSession" value="true"/>
+		<property name="flushModeName">
+		<value>FLUSH_AUTO</value>
+	</property>
+	</bean>
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="annotatedClasses">
+			<list>
+				<value>hu.iboard.coandco.datamagic.generated.Intezkedes
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.IntTipus
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.IntTerulet
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.IntFelelos
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.IntMunkav
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.IntMunkfaj
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.IntezAru
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.IntBejMod
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.IntTarifa
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.IntMunkEl
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.IntezSorsz
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.Partner
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.Vevocsop
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.Arnev
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.Deviza
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.Szamla
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.Tetel
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.Megj
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.Kszamla
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.Ktetel
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.Kmegj
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.AruExt
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.Project
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.Aattachs
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.Aconnect
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.Aopt
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.Dolgozo
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.Admin
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.Afakodok
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.Arfolyam
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.Aru
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.AruTemp
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.Cikkcsop
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.DbSync
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.Fizimod
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.Opciok
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.Partner
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.Project
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.Raktar
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.Rendel
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.Rendtet
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.Szall
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.Szallcsop
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.Szallszla
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.Szlevel
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.Szlevtet
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.Szlmegj
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.Szlsorsz
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.Users
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.WebProducts
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.WebStorages
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.Berbeadas
+				</value>
+				<value>hu.iboard.coandco.datamagic.vo.user.UserVO
+				</value>
+				<value>hu.iboard.coandco.datamagic.vo.order.OrderVO
+				</value>
+				<value>hu.iboard.coandco.datamagic.vo.order.OrderItemVO
+				</value>
+				<value>hu.iboard.coandco.datamagic.vo.invoice.InvoiceItemVO
+				</value>
+				<value>hu.iboard.coandco.datamagic.vo.shipping.ShippingVO
+				</value>
+				<value>hu.iboard.coandco.datamagic.vo.shipping.ShippingItemVO
+				</value>
+				<value>hu.iboard.coandco.datamagic.vo.notification.NotificationVO
+				</value>
+				<value>hu.iboard.coandco.datamagic.vo.notification.IngHibaStatuszVO
+				</value>
+				<value>hu.iboard.coandco.datamagic.vo.fileattachs.IngFileAttachsVO
+				</value>
+				<value>hu.iboard.coandco.datamagic.vo.flattype.FlatTypeVO
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.Bizkomment
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.Fuvpartner
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.Fuvtura
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.Tapadogon
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.Arutasitas
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.Arvalt
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.Kedvezmeny
+				</value>
+				<value>hu.iboard.coandco.datamagic.generated.Vevoarak
+				</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.connection.autocommit">true</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect
+				</prop>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.jdbc.batch_versioned_data">true</prop>
+				<prop key="hibernate.jdbc.use_streams_for_binary">true</prop>
+				<prop key="hibernate.order_updates">true</prop>
+				<prop key="hibernate.max_fetch_depth">5</prop>
+				<prop key="hibernate.default_batch_fetch_size">16</prop>
+				<prop key="hibernate.jdbc.batch_size">25</prop>
+				<prop key="hibernate.jdbc.fetch_size">8</prop>
+				<!--		 Enable Hibernate’s automatic session context management -->
+				<prop key="hibernate.connection.release_mode">auto</prop>
+				<prop key="hibernate.transaction.auto_close_session">true</prop>
+				<prop key="hibernate.connection.autoReconnect">true</prop>
+				<prop key="hibernate.connection.autoReconnectForPools">true</prop>
+				<prop key="hibernate.connection.is-connection-validation-required">false</prop>
+				<prop key="current_session_context_class">thread</prop>
+				<prop key="hibernate.cache.use_second_level_cache">true</prop>
+				<prop key="hibernate.cache.use_query_cache">true</prop>
+				<prop key="hibernate.cache.provider_class">org.hibernate.cache.HashtableCacheProvider
+				</prop>
+				<prop key="hibernate.c3p0.acquire_increment">2</prop>
+				<prop key="hibernate.c3p0.idle_test_period">2</prop>
+				<prop key="hibernate.c3p0.max_size">10</prop>
+				<prop key="hibernate.c3p0.max_statements">100</prop>
+				<prop key="hibernate.c3p0.min_size">5</prop>
+				<prop key="hibernate.c3p0.timeout">180</prop>
+				<prop key="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider
+				</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<bean name="userDao" class="hu.iboard.coandco.datamagic.dao.user.UserDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean name="partnerDao" class="hu.iboard.coandco.datamagic.dao.partner.PartnerDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean name="orderDao" class="hu.iboard.coandco.datamagic.dao.order.OrderDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean name="invoiceDao" class="hu.iboard.coandco.datamagic.dao.invoice.InvoiceDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean name="shippingDao" class="hu.iboard.coandco.datamagic.dao.shipping.ShippingDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean name="realtyArrangementDao"
+		class="hu.iboard.coandco.datamagic.dao.realty.RealtyArrangementDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean name="productDao" class="hu.iboard.coandco.datamagic.dao.product.ProductDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean name="bizkommentDao"
+		class="hu.iboard.coandco.datamagic.dao.bizkomment.BizkommentDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean name="notificationDao"
+		class="hu.iboard.coandco.datamagic.dao.notification.NotificationDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean name="fileAttachsDao"
+		class="hu.iboard.coandco.datamagic.dao.fileattachs.FileAttachsDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean name="projectDao" class="hu.iboard.coandco.datamagic.dao.project.ProjectDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean name="workerDao" class="hu.iboard.coandco.datamagic.dao.worker.WorkerDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean name="aruExtDao" class="hu.iboard.coandco.datamagic.dao.aruext.AruExtDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean name="berbeadasDao"
+		class="hu.iboard.coandco.datamagic.dao.berbeadas.BerbeadasDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean name="aattachsDao" class="hu.iboard.coandco.datamagic.dao.aattachs.AattachsDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean name="flatTypeDao" class="hu.iboard.coandco.datamagic.dao.flattype.FlatTypeDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean name="aconnectDao" class="hu.iboard.coandco.datamagic.dao.aconnect.AconnectDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean name="aoptDao" class="hu.iboard.coandco.datamagic.dao.aopt.AoptDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean name="arnevDao" class="hu.iboard.coandco.datamagic.dao.arnev.ArnevDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean name="cikkcsopDao" class="hu.iboard.coandco.datamagic.dao.cikkcsop.CikkcsopDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean name="fuvpartnerDao" class="hu.iboard.coandco.datamagic.dao.fuvpartner.FuvpartnerDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean name="fuvturaDao" class="hu.iboard.coandco.datamagic.dao.fuvtura.FuvturaDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean name="tapadogonDao" class="hu.iboard.coandco.datamagic.dao.tapadogon.TapadogonDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean name="kedvezmenyDao" class="hu.iboard.coandco.datamagic.dao.kedvezmeny.KedvezmenyDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean name="vevoarakDao" class="hu.iboard.coandco.datamagic.dao.vevoarak.VevoarakDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean name="arvaltDao" class="hu.iboard.coandco.datamagic.dao.arvalt.ArvaltDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean name="arutasitasDao" class="hu.iboard.coandco.datamagic.dao.arutasitas.ArutasitasDao">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	
+	
+
+
+	<bean id="userService" class="hu.iboard.coandco.datamagic.service.user.UserService">
+		<property name="userDao" ref="userDao" />
+		<property name="partnerDao" ref="partnerDao" />
+		<property name="workerDao" ref="workerDao" />
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="notificationService"
+		class="hu.iboard.coandco.datamagic.service.notification.NotificationService">
+		<property name="notificationDao" ref="notificationDao" />
+		<property name="flatTypeDao" ref="flatTypeDao" />
+		<property name="aattachsDao" ref="aattachsDao" />
+		<property name="aconnectDao" ref="aconnectDao" />
+		<property name="aoptDao" ref="aoptDao" />
+		<property name="berbeadasDao" ref="berbeadasDao" />
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="partnerService"
+		class="hu.iboard.coandco.datamagic.service.partner.PartnerService">
+		<property name="partnerDao" ref="partnerDao" />
+		<property name="berbeadasDao" ref="berbeadasDao" />
+	</bean>
+	<bean id="orderService" class="hu.iboard.coandco.datamagic.service.order.OrderService">
+		<property name="orderDao" ref="orderDao" />
+		<property name="productDao" ref="productDao" />
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="invoiceService"
+		class="hu.iboard.coandco.datamagic.service.invoice.InvoiceService">
+		<property name="invoiceDao" ref="invoiceDao" />
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="shippingService"
+		class="hu.iboard.coandco.datamagic.service.shipping.ShippingService">
+		<property name="shippingDao" ref="shippingDao" />
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="realtyArrangementService"
+		class="hu.iboard.coandco.datamagic.service.realty.RealtyArrangementService">
+		<property name="realtyArrangementDao" ref="realtyArrangementDao" />
+		<property name="aruExtDao" ref="aruExtDao" />
+		<property name="projectDao" ref="projectDao" />
+		<property name="berbeadasDao" ref="berbeadasDao" />
+		<property name="aattachsDao" ref="aattachsDao" />
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="productService"
+		class="hu.iboard.coandco.datamagic.service.product.ProductService">
+		<property name="productDao" ref="productDao" />
+		<property name="arnevDao" ref="arnevDao" />
+		<property name="cikkcsopDao" ref="cikkcsopDao" />
+		<property name="tapadogonDao" ref="tapadogonDao" />
+		<property name="kedvezmenyDao" ref="kedvezmenyDao" />
+		<property name="vevoarakDao" ref="vevoarakDao" />
+		<property name="arvaltDao" ref="arvaltDao" />
+		<property name="arutasitasDao" ref="arutasitasDao" />
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="documentService"
+		class="hu.iboard.coandco.datamagic.service.document.DocumentService">
+		<property name="orderDao" ref="orderDao" />
+		<property name="realtyArrangementDao" ref="realtyArrangementDao" />
+		<property name="partnerDao" ref="partnerDao" />
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="bizkommentService"
+		class="hu.iboard.coandco.datamagic.service.bizkomment.BizkommentService">
+		<property name="bizkommentDao" ref="bizkommentDao" />
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="fileAttachsService"
+		class="hu.iboard.coandco.datamagic.service.fileattachs.FileAttachsService">
+		<property name="fileAttachsDao" ref="fileAttachsDao" />
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<bean id="projectService"
+		class="hu.iboard.coandco.datamagic.service.project.ProjectService">
+		<property name="projectDao" ref="projectDao" />
+	</bean>
+	<bean id="workerService"
+		class="hu.iboard.coandco.datamagic.service.worker.WorkerService">
+		<property name="workerDao" ref="workerDao" />
+	</bean>
+	<bean id="aruExtService"
+		class="hu.iboard.coandco.datamagic.service.aruext.AruExtService">
+		<property name="aruExtDao" ref="aruExtDao" />
+	</bean>
+	<bean id="emailService"
+		class="hu.iboard.coandco.datamagic.service.email.EmailService">
+	</bean>
+	<bean id="fuvpartnerService"
+		class="hu.iboard.coandco.datamagic.service.fuvpartner.FuvpartnerService">
+		<property name="fuvpartnerDao" ref="fuvpartnerDao" />
+		<property name="fuvturaDao" ref="fuvturaDao" />
+	</bean>
+</beans>

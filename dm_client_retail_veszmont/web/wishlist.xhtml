@@ -1,0 +1,122 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui" template="template.xhtml">
+
+
+	<ui:define name="body">
+		<h:form id="wishlistform">
+			<div class="wrapper100 registrationContent">
+			<div class="wrapper">
+
+			<div class="registrationContentLeft">
+		<h3>Fontos információ</h3>
+		<div class="innerText"><img src="img/asterisk.png"
+			class="infoIcon" />
+		<p>Adatvédelmi nyiltkozat</p>
+		<p>Vásárlási szerződés</p>
+		</div></div>
+			<div class="registrationContentCenter">
+			<div class="wishListWrapper"><p:dataTable
+				selectionMode="single" rows="10" paginator="true"
+				style="text-align:left" paginatorPosition="top"
+				paginatorAlwaysVisible="false" dynamic="true"
+				value="#{wishlistController.data.wishlists}" var="data"
+				id="wishlistTable" emptyMessage="#{msg.NODATA}"
+				onselectComplete="showitem()" update="wishlistItemsTable"
+				selection="#{wishlistController.data.selectedWishlist}">
+				<p:column sortBy="#{data.name}" style="min-width:100px">
+					<f:facet name="header">
+						<h:outputText value="Megnevezés"/>
+					</f:facet>
+					<h:outputText value="#{data.name}" styleClass="wishListName"  />
+				</p:column>
+				<p:column sortBy="#{data.insDate}" style="min-width:300px">
+					<f:facet name="header">
+						<h:outputText value="Létrehozva" />
+					</f:facet>
+					<h:outputText value="#{data.insDate}" />
+				</p:column>
+				<p:column>
+					<center><p:commandLink oncomplete="additem()" styleClass="wishListOrder"
+						update="header:headerform:headercartdata" process="@this">
+						<f:setPropertyActionListener
+							target="#{wishlistController.data.wishlistId}"
+							value="#{data.wishlistId}" />
+					</p:commandLink></center>
+				</p:column>
+				<p:column><center>
+					<p:commandLink oncomplete="deleteitem()" styleClass="wishListDelete"
+						process="@this" update="wishlistTable">
+						<f:setPropertyActionListener
+							target="#{wishlistController.data.wishlistId}"
+							value="#{data.wishlistId}" />
+					</p:commandLink></center>
+				</p:column>
+			</p:dataTable></div> <p:remoteCommand name="showitem" oncomplete="wishlistitemwid.show()"
+				update="wishlistItemsTable"
+				actionListener="#{wishlistController.showWishlistItems}"></p:remoteCommand>
+
+			<p:remoteCommand name="additem" process="@this"
+				update="message,header:headerform:headercartdatas"
+				actionListener="#{wishlistController.addWishlistToCart}"></p:remoteCommand>
+			<p:remoteCommand name="deleteitem" process="@this" update="message,wishlistTable"
+				actionListener="#{wishlistController.deleteWishlist}"></p:remoteCommand>
+
+			<p:dialog modal="false" id="wishlistItems"
+				widgetVar="wishlistitemwid" draggable="true" width="980"
+				closable="true" styleClass="commonDialog"
+				header="Kivánságlista tételei" showEffect="fade" hideEffect="fade">
+				<p:dataTable style="text-align:left;" selectionMode="single"
+					lazy="false" dynamic="true"
+					value="#{wishlistController.data.wishlistItems}" var="item"
+					id="wishlistItemsTable" emptyMessage="#{msg.NODATA}">
+					<p:column sortBy="#{item.aru.megn}" style="min-width:200px">
+						<f:facet name="header">
+							<h:outputText value="Megnevezés" />
+						</f:facet>
+						<h:outputText value="#{item.aru.megn}" styleClass="bold" />
+					</p:column>
+					<p:column sortBy="#{item.quantity}" style="min-width:50px">
+						<f:facet name="header">
+							<h:outputText value="Mennyiség" />
+						</f:facet>
+						<h:outputText value="#{item.quantity}" styleClass="bold" />
+					</p:column>
+					<p:column
+						sortBy="#{item.aru.ear*((item.aru.afakodok.fordkulcs+100)/100)}"
+						style="min-width:120px">
+						<f:facet name="header">
+							<h:outputText value="Egységár" />
+						</f:facet>
+						<h:outputText
+							value="#{item.aru.ear*((item.aru.afakodok.fordkulcs+100)/100)}"
+							styleClass="bold">
+							<f:convertNumber type="number" maxFractionDigits="0" />
+						</h:outputText> Ft
+					</p:column>
+					<p:column style="min-width:100px"
+						sortBy="#{item.quantity*item.aru.ear*((item.aru.afakodok.fordkulcs+100)/100)}">
+						<f:facet name="header">
+							<h:outputText value="Bruttó" />
+						</f:facet>
+						<h:outputText
+							value="#{item.quantity*item.aru.ear*((item.aru.afakodok.fordkulcs+100)/100)}">
+							<f:convertNumber type="number" maxFractionDigits="0" />
+						</h:outputText> Ft
+					</p:column>
+				</p:dataTable>
+				<br />
+			</p:dialog></div>
+			</div>
+			</div>
+
+			<p:growl id="message" showDetail="true" sticky="false" life="4000"
+				showSummary="false" />
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,66 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<f:view contentType="text/html" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:i="http://primefaces.prime.com.tr/touch"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<i:application theme="dark">
+		<i:view id="realtyinvoicelist" title="Számlák">
+			<f:facet name="rightNavBar">
+				<i:navBarControl label="Info" effect="flip" type="button" />
+			</f:facet>
+			<h:form prependId="false">
+				<i:tableView id="ip">
+					<i:rowGroup>
+						<i:rowItem>
+							<div style="margin-right: 5px; float: left;"><p:calendar
+								value="#{realtyinvoiceserviceController.data.from}"
+								selectListener="#{realtyinvoiceserviceController.invoiceDateFromChange}"
+								pattern="#{msg.DATEFORMAT}" inputStyle="width:100px">
+							</p:calendar></div>
+							<div style="margin-right: 20px; float: left;"><label
+								class="textcolor4"> #{msg.INVOICESTORNFIX_DATEFROM}</label></div>
+
+							<div style="margin-right: 5px; float: left;"><p:calendar
+								value="#{realtyinvoiceserviceController.data.to}"
+								selectListener="#{realtyinvoiceserviceController.invoiceDateToChange}"
+								pattern="#{msg.DATEFORMAT}" inputStyle="width:100px">
+							</p:calendar></div>
+							<label class="textcolor4">#{msg.INVOICESTORNFIX_DATETO}</label>
+							<i:rowGroup>
+								<center><i:rowItem
+									style="margin-left: 20px; margin-top: -6px;" process="@this"
+									value="Szűrés" update="list" view="a"
+									actionListener="#{realtyinvoiceserviceController.invoiceDateChange}">
+								</i:rowItem></center>
+							</i:rowGroup>
+						</i:rowItem>
+					</i:rowGroup>
+					<i:rowGroup display="edgetoedge" id="list">
+						<ui:repeat
+							value="#{realtyinvoiceserviceController.data.invoice}"
+							var="data">
+							<i:rowItem>
+								<div style="font-size: 12px; color: white">#{data.sorszam}<br />
+								#{data.cegnev}<h:outputText value="#{data.kelt}" style="float:right">
+									<f:convertDateTime pattern="#{msg.DATEFORMAT}" />
+								</h:outputText><br/>
+								<h:outputText value="#{data.dbrutto} Ft" >
+									<f:convertNumber pattern="#,##0" />
+								</h:outputText></div>
+							</i:rowItem>
+						</ui:repeat>
+					</i:rowGroup>
+					<i:rowGroup>
+						<center><i:rowItem value="Főmenü" update="list"
+							action="mobilepage" styleClass="whiteButton" view="a" /></center>
+					</i:rowGroup>
+				</i:tableView>
+			</h:form>
+		</i:view>
+	</i:application>
+</f:view>

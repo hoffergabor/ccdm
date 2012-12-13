@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<f:view contentType="text/html" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	locale="#{localeSelector.selectedLocale}">
+
+	<f:loadBundle
+		basename="hu.iboard.coandco.datamagic.retail.veszmont.resources.MessageResources_hu"
+		var="msg" />
+	<html>
+<h:head>
+	<title>Agria Drink, Agria Market ADMIN</title>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="description" content="Agria Drink, Agria Market" />
+	<meta name="keywords" content="Agria Drink, Agria Market" />
+	<meta name="robots" content="noindex,nofollow" />
+	<meta name="copyright"
+		content="Copyright (c) 2010 Agria Drink, Agria Market" />
+	<link rel="shortcut icon" type="image/x-icon" href="img/favico.ico" />
+
+	<link rel="stylesheet" type="text/css" media="screen"
+		href="${facesContext.externalContext.requestContextPath}/css/style.css"
+		title="style" />
+
+	<link rel="stylesheet" type="text/css" media="all"
+		href="${facesContext.externalContext.requestContextPath}/css/aristo/skin.css" />
+
+	<!--[if IE]><link rel="stylesheet" type="text/css" media="screen" href="css/ie.css" title="style"/><![endif]-->
+	<!--[if IE 7]><link rel="stylesheet" type="text/css" media="screen" href="css/ie7.css" title="style"/><![endif]-->
+	<!--[if IE 8]><link rel="stylesheet" type="text/css" media="screen" href="css/ie8.css" title="style"/><![endif]-->
+
+</h:head>
+<h:body>
+	<div class="wrapper100 top">
+		<div class="wrapper">
+
+				<div class="topLogo">
+					<a href="/agria"><img
+						src="${facesContext.externalContext.requestContextPath}/img/topLogoDrink.png" />
+					</a>
+				</div>
+			<div class="topLogin"><br />
+				<h:form id="adminloginform">
+
+					<label>Felhasználónév: <h:inputText required="true"
+							value="#{loginController.data.userName}"
+							requiredMessage="Felhasználónév megadása kötelező!"></h:inputText>
+					</label>
+					<label>Jelszó: <h:inputSecret required="true"
+							value="#{loginController.data.password}"
+							requiredMessage="Jelszó megadása kötelező!"></h:inputSecret>
+					</label>
+					<p:commandButton value="Belépés" update="adminloginform"
+						type="submit" action="#{loginController.loginAdmin}"></p:commandButton>
+					<p:messages showDetail="true" showSummary="false"></p:messages>
+				</h:form>
+			</div>
+		</div>
+	</div>
+
+</h:body>
+	</html>
+</f:view>

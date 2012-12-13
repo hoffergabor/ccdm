@@ -1,0 +1,114 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<f:view contentType="text/html" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:i="http://primefaces.prime.com.tr/touch"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<i:application theme="dark">
+
+		<i:view id="partnerdata" title="Adatmódosítás">
+			<f:facet name="rightNavBar">
+				<i:navBarControl label="Info" effect="flip" type="button" />
+			</f:facet>
+			<h:form prependId="false">
+			<i:tableView id="pdp">
+				<i:rowGroup>
+					<i:rowItem value="Személyes adatok" view="personaly"></i:rowItem>
+					<i:rowItem value="Üzleti adatok" view="business"></i:rowItem>
+					<i:rowItem value="Főmenü" action="mobilepage" view="s" update="pdp"></i:rowItem>
+				</i:rowGroup>
+			</i:tableView></h:form>
+		</i:view>
+
+
+		<i:view id="personaly" title="Adatmódosítás">
+			<f:facet name="leftNavBar">
+				<i:navBarControl label="Vissza" view="partnerdata" effect="flip" type="back" />
+			</f:facet>
+			<h:form prependId="false">
+				<i:tableView>
+					<i:rowGroup title="Személyes adatok">
+						<i:rowItem id="pp">
+								Név:
+								<h:inputText
+								value="#{partnerdataupdateController.data.partner.nev}"></h:inputText>
+						</i:rowItem>
+						<i:rowItem>
+							Irányítószám:
+								<h:inputText
+								value="#{partnerdataupdateController.data.partner.irsz}"></h:inputText>
+						</i:rowItem>
+						<i:rowItem>
+								Város:
+								<h:inputText
+								value="#{partnerdataupdateController.data.partner.varos}"></h:inputText>
+						</i:rowItem>
+						<i:rowItem>
+							Cím:
+								<h:inputText
+								value="#{partnerdataupdateController.data.partner.cim}"></h:inputText>
+						</i:rowItem>
+						<i:rowItem>
+							Telefon:
+								<h:inputText
+								value="#{partnerdataupdateController.data.partner.tel1}"></h:inputText>
+						</i:rowItem>
+						<i:rowItem>
+							E-mail:
+								<h:inputText
+								value="#{partnerdataupdateController.data.partner.email}"></h:inputText>
+						</i:rowItem>
+					</i:rowGroup>
+					<i:rowGroup>
+						<center> <i:rowItem value="#{msg.SAVE}"
+							view="partnerdata" type="submit" update="pp"
+							actionListener="#{partnerdataupdateController.updatePartnerData}">
+						</i:rowItem></center>
+					</i:rowGroup>
+				</i:tableView>
+			</h:form>
+		</i:view>
+
+		<i:view id="business" title="Adatmódosítás">
+			<f:facet name="leftNavBar">
+				<i:navBarControl label="Vissza" view="partnerdata" effect="flip" type="back"/>
+			</f:facet>
+			<h:form prependId="false">
+				<i:tableView id="bp">
+					<i:rowGroup title="Üzleti adatok">
+						<i:rowItem>
+								Számlaszám:
+								<h:inputText
+								value="#{partnerdataupdateController.data.partner.szlaszam}"></h:inputText>
+						</i:rowItem>
+						<i:rowItem>
+							Adószám:
+								<h:inputText
+								value="#{partnerdataupdateController.data.partner.adoszam}"></h:inputText>
+						</i:rowItem>
+						<i:rowItem>
+								Kapcsolat telefon:
+								<h:inputText
+								value="#{partnerdataupdateController.data.partner.kapcstel}"></h:inputText>
+						</i:rowItem>
+						<i:rowItem>
+							Kapcsolat e-mail:
+								<h:inputText
+								value="#{partnerdataupdateController.data.partner.kapcsemail}"></h:inputText>
+						</i:rowItem>
+					</i:rowGroup>
+					<i:rowGroup>
+						<center> <i:rowItem value="#{msg.SAVE}"
+							view="partnerdata" type="submit" update="bp"
+							actionListener="#{partnerdataupdateController.updatePartnerData}">
+						</i:rowItem></center>
+					</i:rowGroup>
+				</i:tableView>
+			</h:form>
+		</i:view>
+	</i:application>
+</f:view>

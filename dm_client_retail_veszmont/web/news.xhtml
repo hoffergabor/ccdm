@@ -1,0 +1,26 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui" template="template.xhtml">
+
+	<ui:define name="body">
+		<h:form id="newsform">
+			<div class="wrapper100 staticContent">
+			<div class="wrapper">
+			<div class="staticContentCenter newsList"><ui:repeat
+				value="#{newsController.data.contentList}" var="data">
+				<h2 class="newsTitle">#{data.title}</h2>
+				<div class="newsContent">#{data.content}</div>
+				<div class="spacerDashes"></div>
+			</ui:repeat> <p:growl id="message" showDetail="true" sticky="false" life="4000"
+				showSummary="false" /></div>
+			<div class="clear"></div>
+			</div>
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>

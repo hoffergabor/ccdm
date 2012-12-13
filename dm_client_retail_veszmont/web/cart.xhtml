@@ -1,0 +1,199 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.prime.com.tr/ui" template="template.xhtml">
+
+	<ui:define name="body">
+		<div class="wrapper100 registrationContent">
+		<div class="wrapper"><h:form id="cartform">
+			<h:panelGroup id="cartcontent">
+				<div class="registrationContentLeft">
+				<h3>Fontos információ</h3>
+				<div class="innerText">
+				<p>A megrendeléshez ezen az oldalon keresztül juthat el, de
+				fontos, hogy ehhez már <strong>be kell jelentkezni</strong> az oldal
+				tetején, illetve nem bejelentkezett felhasználók a megrendelés gomb
+				megnyomásával is a bejelentkezés felületre jutnak.</p>
+				<br />
+				<p>A kosárba tett termékek listája alatt találja a <strong>[TOVÁBB
+				A MEGRENDELÉSHEZ]</strong> gombot, ezt megnyomva véglegesítheti és küldheti
+				el megrendelését. (Itt további adatok megadására lehet szükség)</p>
+				<br />
+				<p>A <strong>[KOSÁR MENTÉSE]</strong> gomb szintén
+				bejelentkezett felhasználóink számára elérhető szolgáltatás, arra az
+				esetre, ha a kosárban lévő termékeket egy későbbi időpontban
+				szeretnék megvásárolni</p>
+				</div>
+				</div>
+				<div class="registrationContentCenter">
+				<h1>Kosár</h1>
+				<div class="spacerDashes"></div>
+
+				<h:panelGroup id="panel">
+					<h:outputText rendered="#{empty cartController.data.items}"
+						value="A kosár tartalma üres!"></h:outputText>
+					<h:panelGroup rendered="#{!empty cartController.data.items}">
+						<div class="cartGridHeader">
+						<table width="100%;">
+							<tr>
+								<td width="11%"></td>
+								<td width="31%">Név</td>
+								<td width="31%">Mennyiség</td>
+								<td width="14%">Egységár</td>
+								<td width="10%">Bruttó Ár</td>
+							</tr>
+						</table>
+						</div>
+						<p:dataGrid var="data" value="#{cartController.data.items}"
+							columns="1" effect="true" id="itemTable">
+							<p:column>
+								<div class="cartGridElement">
+								<div class="cartGridPicture">
+								<center><img
+									onerror="this.src='${facesContext.externalContext.requestContextPath}/img/placeholder.png'"
+									src="http://coandco.iboard.hu/agria/#{fn:substring(data.cikkszam, 0, 4)}.jpg"
+									height="50" /></center>
+								</div>
+								<div class="cartGridName">
+								<table>
+									<tr>
+										<td style="" valign="middle" height="52"><h:outputText
+											value="#{data.megn}" /></td>
+									</tr>
+								</table>
+								</div>
+								<div class="cartGridCounter"><h:inputText id="menny"
+									value="#{data.menny}" maxlength="4" onkeydown="if (event.keyCode == 13) {changemenny();return false;}">
+									<p:ajax event="change" oncomplete="changemenny()" />
+								</h:inputText> db</div>
+								<p:commandLink oncomplete="increase()"
+									title="Termék mennyiségének növelése"
+									styleClass="cartGridIncreaseButton">
+									<f:setPropertyActionListener value="#{data}"
+										target="#{cartController.data.selectedItem}" />
+								</p:commandLink> <p:commandLink oncomplete="decrease()"
+									title="Termék mennyiségének csökkentése"
+									styleClass="cartGridDecraseButton">
+									<f:setPropertyActionListener value="#{data}"
+										target="#{cartController.data.selectedItem}" />
+								</p:commandLink> <p:commandLink onclick="deleteitemwid.show()"
+									update="deleteitempanel" styleClass="cartGridDeleteButton"
+									title="Termék törlése">
+									<f:setPropertyActionListener value="#{data}"
+										target="#{cartController.data.selectedItem}" />
+								</p:commandLink>
+								<div class="cartGridPrice"><h:outputText
+										value="#{data.kedvarBrutto}"> -->
+<!-- 									value="#{productController.data.kedvezmeny != 0 ? 1000*data.ear*productController.data.kedvezmeny/100*((data.afakodok.fordkulcs+100)/100)/1000 : data.ear*((data.afakodok.fordkulcs+100)/100)}"> -->
+									<f:convertNumber type="number" maxFractionDigits="2" />
+								</h:outputText> €</div>
+								<div class="cartGridGrossPrice"><h:outputText id="gross"
+									value="#{data.menny*data.kedvarBrutto}">								
+<!-- 									value="#{data.menny*data.ear*((data.afakodok.fordkulcs+100)/100)}"> -->
+									<f:convertNumber type="number" maxFractionDigits="2" />
+								</h:outputText> €</div>
+								</div>
+							</p:column>
+						</p:dataGrid>
+						<div class="cartSummary"><span>Fizetendő bruttó
+						végösszeg:</span><b><h:outputText
+							value="#{cartController.data.allBrutto}">
+							<f:convertNumber type="number" maxFractionDigits="2" />
+						</h:outputText> € </b></div>
+					</h:panelGroup>
+				</h:panelGroup></div>
+
+
+
+				<div class="clear"></div>
+				<h:panelGroup rendered="#{!empty cartController.data.items}"
+					id="panel2">
+					<p:commandButton value="Kosár mentése" styleClass="cartSaveButton"
+						oncomplete="savecart.show()" update="wishlistname"
+						actionListener="#{cartController.showSaveWishlistPanel}"></p:commandButton>
+					<p:commandButton value="Kosár ürítése"
+						onclick="deleteallitemwid.show()" styleClass="cartDeleteAllButton"
+						update="deleteallitempanel"></p:commandButton>
+					<p:commandButton value="Tovább a megrendeléshez"
+						styleClass="cartGoToOrderButton" update="message"
+						action="#{cartController.goToOrder}"></p:commandButton>
+				</h:panelGroup>
+
+			</h:panelGroup>
+			<p:remoteCommand name="increase" process="@this"
+				update="cartcontent,message,header:headerform:headercartdatas"
+				actionListener="#{cartController.increaseQuantity}">
+			</p:remoteCommand>
+			<p:remoteCommand name="decrease" process="@this"
+				update="cartcontent,message,header:headerform:headercartdatas"
+				actionListener="#{cartController.decreaseQuantity}">
+			</p:remoteCommand>
+			<p:remoteCommand name="deleteitem" process="@this"
+				oncomplete="deleteitemwid.hide();"
+				update="cartcontent,message,header:headerform:headercartdatas"
+				actionListener="#{cartController.deleteItem}">
+			</p:remoteCommand>
+			<p:remoteCommand name="changemenny" process="@this"
+				update="cartcontent,message,header:headerform:headercartdatas"
+				actionListener="#{cartController.changeQuantity}">
+			</p:remoteCommand>
+
+
+			<p:growl id="message" showDetail="true" sticky="false" life="4000"
+				showSummary="false" />
+
+			<p:dialog widgetVar="deleteitemwid" modal="false" draggable="false"
+				closable="true" width="400" header="Megerősítés">
+				<h:panelGroup id="deleteitempanel">
+					<center>Biztos törli a terméket a kosárból?<br />
+					<br />
+					<p:commandButton value="OK" oncomplete="deleteitem();"
+						process="@this" /> <p:commandButton value="Mégsem"
+						onclick="deleteitemwid.hide();" /> <br />
+					<br />
+					</center>
+				</h:panelGroup>
+			</p:dialog>
+
+			<p:dialog widgetVar="deleteallitemwid" modal="false"
+				draggable="false" closable="true" width="400" header="Megerősítés">
+				<h:panelGroup id="deleteallitempanel">
+					<center>Biztos törli az összes terméket a kosárból?<br />
+					<br />
+					<p:commandButton value="OK"
+						actionListener="#{cartController.deleteAllItem}"
+						oncomplete="deleteallitemwid.hide()"
+						update="message,cartcontent,itemTable,header:headerform:headercartdatas"
+						process="@this" /> <p:commandButton value="Mégsem"
+						onclick="deleteallitemwid.hide();" /> <br />
+					<br />
+					</center>
+				</h:panelGroup>
+			</p:dialog>
+		</h:form> <p:dialog widgetVar="savecart" modal="false" draggable="false"
+			closable="true" width="400" header="Kívánságlista mentése">
+			<h:form>
+				<h:panelGroup id="savecartpanel">
+					<center><label>Kívánságlista megnevezése: <h:inputText
+						id="wishlistname" value="#{cartController.data.wishlistName}"></h:inputText>
+					</label> <br />
+					<br />
+					<p:commandButton value="Mégsem" immediate="true"
+						onclick="savecart.hide();" /> <p:commandButton
+						value="Kosár mentése" oncomplete="savecart.hide();"
+						update="message2" action="#{cartController.saveWishlist}" /> <br />
+					<br />
+					</center>
+				</h:panelGroup>
+				<p:growl id="message2" showDetail="true" sticky="false" life="4000"
+					showSummary="false" />
+			</h:form>
+		</p:dialog></div>
+		</div>
+	</ui:define>
+</ui:composition>

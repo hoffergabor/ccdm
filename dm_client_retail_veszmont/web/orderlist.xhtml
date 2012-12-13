@@ -1,0 +1,183 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui" template="template.xhtml">
+
+	<ui:define name="body">
+		<div class="wrapper100 registrationContent">
+			<div class="wrapper">
+				<div class="registrationContentLeft">
+					<h3>Rendelések</h3>
+					<div class="innerText">
+						<p>itt találod meg a rendeléseid listáját</p>
+					</div>
+				</div>
+
+				<h:form><p:tooltip global="true" targetPosition="bottomLeft"
+				showEffectLength="300" showDelay="500" />
+					<div class="registrationContentCenter">
+						<h:outputText rendered="#{empty orderListController.data.orders}"
+							value="Nincs leadott rendelés!"></h:outputText>
+						<div class="orderListWrapper">
+							<p:dataTable selectionMode="single" rows="7" paginator="true"
+								style="text-align:left" paginatorPosition="top"
+								paginatorAlwaysVisible="false" dynamic="true"
+								value="#{orderListController.data.orders}" var="data"
+								id="orderTable" emptyMessage="#{msg.NODATA}"
+								onselectComplete="showitem()" update="orderitemTable"
+								selection="#{orderListController.data.selectedOrder}">
+								<p:column sortBy="#{data.sorszam}" style="min-width:60px">
+									<f:facet name="header">
+										<h:outputText value="#{msg.ORDERS_ORDERVIEW_ORDERNUM}" />
+									</f:facet>
+									<h:outputText styleClass="orderName" value="#{data.sorszam}" />
+								</p:column>
+								<p:column sortBy="#{data.kelt}" styleClass="centerpos"
+									style="min-width:40px">
+									<f:facet name="header">
+										<h:outputText value="#{msg.ORDERS_ORDERVIEW_DATE}" />
+									</f:facet>
+									<h:outputText value="#{data.kelt}">
+										<f:convertDateTime pattern="#{msg.DATEFORMAT}" />
+									</h:outputText>
+								</p:column>
+								<p:column sortBy="#{data.statusz}" style="min-width:40px">
+									<f:facet name="header">
+										<h:outputText value="#{msg.ORDERS_ORDERVIEW_STATUS}" />
+									</f:facet>
+									<h:outputText value="#{data.statusz}" />
+								</p:column>
+								<p:column sortBy="#{data.telj}" styleClass="centerpos"
+									style="min-width:40px">
+									<f:facet name="header">
+										<h:outputText value="#{msg.ORDERS_ORDERVIEW_DONE}" />
+									</f:facet>
+									<h:outputText value="#{data.telj}">
+										<f:convertDateTime pattern="#{msg.DATEFORMAT}" />
+									</h:outputText>
+								</p:column>
+								<p:column sortBy="#{data.dnetto}" styleClass="rightpos"
+									style="min-width:40px">
+									<f:facet name="header">
+										<h:outputText value="#{msg.ORDERS_ORDERVIEW_NET}" />
+									</f:facet>
+									<h:outputText value="#{data.dnetto}">
+										<f:convertNumber pattern="#,##0" />
+									</h:outputText>
+									<h:outputText value="#{data.devnem}" />
+								</p:column>
+								<p:column sortBy="#{data.dbrutto}" styleClass="rightpos"
+									style="min-width:40px">
+									<f:facet name="header">
+										<h:outputText value="#{msg.ORDERS_ORDERVIEW_GRO}" />
+									</f:facet>
+									<h:outputText value="#{data.dbrutto}">
+										<f:convertNumber pattern="#,##0" maxFractionDigits="2"/>
+									</h:outputText>
+									<h:outputText value="#{data.devnem}" />
+								</p:column>
+								<p:column>
+									<center>
+										<p:commandLink oncomplete="additem()"
+											styleClass="wishListOrder" title="Utánrendelés"
+											update="header:headerform:headercartdata" process="@this">
+											<f:setPropertyActionListener
+												target="#{orderListController.data.selectedOrder}"
+												value="#{data}" />
+										</p:commandLink>
+									</center>
+								</p:column>
+							</p:dataTable>
+						</div>
+					</div>
+					<div class="clear"></div>
+
+					<p:remoteCommand name="showitem" oncomplete="orderitemwid.show()"
+						update="orderitemTable" global="true" process="@this"
+						actionListener="#{orderListController.showOrderItems}"></p:remoteCommand>
+					<p:remoteCommand name="additem" process="@this"
+						update="message,header:headerform:headercartdatas"
+						actionListener="#{orderListController.addItemsToCart}"></p:remoteCommand>
+
+
+					<p:dialog modal="false" id="orderItems" widgetVar="orderitemwid"
+						draggable="true" width="980" closable="true"
+						styleClass="commonDialog" header="Rendelés tétele"
+						showEffect="fade" hideEffect="fade">
+						<p:dataTable style="text-align:left;" selectionMode="single"
+							lazy="false" dynamic="true"
+							value="#{orderListController.data.orderItems}" var="item"
+							id="orderitemTable" emptyMessage="#{msg.NODATA}">
+							<p:column sortBy="#{item.acikksz}" style="min-width:120px">
+								<f:facet name="header">
+									<h:outputText value="#{msg.NEWORDER_ELEMENTS_SKU}" />
+								</f:facet>
+								<h:outputText value="#{item.acikksz}" styleClass="bold" />
+							</p:column>
+							<p:column sortBy="#{item.amegn}" style="min-width:220px">
+								<f:facet name="header">
+									<h:outputText value="#{msg.NEWORDER_ELEMENTS_NAME}" />
+								</f:facet>
+								<h:outputText value="#{item.amegn}" />
+							</p:column>
+							<p:column sortBy="#{item.aear}" styleClass="rightpos"
+								style="min-width:120px">
+								<f:facet name="header">
+									<h:outputText value="#{msg.NEWORDER_ELEMENTS_PRICE}" />
+								</f:facet>
+								<h:outputText value="#{item.aear}">
+									<f:convertNumber pattern="#,##0" />
+								</h:outputText>
+							</p:column>
+							<p:column sortBy="#{item.amenny}" styleClass="rightpos"
+								style="min-width:80px">
+								<f:facet name="header">
+									<h:outputText value="#{msg.NEWORDER_ELEMENTS_AMOUNT}" />
+								</f:facet>
+								<h:outputText value="#{item.amenny}">
+									<f:convertNumber pattern="#,##0" />
+								</h:outputText>
+							</p:column>
+							<p:column sortBy="#{item.hnertek}" styleClass="rightpos"
+								style="min-width:80px">
+								<f:facet name="header">
+									<h:outputText value="#{msg.NEWORDER_ELEMENTS_NET}" />
+								</f:facet>
+								<h:outputText value="#{item.hnertek}">
+									<f:convertNumber pattern="#,##0" />
+								</h:outputText>
+							</p:column>
+							<p:column sortBy="#{item.hbertek}" styleClass="rightpos"
+								style="min-width:80px">
+								<f:facet name="header">
+									<h:outputText value="#{msg.NEWORDER_ELEMENTS_GRO}" />
+								</f:facet>
+								<h:outputText value="#{item.hbertek}">
+									<f:convertNumber pattern="#,##0" />
+								</h:outputText>
+							</p:column>
+							<p:column sortBy="#{item.vfizhdat}" styleClass="centerpos"
+								style="min-width:100px">
+								<f:facet name="header">
+									<h:outputText value="#{msg.ORDERS_ORDERVIEW_PAYDATE}" />
+								</f:facet>
+								<h:outputText value="#{item.vfizhdat}">
+									<f:convertDateTime pattern="#{msg.DATEFORMAT}" />
+								</h:outputText>
+							</p:column>
+						</p:dataTable>
+						<br />
+					</p:dialog>
+
+					<p:growl id="message" showDetail="true" sticky="false" life="4000"
+						showSummary="false" />
+				</h:form>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<f:view contentType="text/html" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:i="http://primefaces.prime.com.tr/touch"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	locale="#{localeSelector.selectedLocale}">
+
+
+	<i:application theme="dark">
+
+		<i:view id="menu" title="DataMagic">
+			<f:facet name="rightNavBar">
+				<i:navBarControl label="Info" effect="slideup" type="button" />
+			</f:facet>
+			<h:form prependId="false">
+				<i:tableView id="menupanel">
+					<i:rowGroup>
+						<i:rowItem rendered="#{loginserviceController.managedUser.userType!='DM_WORKER'}">
+							<p:commandLink action="mobilepartnerdataupdate"
+								value="Adatmódosítás">
+								<p:graphicImage value="../icons/glyphish/14-tag.png"></p:graphicImage>
+							</p:commandLink>
+						</i:rowItem>
+						<i:rowItem>
+							<p:commandLink action="mobilenotificationlist"
+								value="Regisztrált hibák">
+								<p:graphicImage value=""></p:graphicImage>
+							</p:commandLink>
+						</i:rowItem>
+						<i:rowItem>
+							<p:commandLink action="mobilerealtyarrangementlist"
+								value="Intézkedések">
+								<p:graphicImage value=""></p:graphicImage>
+							</p:commandLink>
+						</i:rowItem>
+						<i:rowItem>
+							<p:commandLink action="mobilerealtyinvoicelist"
+								value="Számlák">
+								<p:graphicImage value=""></p:graphicImage>
+							</p:commandLink>
+						</i:rowItem>
+						<i:rowItem>
+							<p:commandLink action="#{loginserviceController.logout}"
+								value="Kilépés" />
+						</i:rowItem>
+					</i:rowGroup>
+				</i:tableView>
+			</h:form>
+		</i:view>
+
+	</i:application>
+
+</f:view>
+
